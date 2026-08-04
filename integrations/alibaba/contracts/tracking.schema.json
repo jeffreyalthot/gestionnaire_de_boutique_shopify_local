@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elit21.com/contracts/alibaba/tracking.schema.json",
+  "title": "Tracking",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "orderId",
+    "trackingNumber",
+    "status"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string"
+    },
+    "trackingNumber": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "events": {
+      "type": "array"
+    }
+  }
+}

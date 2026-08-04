@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elit21.com/contracts/alibaba/freight_quote.schema.json",
+  "title": "Freight Quote",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "serviceCode",
+    "amount",
+    "currency",
+    "estimatedDays"
+  ],
+  "properties": {
+    "serviceCode": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string"
+    },
+    "estimatedDays": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

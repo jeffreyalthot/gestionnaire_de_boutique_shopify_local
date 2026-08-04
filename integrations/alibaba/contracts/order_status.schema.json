@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elit21.com/contracts/alibaba/order_status.schema.json",
+  "title": "Order Status",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "orderId",
+    "status"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "updatedAt": {
+      "type": "string"
+    }
+  }
+}

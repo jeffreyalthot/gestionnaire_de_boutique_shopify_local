@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elit21.com/contracts/alibaba/supplier_profile.schema.json",
+  "title": "Supplier Profile",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "supplierId",
+    "companyName"
+  ],
+  "properties": {
+    "supplierId": {
+      "type": "string"
+    },
+    "companyName": {
+      "type": "string"
+    },
+    "yearsActive": {
+      "type": "integer"
+    },
+    "certifications": {
+      "type": "array"
+    }
+  }
+}

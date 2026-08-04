@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elit21.com/contracts/alibaba/payment_result.schema.json",
+  "title": "Payment Result",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "orderId",
+    "status"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "transactionId": {
+      "type": "string"
+    }
+  }
+}

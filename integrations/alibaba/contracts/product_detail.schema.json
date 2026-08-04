@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elit21.com/contracts/alibaba/product_detail.schema.json",
+  "title": "Product Detail",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "productId",
+    "title",
+    "supplierId"
+  ],
+  "properties": {
+    "productId": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "supplierId": {
+      "type": "string"
+    },
+    "skus": {
+      "type": "array"
+    },
+    "images": {
+      "type": "array"
+    }
+  }
+}
