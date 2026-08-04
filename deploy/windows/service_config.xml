@@ -1,0 +1,9 @@
+<service>
+  <id>ShopifyAlibabaAIOrchestrator</id>
+  <name>Shopify Alibaba AI Orchestrator</name>
+  <description>Orchestrateur commercial continu.</description>
+  <executable>.venv\Scripts\python.exe</executable>
+  <arguments>main.py --no-dashboard</arguments>
+  <log mode="roll-by-size"><sizeThreshold>10485760</sizeThreshold><keepFiles>8</keepFiles></log>
+  <onfailure action="restart" delay="10 sec"/>
+</service>
