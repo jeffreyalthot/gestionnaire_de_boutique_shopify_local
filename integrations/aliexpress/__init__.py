@@ -1,3 +1,8 @@
-'''Package initializer for integrations.aliexpress'''
+"""AliExpress integration package initializer."""
 
-__all__ = ["AliExpressGateway", "AliExpressClient"]
+from __future__ import annotations
+
+__all__ = [
+    "AliExpressGateway",
+    "AliExpressClient",
+]

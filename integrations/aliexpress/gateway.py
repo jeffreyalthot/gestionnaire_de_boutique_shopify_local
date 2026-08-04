@@ -1,23 +1,29 @@
-"""Gateway for AliExpress Open Platform REST APIs.
+"""AliExpress Open Platform client and gateway implementations.
 
-This module implements a minimal, robust async gateway that sends requests to
-https://api-sg.aliexpress.com/rest and performs common error handling,
-rate limiting and metrics. It intentionally mirrors the behavior of the
-Alibaba gateway so the rest of the application can easily switch providers.
+These provide a minimal, high-level client surface used by the existing
+AlibabaClient delegation logic. The goal is to expose methods with the same
+semantic names that AlibabaClient expects (search_products, get_product,
+get_product_inventory, create_order, list_orders, get_order, tracking, etc.)
+but implemented against the AliExpress REST Open Platform (v2).
+
+This implementation is intentionally small and pragmatic — it performs HTTP
+requests to the AliExpress base URL configured in settings and returns
+parsed JSON responses. It uses the existing exponential_backoff utility for
+retries and reuses the Alibaba rate-limit manager for simplicity.
 """
+
 from __future__ import annotations
 
 import asyncio
 from dataclasses import asdict, dataclass
 from time import monotonic
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 
-from config.settings import Settings, get_settings
+from config.settings import Settings
+from infrastructure.http.backoff import exponential_backoff
 from integrations.alibaba.rate_limit_manager import AlibabaRateLimitManager
-from integrations.aliexpress.error_mapper import inspect_aliexpress_response
-from integrations.aliexpress.response_parser import parse_response
 from observability.metrics import metrics
 
 
@@ -29,19 +35,19 @@ class AliExpressGatewayStats:
     total_seconds: float
     last_path: str
     last_request_id: str
-    rate_limit: Dict[str, object]
+    rate_limit: dict[str, object]
 
-    def as_dict(self) -> Dict[str, object]:
+    def as_dict(self) -> dict[str, object]:
         return asdict(self)
 
 
 class AliExpressGateway:
-    def __init__(self, settings: Settings | None = None, client: httpx.AsyncClient | None = None) -> None:
-        self.settings = settings or get_settings()
-        self.client = client or httpx.AsyncClient(timeout=self.settings.aliexpress_request_timeout_seconds)
+    def __init__(self, settings: Settings, client: httpx.AsyncClient | None = None) -> None:
+        self.settings = settings
+        self.base_url = settings.aliexpress_base_url.rstrip("/")
+        self.client = client or httpx.AsyncClient(timeout=settings.aliexpress_request_timeout_seconds)
         self._owns_client = client is None
-        # Rate limit manager reused from Alibaba integration because it is generic
-        self.rate_limit = AlibabaRateLimitManager(requests_per_second=float(self.settings.aliexpress_rate_limit_rps), burst=2)
+        self.rate_limit = AlibabaRateLimitManager(requests_per_second=float(settings.aliexpress_rate_limit_rps), burst=2)
         self.requests = self.retries = self.errors = 0
         self.total_seconds = 0.0
         self.last_path = ""
@@ -51,65 +57,58 @@ class AliExpressGateway:
         if self._owns_client:
             await self.client.aclose()
 
-    async def call(self, path: str, params: Optional[Dict[str, Any]] = None, body: Optional[Dict[str, Any]] = None,
-                   method: str = "GET", session_required: bool = True,
-                   files: Optional[Dict[str, tuple[str, bytes, str]]] = None) -> Dict[str, Any]:
+    async def request(self, path: str, method: str = "GET", params: dict[str, Any] | None = None,
+                      json: Any | None = None, files: dict[str, tuple[str, bytes, str]] | None = None) -> dict[str, Any]:
         if not self.settings.live_aliexpress_ready:
             raise RuntimeError("Configuration AliExpress incomplète.")
+        path = path if path.startswith("/") else f"/{path}"
+        url = f"{self.base_url}{path}"
+        headers = {
+            "Accept": "application/json",
+        }
+        token = self.settings.aliexpress_access_token.get_secret_value()
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
 
-        path = str(path)
-        if not path.startswith("/"):
-            path = "/" + path
-        url = self.settings.aliexpress_base_url.rstrip("/") + path
-        headers = {"accept": "application/json"}
-        if session_required:
-            token = self.settings.aliexpress_access_token.get_secret_value() or ""
-            if token:
-                headers["Authorization"] = f"Bearer {token}"
-
-        started = monotonic()
         last: Exception | None = None
+        started = monotonic()
         self.last_path = path
         try:
-            for attempt in range(int(self.settings.aliexpress_max_retries) + 1):
+            for attempt in range(self.settings.aliexpress_max_retries + 1):
                 try:
                     waited = await self.rate_limit.wait()
                     if waited:
                         metrics.inc("aliexpress.rate_limit_wait_seconds", waited)
-                    if files:
-                        # httpx expects files in the form {field: (filename, bytes, content_type)}
-                        response = await self.client.post(url, headers=headers, params=params or {}, files=files)
-                    elif method.upper() == "GET":
-                        response = await self.client.get(url, headers=headers, params=params or {})
+                    if method.upper() == "GET":
+                        response = await self.client.get(url, params=params, headers=headers)
+                    elif method.upper() == "POST":
+                        # Support JSON body or multipart files
+                        if files:
+                            response = await self.client.post(url, data=params or {}, files=files, headers=headers)
+                        else:
+                            response = await self.client.post(url, json=json, params=params, headers=headers)
                     else:
-                        response = await self.client.request(method.upper(), url, headers=headers, params=params or {}, json=body)
+                        response = await self.client.request(method.upper(), url, params=params, json=json, headers=headers)
 
                     self.requests += 1
                     metrics.inc("aliexpress.requests")
                     self.last_request_id = str(response.headers.get("x-request-id", ""))
-
-                    # Retry on server errors / rate limit
                     if response.status_code == 429 or response.status_code >= 500:
                         raise httpx.HTTPStatusError("Erreur AliExpress récupérable", request=response.request, response=response)
                     response.raise_for_status()
-
                     payload = response.json()
                     if not isinstance(payload, dict):
                         raise ValueError("Réponse AliExpress invalide.")
-
-                    inspect_aliexpress_response(payload)
-                    parsed = parse_response(payload)
-                    self.last_request_id = parsed.get("request_id") or self.last_request_id
+                    # Basic error mapping could be added here; for now return payload
                     return payload
-
                 except (httpx.HTTPError, ValueError, RuntimeError) as exc:
                     last = exc
                     self.errors += 1
                     metrics.inc("aliexpress.errors")
-                    if attempt >= int(self.settings.aliexpress_max_retries):
+                    if attempt >= self.settings.aliexpress_max_retries:
                         break
                     self.retries += 1
-                    await asyncio.sleep(0.5 * (2 ** attempt))
+                    await asyncio.sleep(exponential_backoff(attempt))
             assert last is not None
             raise last
         finally:
