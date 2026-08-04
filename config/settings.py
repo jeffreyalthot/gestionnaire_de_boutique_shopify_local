@@ -57,6 +57,21 @@ class Settings(BaseSettings):
     alibaba_request_timeout_seconds: float = Field(30, gt=0, le=120)
     alibaba_max_retries: int = Field(5, ge=0, le=10)
 
+    # AliExpress configuration (Open Platform REST v2)
+    aliexpress_app_key: str = ""
+    aliexpress_app_secret: SecretStr = SecretStr("")
+    aliexpress_access_token: SecretStr = SecretStr("")
+    aliexpress_refresh_token: SecretStr = SecretStr("")
+    # Base URL for the AliExpress Open Platform REST APIs
+    aliexpress_base_url: str = "https://api-sg.aliexpress.com/rest"
+    # OAuth / token endpoints (defaults; review with AliExpress docs / app settings)
+    aliexpress_oauth_authorize_url: str = "https://oauth.aliexpress.com/authorize"
+    aliexpress_oauth_token_url: str = "https://oauth.aliexpress.com/token/create"
+    aliexpress_oauth_refresh_url: str = "https://oauth.aliexpress.com/token/refresh"
+    aliexpress_request_timeout_seconds: float = Field(30, gt=0, le=120)
+    aliexpress_max_retries: int = Field(5, ge=0, le=10)
+    aliexpress_rate_limit_rps: float = Field(2.0, gt=0)
+
     pricing_mode: Literal["gross_margin", "markup"] = "gross_margin"
     target_gross_margin_percent: float = Field(50, ge=0, lt=100)
     minimum_gross_margin_percent: float = Field(40, ge=0, lt=100)
@@ -76,6 +91,11 @@ class Settings(BaseSettings):
     alibaba_recheck_stock_before_payment: bool = True
     alibaba_recheck_price_before_payment: bool = True
     alibaba_recheck_freight_before_payment: bool = True
+
+    # AliExpress batch / reconciliation defaults (kept separate from Alibaba)
+    aliexpress_batch_threshold_cad: float = Field(500, gt=0)
+    aliexpress_batch_max_age_minutes: int = Field(240, ge=1)
+    aliexpress_batch_max_orders: int = Field(100, ge=1)
 
     inventory_sync_interval_seconds: int = Field(60, ge=10)
     inventory_low_stock_threshold: int = Field(5, ge=0)
@@ -170,6 +190,11 @@ class Settings(BaseSettings):
     @property
     def live_payment_ready(self) -> bool:
         return self.live_alibaba_ready and self.alibaba_payment_mode == "authorized_api"
+
+    @property
+    def live_aliexpress_ready(self) -> bool:
+        return bool(self.aliexpress_app_key and self.aliexpress_app_secret.get_secret_value()
+                    and self.aliexpress_access_token.get_secret_value())
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
