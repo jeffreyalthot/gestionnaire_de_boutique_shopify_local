@@ -1,0 +1,1193 @@
+====================================================================================================
+CATALOGUE DES URL ET MÉTHODES API ALIBABA.COM
+Portée : produits, commandes, logistique, paiements, fournisseurs, OAuth, webhooks/messages
+Date de compilation : 2026-07-24
+====================================================================================================
+
+IMPORTANT
+---------
+1. Alibaba.com utilise principalement une passerelle API commune. Le nom de l’API est transmis
+   dans le paramètre « method ». Une URL différente est donc construite pour chaque méthode.
+2. Toutes les méthodes de passerelle requièrent normalement un APP_KEY, un horodatage, une
+   version de protocole, une méthode de signature et une signature générée avec APP_SECRET.
+3. Les méthodes marquées « session Oui » exigent aussi le jeton d’accès du vendeur ou de l’acheteur.
+4. Certaines méthodes sont visibles dans la documentation publique mais restent réservées à des
+   partenaires, programmes ICBU/GGS, OneTouch, AMES, Ceres, dropshipping ou permissions financières.
+5. Ce catalogue couvre les méthodes publiquement documentées trouvées dans les catégories demandées.
+   Les API internes non publiées ou affichées uniquement après approbation ne peuvent pas être
+   garanties avant l’activation du compte développeur et l’attribution des permissions.
+
+PASSERELLES PRINCIPALES
+-----------------------
+HTTPS recommandée : https://eco.taobao.com/router/rest
+HTTPS globale historique : https://api.taobao.com/router/rest
+HTTP historique : http://gw.api.taobao.com/router/rest
+
+PARAMÈTRES COMMUNS
+------------------
+method={NOM_API}
+app_key={APP_KEY}
+session={ACCESS_TOKEN}                 # requis pour les données de compte autorisées
+timestamp={YYYY-MM-DD HH:MM:SS GMT+8}
+format=json
+v=2.0
+sign_method=hmac ou md5                # certaines docs utilisent hmac-sha256 pour TMC
+sign={SIGNATURE_CALCULÉE_AVEC_APP_SECRET}
+partner_id={IDENTIFIANT_PARTENAIRE}    # optionnel
+target_app_key={APP_KEY_CIBLE}         # seulement pour API tierces
+
+MODÈLE COMPLET
+--------------
+https://eco.taobao.com/router/rest?method={NOM_API}&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP_ENCODED}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+====================================================================================================
+GESTION PRODUIT
+====================================================================================================
+
+[001] alibaba.icbu.open.product.post
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.open.product.post
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.open.product.post
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Publie ou synchronise un produit sur Alibaba.com via l’interface produit ouverte.
+
+[002] alibaba.icbu.category.attr.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.attr.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.attr.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les attributs applicables à une catégorie produit.
+
+[003] alibaba.icbu.category.postcat.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.postcat.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.postcat.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les catégories dans lesquelles un produit peut être publié.
+
+[004] alibaba.icbu.category.attrvalue.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.attrvalue.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.attrvalue.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les valeurs autorisées pour les attributs d’une catégorie.
+
+[005] alibaba.icbu.photobank.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.photobank.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.photobank.list
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Liste les images présentes dans la banque d’images du vendeur.
+
+[006] alibaba.icbu.photobank.upload
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.photobank.upload
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.photobank.upload
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Téléverse une image dans la banque d’images Alibaba.com.
+
+[007] alibaba.icbu.photobank.group.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.photobank.group.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.photobank.group.list
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Liste les groupes ou dossiers de la banque d’images.
+
+[008] alibaba.icbu.photobank.group.operate
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.photobank.group.operate
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.photobank.group.operate
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Crée, modifie, déplace ou supprime un groupe de la banque d’images.
+
+[009] alibaba.icbu.product.group.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.group.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.group.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les groupes de produits du vendeur.
+
+[010] alibaba.icbu.product.group.add
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.group.add
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.group.add
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Crée un groupe de produits.
+
+[011] alibaba.icbu.product.add
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.add
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.add
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Publie un nouveau produit Alibaba.com.
+
+[012] alibaba.icbu.product.add.draft
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.add.draft
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.add.draft
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Crée un brouillon de produit.
+
+[013] alibaba.icbu.product.update
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.update
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.update
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Met à jour l’ensemble des données d’un produit existant.
+
+[014] alibaba.icbu.product.update.field
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.update.field
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.update.field
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Met à jour seulement certains champs d’un produit.
+
+[015] alibaba.icbu.product.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.list
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Recherche et liste les produits d’un vendeur.
+
+[016] alibaba.icbu.product.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les détails complets d’un produit.
+
+[017] alibaba.icbu.product.id.decrypt
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.id.decrypt
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.id.decrypt
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Déchiffre ou convertit un identifiant produit masqué.
+
+[018] alibaba.icbu.product.id.encrypt
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.id.encrypt
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.id.encrypt
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Chiffre ou convertit un identifiant produit pour les usages ICBU.
+
+[019] alibaba.icbu.product.batch.update.display
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.batch.update.display
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.batch.update.display
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Met plusieurs produits en ligne ou hors ligne en une opération.
+
+[020] alibaba.icbu.product.score.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.score.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.score.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère le score de qualité d’un produit.
+
+[021] alibaba.icbu.product.schema.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.schema.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.schema.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère le schéma de publication et les règles de saisie d’un produit.
+
+[022] alibaba.icbu.product.schema.render
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.schema.render
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.schema.render
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les données d’un produit selon le nouveau schéma de publication.
+
+[023] alibaba.icbu.product.schema.render.draft
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.schema.render.draft
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.schema.render.draft
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère et rend les données d’un brouillon selon le nouveau schéma.
+
+[024] alibaba.icbu.product.schema.update
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.schema.update
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.schema.update
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Effectue une mise à jour incrémentale d’un produit avec le nouveau schéma.
+
+[025] alibaba.icbu.category.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère l’arborescence historique des catégories de publication.
+
+[026] alibaba.icbu.category.get.new
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.get.new
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.get.new
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère la nouvelle arborescence des catégories ICBU.
+
+[027] alibaba.icbu.category.attribute.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.attribute.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.attribute.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les attributs de publication d’une catégorie.
+
+[028] alibaba.icbu.category.level.attr.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.level.attr.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.level.attr.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les sous-attributs d’un attribut hiérarchique.
+
+[029] alibaba.icbu.category.schema.level.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.schema.level.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.schema.level.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les attributs hiérarchiques avec le nouveau schéma.
+
+[030] alibaba.icbu.category.id.mapping
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.id.mapping
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.id.mapping
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Convertit les identifiants entre anciens et nouveaux modèles de catégories ou d’attributs.
+
+[031] alibaba.icbu.category.car.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.category.car.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.category.car.query
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Interroge les modèles et attributs liés aux véhicules ou pièces automobiles.
+
+[032] alibaba.icbu.product.inventory.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.inventory.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.inventory.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère l’état d’inventaire d’un produit.
+
+[033] alibaba.icbu.product.sku.inventory.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.sku.inventory.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.sku.inventory.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère le stock détaillé par SKU.
+
+[034] alibaba.icbu.product.inventory.update
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.inventory.update
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.inventory.update
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Met à jour l’inventaire ou le stock d’un produit.
+
+[035] alibaba.icbu.product.type.available.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.type.available.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.type.available.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les types de produits que le vendeur est autorisé à publier.
+
+[036] alibaba.icbu.product.country.getcountrylist
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.country.getcountrylist
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.country.getcountrylist
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les pays disponibles ou applicables à un produit.
+
+[037] alibaba.icbu.product.logistics.country.getcoststatus
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.logistics.country.getcoststatus
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.logistics.country.getcoststatus
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Vérifie la disponibilité ou la détermination des frais logistiques par pays.
+
+[038] alibaba.icbu.distribution.product.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.distribution.product.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.distribution.product.query
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Liste les produits disponibles dans le système de distribution.
+
+[039] alibaba.icbu.distribution.product.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.distribution.product.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.distribution.product.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère le détail d’un produit de distribution.
+
+[040] alibaba.icbu.file.urlposting.upload
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.file.urlposting.upload
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.file.urlposting.upload
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Transfère ou enregistre un fichier distant à partir de son URL.
+
+[041] alibaba.icbu.task.status.notify
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.task.status.notify
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.task.status.notify
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Notifie ou consulte le résultat d’une tâche de récupération de contenu par URL.
+
+[042] alibaba.wholesale.shippingline.template.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.wholesale.shippingline.template.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.wholesale.shippingline.template.list
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Liste les modèles de lignes d’expédition utilisables par les produits de gros.
+
+[043] alibaba.dropshipping.product.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.dropshipping.product.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.dropshipping.product.get
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Récupère les informations d’un produit destiné au dropshipping.
+
+[044] alibaba.dropshipping.token.create
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.dropshipping.token.create
+URL globale : https://api.taobao.com/router/rest?method=alibaba.dropshipping.token.create
+APP_KEY requis : OUI
+Session/OAuth : Oui pour données vendeur; parfois non pour métadonnées publiques
+Accès : Publique avec permission API
+Description : Crée un jeton de sélection ou d’importation d’un produit dropshipping.
+
+TOTAL GESTION PRODUIT : 44 méthodes
+
+====================================================================================================
+GESTION COMMANDES
+====================================================================================================
+
+[001] alibaba.seller.order.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.order.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.order.list
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Liste les commandes commerciales du vendeur Alibaba.com.
+
+[002] alibaba.seller.order.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.order.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.order.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère le détail d’une commande vendeur.
+
+[003] alibaba.trade.order.create
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.order.create
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.order.create
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Crée une commande Trade Assurance.
+
+[004] alibaba.trade.order.modify
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.order.modify
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.order.modify
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Modifie une commande Trade Assurance existante.
+
+[005] alibaba.buynow.order.create
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.buynow.order.create
+URL globale : https://api.taobao.com/router/rest?method=alibaba.buynow.order.create
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Crée une commande Buy Now, notamment dans un flux dropshipping.
+
+[006] alibaba.intention.order.save
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.intention.order.save
+URL globale : https://api.taobao.com/router/rest?method=alibaba.intention.order.save
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Crée ou enregistre une commande d’intention.
+
+[007] alibaba.seller.trade.query.drafttype
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.trade.query.drafttype
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.trade.query.drafttype
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Vérifie les types de brouillons de commande accessibles au vendeur.
+
+[008] alibaba.seller.trade.decode
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.trade.decode
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.trade.decode
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Décode des identifiants vendeur ou transaction masqués dans un contexte autorisé.
+
+[009] alibaba.trade.address.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.address.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.address.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère les informations d’adresse liées à une transaction.
+
+[010] alibaba.trade.address.schema.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.address.schema.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.address.schema.query
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère le schéma du formulaire d’adresse de transaction.
+
+[011] alibaba.trade.address.form.save
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.address.form.save
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.address.form.save
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Enregistre une adresse à partir du formulaire de transaction.
+
+[012] alibaba.trade.address.list.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.address.list.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.address.list.query
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Liste les adresses disponibles entre l’acheteur et le vendeur.
+
+[013] alibaba.trade.address.delete
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.address.delete
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.address.delete
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Supprime une adresse de transaction enregistrée.
+
+[014] alibaba.seller.address.save
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.address.save
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.address.save
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Enregistre une adresse du vendeur.
+
+[015] alibaba.icbu.ecology.write
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.ecology.write
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.ecology.write
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Enregistre ou valide l’accès d’une intégration dans l’écosystème commercial ICBU.
+
+[016] alibaba.icbu.snsoft.sale.order.detail.sync
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.snsoft.sale.order.detail.sync
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.snsoft.sale.order.detail.sync
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Synchronise des détails de ventes vers une intégration SNSoft autorisée.
+
+[017] alibaba.icbu.snsoft.shipment.finalaccount.sync
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.snsoft.shipment.finalaccount.sync
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.snsoft.shipment.finalaccount.sync
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Synchronise le décompte final d’une expédition pour une intégration SNSoft.
+
+[018] alibaba.icbu.snsoft.account.bill.sync
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.snsoft.account.bill.sync
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.snsoft.account.bill.sync
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Synchronise des écritures ou relevés de compte avec une intégration SNSoft.
+
+[019] alibaba.icbu.xiaoman.va.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.xiaoman.va.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.xiaoman.va.list
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère une liste de comptes virtuels dans l’intégration Xiaoman autorisée.
+
+[020] alibaba.icbu.snsoft.customer.sync
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.snsoft.customer.sync
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.snsoft.customer.sync
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Synchronise les données de clients ou partenaires avec SNSoft.
+
+[021] alibaba.onetouch.logistics.order.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.onetouch.logistics.order.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.onetouch.logistics.order.list
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Liste les commandes logistiques OneTouch.
+
+[022] alibaba.onetouch.logistics.order.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.onetouch.logistics.order.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.onetouch.logistics.order.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère une commande logistique OneTouch.
+
+[023] alibaba.order.trade.tt.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.order.trade.tt.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.order.trade.tt.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère le compte de virement TT associé à une commande Trade Assurance.
+
+[024] alibaba.order.pay.result.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.order.pay.result.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.order.pay.result.query
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère l’état du paiement d’une commande.
+
+[025] alibaba.dropshipping.order.pay
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.dropshipping.order.pay
+URL globale : https://api.taobao.com/router/rest?method=alibaba.dropshipping.order.pay
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Déclenche le paiement autorisé d’une commande dropshipping.
+
+[026] alibaba.procurement.supplier.items.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.procurement.supplier.items.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.procurement.supplier.items.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère les produits déjà commandés auprès d’un fournisseur donné.
+
+[027] alibaba.ceres.supplier.po.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.ceres.supplier.po.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.ceres.supplier.po.query
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Interroge les bons de commande d’un fournisseur dans le système Ceres.
+
+[028] alibaba.ceres.supplier.po.querydetail
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.ceres.supplier.po.querydetail
+URL globale : https://api.taobao.com/router/rest?method=alibaba.ceres.supplier.po.querydetail
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Récupère le détail d’un bon de commande fournisseur Ceres.
+
+[029] alibaba.infop.ceres.po.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.infop.ceres.po.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.infop.ceres.po.query
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Interroge les commandes d’achat dans le système d’approvisionnement Ceres.
+
+[030] alibaba.infop.ceres.pr.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.infop.ceres.pr.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.infop.ceres.pr.query
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission vendeur/acheteur ou partenaire requise
+Description : Interroge les demandes d’achat dans le système Ceres.
+
+TOTAL GESTION COMMANDES : 30 méthodes
+
+====================================================================================================
+LOGISTIQUE
+====================================================================================================
+
+[001] alibaba.seller.order.logistics.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.order.logistics.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.order.logistics.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Récupère les informations logistiques d’une commande internationale.
+
+[002] alibaba.order.picture.upload
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.order.picture.upload
+URL globale : https://api.taobao.com/router/rest?method=alibaba.order.picture.upload
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Téléverse une preuve ou pièce justificative d’expédition.
+
+[003] alibaba.seller.order.shipping
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.order.shipping
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.order.shipping
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Soumet les informations d’expédition et de suivi d’une commande.
+
+[004] alibaba.seller.order.shipping.channels
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.order.shipping.channels
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.order.shipping.channels
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Liste les transporteurs ou canaux d’expédition pris en charge.
+
+[005] alibaba.trade.fulfillment.channel.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.fulfillment.channel.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.fulfillment.channel.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Récupère les canaux de traitement et d’exécution disponibles.
+
+[006] alibaba.shipping.freight.calculate
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.shipping.freight.calculate
+URL globale : https://api.taobao.com/router/rest?method=alibaba.shipping.freight.calculate
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Calcule les frais d’expédition d’un produit Alibaba.com.
+
+[007] alibaba.order.freight.calculate
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.order.freight.calculate
+URL globale : https://api.taobao.com/router/rest?method=alibaba.order.freight.calculate
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Calcule les options et frais de transport dans un contexte de commande.
+
+[008] alibaba.order.logistics.tracking.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.order.logistics.tracking.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.order.logistics.tracking.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Récupère les événements et la progression du suivi logistique d’une commande.
+
+[009] alibaba.icbu.product.logistics.country.getcoststatus
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.product.logistics.country.getcoststatus
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.product.logistics.country.getcoststatus
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Vérifie si les frais de transport peuvent être calculés pour un pays donné.
+
+[010] alibaba.wholesale.shippingline.template.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.wholesale.shippingline.template.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.wholesale.shippingline.template.list
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Récupère les modèles d’expédition de gros configurés.
+
+[011] alibaba.onetouch.logistics.order.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.onetouch.logistics.order.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.onetouch.logistics.order.list
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Liste les dossiers logistiques OneTouch.
+
+[012] alibaba.onetouch.logistics.order.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.onetouch.logistics.order.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.onetouch.logistics.order.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Récupère un dossier logistique OneTouch.
+
+[013] alibaba.icbu.check.overseas.admittance
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.check.overseas.admittance
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.check.overseas.admittance
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission logistique et vendeur requise
+Description : Vérifie l’admissibilité à un service SaaS d’entrepôt à l’étranger.
+
+TOTAL LOGISTIQUE : 13 méthodes
+
+====================================================================================================
+PAIEMENTS
+====================================================================================================
+
+[001] alibaba.seller.order.fund.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.order.fund.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.order.fund.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission financière sensible requise
+Description : Récupère les paiements, remboursements, frais et montants reçus d’une commande.
+
+[002] alibaba.order.pay.result.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.order.pay.result.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.order.pay.result.query
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission financière sensible requise
+Description : Consulte le résultat et l’état du paiement d’une commande.
+
+[003] alibaba.dropshipping.order.pay
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.dropshipping.order.pay
+URL globale : https://api.taobao.com/router/rest?method=alibaba.dropshipping.order.pay
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission financière sensible requise
+Description : Effectue un paiement autorisé ou une retenue pour une commande dropshipping.
+
+[004] alibaba.order.trade.tt.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.order.trade.tt.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.order.trade.tt.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission financière sensible requise
+Description : Récupère les coordonnées du compte de virement télégraphique d’une commande.
+
+[005] alibaba.trade.service.charge.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.trade.service.charge.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.trade.service.charge.get
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission financière sensible requise
+Description : Récupère les frais de service applicables à une transaction.
+
+[006] alibaba.seller.assurance.credit.card
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.assurance.credit.card
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.assurance.credit.card
+APP_KEY requis : OUI
+Session/OAuth : Oui
+Accès : Permission financière sensible requise
+Description : Récupère un rapport de crédit ou d’assurance vendeur selon les permissions.
+
+TOTAL PAIEMENTS : 6 méthodes
+
+====================================================================================================
+FOURNISSEURS
+====================================================================================================
+
+[001] alibaba.procurement.mysupplier.list
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.procurement.mysupplier.list
+URL globale : https://api.taobao.com/router/rest?method=alibaba.procurement.mysupplier.list
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Liste les fournisseurs auprès desquels l’acheteur a déjà passé une commande Trade Assurance.
+
+[002] alibaba.procurement.supplier.items.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.procurement.supplier.items.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.procurement.supplier.items.get
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Liste les produits déjà achetés auprès d’un fournisseur.
+
+[003] alibaba.member.basicprofile.find
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.member.basicprofile.find
+URL globale : https://api.taobao.com/router/rest?method=alibaba.member.basicprofile.find
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Récupère le profil de base d’un membre Alibaba.com.
+
+[004] alibaba.buyer.companyprofile.find
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.buyer.companyprofile.find
+URL globale : https://api.taobao.com/router/rest?method=alibaba.buyer.companyprofile.find
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Récupère le profil d’entreprise d’un acheteur.
+
+[005] alibaba.seller.assurance.credit.card
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.seller.assurance.credit.card
+URL globale : https://api.taobao.com/router/rest?method=alibaba.seller.assurance.credit.card
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Récupère un rapport de crédit ou d’assurance associé à un vendeur.
+
+[006] alibaba.dropshipping.store.save
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.dropshipping.store.save
+URL globale : https://api.taobao.com/router/rest?method=alibaba.dropshipping.store.save
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Enregistre ou associe les données d’une boutique dropshipping.
+
+[007] alibaba.infop.ceres.supplier.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.infop.ceres.supplier.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.infop.ceres.supplier.query
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Recherche des informations fournisseur dans le système d’approvisionnement Ceres.
+
+[008] alibaba.ceres.supplier.po.query
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.ceres.supplier.po.query
+URL globale : https://api.taobao.com/router/rest?method=alibaba.ceres.supplier.po.query
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Interroge les commandes fournisseur dans Ceres.
+
+[009] alibaba.ceres.supplier.po.querydetail
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.ceres.supplier.po.querydetail
+URL globale : https://api.taobao.com/router/rest?method=alibaba.ceres.supplier.po.querydetail
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Récupère les lignes et détails d’une commande fournisseur Ceres.
+
+[010] alibaba.icbu.ames.enterprise.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.ames.enterprise.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.ames.enterprise.get
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Récupère les informations d’une entreprise AMES autorisée.
+
+[011] alibaba.icbu.ames.enterprise.getbypid
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.ames.enterprise.getbypid
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.ames.enterprise.getbypid
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Récupère une entreprise AMES à partir de son identifiant partenaire.
+
+[012] alibaba.icbu.ames.enterprise.checkexist
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.ames.enterprise.checkexist
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.ames.enterprise.checkexist
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Vérifie si une entreprise existe dans AMES.
+
+[013] alibaba.icbu.ames.employee.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.ames.employee.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.ames.employee.get
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Récupère les employés d’une entreprise AMES.
+
+[014] alibaba.icbu.ames.roles.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=alibaba.icbu.ames.roles.get
+URL globale : https://api.taobao.com/router/rest?method=alibaba.icbu.ames.roles.get
+APP_KEY requis : OUI
+Session/OAuth : Oui ou permission partenaire
+Accès : Certaines API sont payantes ou réservées aux partenaires
+Description : Récupère les rôles disponibles dans AMES.
+
+TOTAL FOURNISSEURS : 14 méthodes
+
+====================================================================================================
+OAUTH ET AUTHENTIFICATION
+====================================================================================================
+
+[001] URL OAuth d’autorisation
+URL : https://oauth.alibaba.com/authorize?response_type=code&client_id={APP_KEY}&redirect_uri={CALLBACK_URL_ENCODED}&state={STATE}&view=web&sp=ICBU
+Authentification : APP_KEY/client_id requis
+Session/OAuth : Non; crée le code d’autorisation
+Description : Ouvre l’écran de consentement Alibaba.com et retourne un code d’autorisation à l’URL de rappel.
+Note : Le redirect_uri doit correspondre à celui déclaré dans l’application.
+
+[002] taobao.top.auth.token.create
+URL : https://eco.taobao.com/router/rest?method=taobao.top.auth.token.create
+Authentification : APP_KEY + APP_SECRET + signature + code requis
+Session/OAuth : Non
+Description : Échange le code OAuth contre un access_token et, lorsque fourni, un refresh_token.
+Note : Utiliser HTTPS.
+
+[003] taobao.top.auth.token.refresh
+URL : https://eco.taobao.com/router/rest?method=taobao.top.auth.token.refresh
+Authentification : APP_KEY + APP_SECRET + signature + refresh_token requis
+Session/OAuth : Non
+Description : Rafraîchit un access token à partir du refresh_token pour les types d’applications autorisés.
+Note : La documentation précise que le rafraîchissement n’est pas disponible pour tous les types d’applications.
+
+[004] URL de rappel OAuth
+URL : https://{VOTRE_DOMAINE}/{CALLBACK_PATH}?code={AUTHORIZATION_CODE}&state={STATE}
+Authentification : URL HTTPS contrôlée par votre application
+Session/OAuth : Non
+Description : URL de votre application recevant code et state après consentement.
+Note : Ce n’est pas une URL Alibaba fixe; elle doit être configurée dans la console développeur.
+
+TOTAL OAUTH : 4 routes
+
+====================================================================================================
+WEBHOOKS, ÉVÉNEMENTS ET MESSAGES TMC
+====================================================================================================
+
+[001] taobao.tmc.user.permit
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.user.permit
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.user.permit
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Active les sujets de messages autorisés pour un utilisateur ou vendeur.
+
+[002] taobao.tmc.user.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.user.get
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.user.get
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Récupère le groupe de messages et les topics autorisés d’un utilisateur.
+
+[003] taobao.tmc.user.cancel
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.user.cancel
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.user.cancel
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Désactive le service de messages pour un utilisateur.
+
+[004] taobao.tmc.messages.consume
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.messages.consume
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.messages.consume
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Récupère un lot de messages ou événements en attente.
+
+[005] taobao.tmc.messages.confirm
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.messages.confirm
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.messages.confirm
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Confirme le traitement d’un ou plusieurs messages consommés.
+
+[006] taobao.tmc.message.produce
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.message.produce
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.message.produce
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Publie un message unique dans TMC pour une intégration autorisée.
+
+[007] taobao.tmc.messages.produce
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.messages.produce
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.messages.produce
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Publie plusieurs messages dans TMC.
+
+[008] taobao.tmc.group.add
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.group.add
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.group.add
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Crée un groupe de consommation ou y ajoute des utilisateurs.
+
+[009] taobao.tmc.group.delete
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.group.delete
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.group.delete
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Supprime un groupe ou retire des utilisateurs du groupe.
+
+[010] taobao.tmc.groups.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.groups.get
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.groups.get
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Liste les groupes personnalisés de messages.
+
+[011] taobao.tmc.queue.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.queue.get
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.queue.get
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Récupère l’état ou l’accumulation de la file de messages.
+
+[012] taobao.tmc.user.topics.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.user.topics.get
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.user.topics.get
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Liste les topics activés pour un utilisateur.
+
+[013] taobao.tmc.auth.get
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.auth.get
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.auth.get
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Récupère un jeton d’autorisation TMC.
+
+[014] taobao.tmc.topic.group.add
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.topic.group.add
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.topic.group.add
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Associe un topic point-à-point à un groupe de routage.
+
+[015] taobao.tmc.topic.group.delete
+URL HTTPS : https://eco.taobao.com/router/rest?method=taobao.tmc.topic.group.delete
+URL globale : https://api.taobao.com/router/rest?method=taobao.tmc.topic.group.delete
+APP_KEY requis : OUI
+Session/OAuth : Variable; user.permit exige une session vendeur
+Accès : APP_KEY + APP_SECRET + permission TMC
+Description : Supprime l’association d’un topic à un groupe de routage.
+
+[016] TMC WebSocket production
+URL : ws://mc.api.taobao.com/
+Authentification : Permission de souscription aux topics requise
+Session : Authentification SDK par APP_KEY et APP_SECRET
+Description : Connexion longue durée pour recevoir les événements Alibaba/TMC en temps quasi réel.
+Note : Principalement pris en charge par les SDK Java et C# selon la documentation.
+
+[017] TMC WebSocket préproduction
+URL : ws://premc.api.taobao.com/
+Authentification : Compte et permissions de test requis
+Session : Authentification SDK
+Description : Passerelle de prétest pour la réception d’événements TMC.
+
+[018] TMC API de prétest
+URL : http://pre-gw.api.taobao.com/top/router/rest
+Authentification : APP_KEY + signature
+Session : Selon méthode
+Description : Passerelle REST de prétest pour consommer et confirmer les messages.
+Note : Environnement de prétest.
+
+TOTAL WEBHOOKS/MESSAGES : 18 routes ou méthodes
+
+====================================================================================================
+EXEMPLES D’URL À CONSTRUIRE
+====================================================================================================
+
+Lister les produits
+https://eco.taobao.com/router/rest?method=alibaba.icbu.product.list&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Obtenir un produit
+https://eco.taobao.com/router/rest?method=alibaba.icbu.product.get&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Mettre à jour le stock
+https://eco.taobao.com/router/rest?method=alibaba.icbu.product.inventory.update&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Lister les commandes
+https://eco.taobao.com/router/rest?method=alibaba.seller.order.list&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Obtenir une commande
+https://eco.taobao.com/router/rest?method=alibaba.seller.order.get&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Calculer le transport
+https://eco.taobao.com/router/rest?method=alibaba.shipping.freight.calculate&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Suivre une commande
+https://eco.taobao.com/router/rest?method=alibaba.order.logistics.tracking.get&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Lire les fonds d’une commande
+https://eco.taobao.com/router/rest?method=alibaba.seller.order.fund.get&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Lister les fournisseurs connus
+https://eco.taobao.com/router/rest?method=alibaba.procurement.mysupplier.list&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Consommer les événements
+https://eco.taobao.com/router/rest?method=taobao.tmc.messages.consume&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+Confirmer les événements
+https://eco.taobao.com/router/rest?method=taobao.tmc.messages.confirm&app_key={APP_KEY}&session={ACCESS_TOKEN}&timestamp={TIMESTAMP}&format=json&v=2.0&sign_method=hmac&sign={SIGNATURE}
+
+====================================================================================================
+INSCRIPTION ET ACCÈS DÉVELOPPEUR
+====================================================================================================
+Portail de documentation Alibaba.com Open Platform : https://openapi.alibaba.com/doc/doc.htm
+Portail historique de documentation : https://developer.alibaba.com/docs/api_list.htm
+Inscription développeur indiquée dans la documentation : https://activity.alibaba.com/pc/developer.html
+OAuth : https://oauth.alibaba.com/authorize
+
+Étapes générales :
+1. Créer un compte développeur Alibaba.com/GGS.
+2. Enregistrer une application.
+3. Obtenir APP_KEY et APP_SECRET.
+4. Demander les permissions correspondant aux catégories nécessaires.
+5. Configurer l’URL de rappel OAuth.
+6. Faire autoriser l’application par le fournisseur ou le vendeur.
+7. Échanger le code OAuth contre un access_token.
+8. Signer chaque requête avec APP_SECRET.
+9. Souscrire aux topics TMC nécessaires pour les événements.
+
+====================================================================================================
+SOURCES OFFICIELLES CONSULTÉES
+====================================================================================================
+https://openapi.alibaba.com/doc/doc.htm
+https://developer.alibaba.com/docs/doc.htm?articleId=118416&docType=1&treeId=684
+https://developer.alibaba.com/docs/doc.htm?articleId=119543&docType=1&treeId=684
+https://developer.alibaba.com/docs/doc.htm?articleId=118933&docType=1&treeId=684
+https://developer.alibaba.com/docs/api_list.htm
+https://developer.alibaba.com/docs/api.htm?apiId=25438
+https://developer.alibaba.com/docs/api.htm?apiId=64125
+https://developer.alibaba.com/docs/api.htm?apiId=49267
+https://developer.alibaba.com/docs/api.htm?apiId=41148
+https://developer.alibaba.com/docs/api.htm?apiId=55329
+https://developer.alibaba.com/docs/api.htm?apiId=25388
+https://developer.alibaba.com/docs/api.htm?apiId=25387
+https://developer.alibaba.com/docs/api.htm?apiId=21986
+https://developer.alibaba.com/docs/api.htm?apiId=21990
+
+====================================================================================================
+RÉSUMÉ
+====================================================================================================
+GESTION PRODUIT : 44
+GESTION COMMANDES : 30
+LOGISTIQUE : 13
+PAIEMENTS : 6
+FOURNISSEURS : 14
+OAUTH : 4
+WEBHOOKS/MESSAGES : 18
+TOTAL CATALOGUÉ : 129 routes, méthodes ou points d’accès

@@ -1,0 +1,1770 @@
+CATALOGUE DES URL ET COMMANDES API SHOPIFY POUR GÉRER UNE BOUTIQUE
+Version de référence Shopify : 2026-07
+Date de compilation : 2026-07-24
+
+IMPORTANT
+- L'Admin GraphQL API est l'interface principale recommandée par Shopify.
+- L'Admin REST API est une API héritée depuis le 1er octobre 2024. Elle reste documentée,
+  mais les nouvelles applications publiques doivent utiliser GraphQL et plusieurs ressources REST
+  sont dépréciées ou limitées.
+- GraphQL utilise UNE SEULE URL pour des centaines de requêtes et mutations. Le nom de la
+  commande est envoyé dans le corps JSON; il ne crée pas une URL différente.
+- Certaines fonctions exigent Shopify Plus, Shopify Payments, des scopes protégés, une approbation
+  Shopify, un type d'application particulier ou l'activation d'une fonction dans la boutique.
+- Les identifiants entre accolades doivent être remplacés par des valeurs réelles.
+- La disponibilité exacte d'une commande doit toujours être validée par introspection du schéma
+  GraphQL 2026-07 et par les scopes réellement accordés à l'application.
+
+VARIABLES UTILISÉES
+{shop} = sous-domaine de la boutique, sans https://, par exemple ma-boutique
+{storefront_domain} = domaine public de la vitrine ou domaine myshopify.com
+{id}, {product_id}, {order_id}, etc. = identifiants Shopify
+{locale} = préfixe de langue, par exemple fr, fr-ca ou en
+{access_token} = jeton d'accès Admin, Storefront ou Customer Account approprié
+{callback_url} = URL HTTPS appartenant à votre application
+
+EN-TÊTES PRINCIPAUX
+Admin GraphQL/REST : X-Shopify-Access-Token: {access_token}
+Storefront privé : X-Shopify-Storefront-Access-Token: {storefront_access_token}
+Customer Account : Authorization: {customer_access_token}
+GraphQL : Content-Type: application/json
+
+====================================================================================================
+1. AUTHENTIFICATION, OAUTH, DÉCOUVERTE ET PORTÉES
+====================================================================================================
+[ACTUEL] GET     https://{shop}.myshopify.com/admin/oauth/authorize?client_id={client_id}&scope={scopes}&redirect_uri={redirect_uri}&state={state}
+          Démarre l'autorisation OAuth d'une application par le marchand.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/oauth/access_token
+          Échange un code OAuth, des identifiants client ou un subject token pris en charge contre un jeton d'accès Admin.
+[ACTUEL] GET     https://{shop}.myshopify.com/admin/oauth/access_scopes.json
+          Retourne les scopes actuellement associés au jeton Admin.
+[ACTUEL] GET     https://{storefront_domain}/.well-known/openid-configuration
+          Découvre dynamiquement les URL Customer Account OAuth/OIDC : authorization_endpoint, token_endpoint, end_session_endpoint et autres métadonnées.
+[DYNAMIQUE] GET     {authorization_endpoint}?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope=openid%20email%20customer-account-api:full&state={state}&nonce={nonce}&code_challenge={challenge}&code_challenge_method=S256
+          URL dynamique obtenue par OpenID Discovery; authentifie le client avec OAuth 2.0/OIDC et PKCE.
+[DYNAMIQUE] POST    {token_endpoint}
+          URL dynamique obtenue par OpenID Discovery; échange le code, renouvelle ou révoque selon les capacités annoncées.
+[DYNAMIQUE] GET     {end_session_endpoint}
+          URL dynamique obtenue par OpenID Discovery; ferme la session du compte client.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/storefront_access_tokens.json
+          Liste les jetons Storefront créés par l'application.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/storefront_access_tokens.json
+          Crée un jeton d'accès Storefront.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/storefront_access_tokens/{storefront_access_token_id}.json
+          Supprime un jeton Storefront.
+
+====================================================================================================
+2. ENDPOINTS GRAPHQL CENTRAUX
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          Endpoint unique de l'Admin GraphQL API. Sert à lire et modifier produits, commandes, inventaire, clients, contenu, marchés, webhooks, remises, paiements et paramètres.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          Endpoint unique Storefront GraphQL pour construire une vitrine, rechercher le catalogue et gérer les paniers.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          Endpoint Customer Account GraphQL pour le profil du client, ses adresses, commandes, retours et consentements.
+[ACTUEL] POST    shopify://customer-account/api/2026-07/graphql.json
+          Pseudo-URL disponible uniquement dans une extension Customer Account UI; Shopify gère automatiquement l'authentification.
+[SPÉCIALISÉ] POST    https://partners.shopify.com/{organization_id}/api/2026-04/graphql.json
+          Partner API : données du tableau de bord Partner, revenus et événements d'applications. Ce n'est pas l'API principale de gestion d'une boutique.
+[SPÉCIALISÉ] POST    https://shop.app/api/partners/graphql.json
+          Shop Partners API : gère les définitions de métachamps et données partenaires de Shop.
+
+====================================================================================================
+3. COMMANDES ADMIN GRAPHQL — CATALOGUE, PRODUITS ET COLLECTIONS
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `product` — Récupère un produit par ID.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `productByHandle` — Récupère un produit par handle lorsqu'exposé par le schéma.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `products` — Liste et filtre les produits.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `productVariant` — Récupère une variante.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `productVariants` — Liste et filtre les variantes.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `productOperation` — Suit une opération asynchrone sur un produit.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `collection` — Récupère une collection.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `collections` — Liste et filtre les collections.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `collectionByHandle` — Récupère une collection par handle lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `publications` — Liste les canaux/publications.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `publication` — Récupère une publication.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productCreate` — Crée un produit.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productUpdate` — Met à jour un produit.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productSet` — Crée ou synchronise un produit et ses données de façon déclarative.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productDelete` — Supprime un produit.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productDuplicate` — Duplique un produit.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productChangeStatus` — Change le statut brouillon, actif ou archivé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productPublish` — Publie un produit sur un canal pris en charge.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productUnpublish` — Retire un produit d'un canal pris en charge.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `publishablePublish` — Publie une ressource publiable sur une publication.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `publishableUnpublish` — Retire une ressource d'une publication.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productVariantsBulkCreate` — Crée plusieurs variantes en une commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productVariantsBulkUpdate` — Met à jour plusieurs variantes.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productVariantsBulkDelete` — Supprime plusieurs variantes.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productVariantsBulkReorder` — Réordonne les variantes.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productOptionsCreate` — Crée des options de produit.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productOptionsUpdate` — Met à jour des options de produit.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productOptionsDelete` — Supprime des options de produit.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `productOptionsReorder` — Réordonne les options.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `collectionCreate` — Crée une collection.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `collectionUpdate` — Met à jour une collection.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `collectionDelete` — Supprime une collection.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `collectionAddProducts` — Ajoute des produits à une collection manuelle.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `collectionRemoveProducts` — Retire des produits d'une collection manuelle.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `collectionReorderProducts` — Réordonne les produits d'une collection.
+
+====================================================================================================
+4. COMMANDES ADMIN GRAPHQL — INVENTAIRE, EMPLACEMENTS ET TRANSFERTS
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `inventoryItem` — Récupère un article d'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `inventoryItems` — Liste les articles d'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `inventoryLevel` — Récupère un niveau d'inventaire lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `inventoryLevels` — Liste les niveaux d'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `location` — Récupère un emplacement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `locations` — Liste les emplacements de la boutique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `inventoryTransfer` — Récupère un transfert d'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `inventoryTransfers` — Liste les transferts d'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryAdjustQuantities` — Ajuste les quantités par deltas.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventorySetQuantities` — Fixe les quantités absolues avec contrôles de comparaison.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryActivate` — Active le suivi d'un article à un emplacement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryDeactivate` — Désactive le suivi à un emplacement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryBulkToggleActivation` — Active ou désactive plusieurs relations article-emplacement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryItemUpdate` — Met à jour SKU, coût, harmonized system code et autres attributs d'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryMoveQuantities` — Déplace des quantités entre états d'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryTransferCreate` — Crée un transfert d'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryTransferEdit` — Modifie un transfert.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryTransferMarkAsReadyToShip` — Marque un transfert prêt à être expédié.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryTransferCancel` — Annule un transfert.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryShipmentCreate` — Crée un envoi lié à un transfert.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryShipmentUpdate` — Met à jour un envoi de transfert.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `inventoryShipmentReceive` — Réceptionne des articles transférés.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `locationActivate` — Active un emplacement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `locationDeactivate` — Désactive un emplacement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `locationEdit` — Modifie un emplacement.
+
+====================================================================================================
+5. COMMANDES ADMIN GRAPHQL — COMMANDES, BROUILLONS, PAIEMENTS, REMBOURSEMENTS ET RETOURS
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `order` — Récupère une commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `orders` — Liste et filtre les commandes.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `orderByIdentifier` — Recherche une commande par identifiant pris en charge.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `draftOrder` — Récupère un brouillon de commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `draftOrders` — Liste les brouillons.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `refund` — Récupère un remboursement lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `return` — Récupère un retour.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `returns` — Liste les retours lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `abandonedCheckouts` — Liste les passages à la caisse abandonnés lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderCreate` — Crée une commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderUpdate` — Met à jour les attributs modifiables d'une commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderCancel` — Annule une commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderClose` — Ferme une commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderOpen` — Rouvre une commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderMarkAsPaid` — Marque une commande comme payée.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderCapture` — Capture un paiement autorisé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderCreateManualPayment` — Ajoute un paiement manuel.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderCreateMandatePayment` — Déclenche un paiement avec mandat lorsque pris en charge.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditBegin` — Démarre une session d'édition de commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditAddVariant` — Ajoute une variante pendant une édition.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditAddCustomItem` — Ajoute une ligne personnalisée.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditSetQuantity` — Modifie une quantité de ligne.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditAddLineItemDiscount` — Ajoute une remise de ligne.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditAddShippingLine` — Ajoute une ligne d'expédition.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditUpdateShippingLine` — Met à jour une ligne d'expédition.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditRemoveShippingLine` — Retire une ligne d'expédition.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderEditCommit` — Valide l'édition de commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `draftOrderCreate` — Crée un brouillon de commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `draftOrderUpdate` — Met à jour un brouillon.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `draftOrderDelete` — Supprime un brouillon.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `draftOrderComplete` — Convertit un brouillon en commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `draftOrderDuplicate` — Duplique un brouillon.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `draftOrderCalculate` — Calcule prix, taxes et lignes d'un brouillon.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `draftOrderInvoiceSend` — Envoie la facture d'un brouillon.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `refundCreate` — Crée un remboursement et peut réintégrer l'inventaire.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `returnCreate` — Crée un retour.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `returnRequest` — Demande un retour lorsque le flux le permet.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `returnApproveRequest` — Approuve une demande de retour.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `returnDeclineRequest` — Refuse une demande de retour.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `returnCancel` — Annule un retour.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `returnClose` — Ferme un retour.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `returnReopen` — Rouvre un retour.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `returnProcess` — Traite financièrement ou logistiquement un retour.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `reverseDeliveryCreate` — Crée une livraison inverse.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `reverseDeliveryShippingUpdate` — Met à jour les informations d'expédition inverse.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `reverseFulfillmentOrderDispose` — Enregistre la disposition d'articles retournés.
+
+====================================================================================================
+6. COMMANDES ADMIN GRAPHQL — EXÉCUTION, EXPÉDITION ET LIVRAISON
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `fulfillmentOrder` — Récupère un ordre d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `fulfillmentOrders` — Liste les ordres d'exécution accessibles.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `assignedFulfillmentOrders` — Liste les ordres assignés à un service.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `fulfillmentService` — Récupère un service d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `fulfillmentServices` — Liste les services d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `carrierService` — Récupère un service de transport.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `carrierServices` — Liste les services de transport.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `deliveryProfile` — Récupère un profil de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `deliveryProfiles` — Liste les profils de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `deliverySettings` — Récupère les paramètres de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentCreate` — Crée une exécution pour un ou plusieurs ordres d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentCancel` — Annule une exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentTrackingInfoUpdate` — Met à jour transporteur, numéros et URL de suivi.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderMove` — Déplace un ordre d'exécution vers un autre emplacement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderHold` — Met un ordre d'exécution en attente.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderReleaseHold` — Libère une attente.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderReschedule` — Replanifie une exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderClose` — Ferme un ordre d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderOpen` — Rouvre un ordre d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderSubmitFulfillmentRequest` — Envoie une demande au service d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderAcceptFulfillmentRequest` — Accepte une demande d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderRejectFulfillmentRequest` — Refuse une demande d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderSubmitCancellationRequest` — Demande l'annulation au service.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderAcceptCancellationRequest` — Accepte une demande d'annulation.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderRejectCancellationRequest` — Refuse une demande d'annulation.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderSplit` — Scinde un ordre d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderMerge` — Fusionne des ordres d'exécution compatibles.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderLineItemsPreparedForPickup` — Marque des lignes prêtes pour ramassage.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderLineItemsPreparedForLocalDelivery` — Marque des lignes prêtes pour livraison locale.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentOrderProgressUpdate` — Met à jour la progression lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentServiceCreate` — Crée un service d'exécution.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentServiceUpdate` — Met à jour un service.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fulfillmentServiceDelete` — Supprime un service.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `carrierServiceCreate` — Crée un service de tarifs transporteur.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `carrierServiceUpdate` — Met à jour un service transporteur.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `carrierServiceDelete` — Supprime un service transporteur.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `deliveryProfileCreate` — Crée un profil de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `deliveryProfileUpdate` — Met à jour un profil de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `deliveryProfileRemove` — Supprime un profil de livraison.
+
+====================================================================================================
+7. COMMANDES ADMIN GRAPHQL — CLIENTS, SEGMENTS, ENTREPRISES B2B
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `customer` — Récupère un client.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `customers` — Liste et filtre les clients.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `customerByIdentifier` — Recherche un client par identifiant pris en charge.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `segment` — Récupère un segment.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `segments` — Liste les segments.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `customerSegmentMembers` — Liste les membres d'un segment.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `company` — Récupère une entreprise B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `companies` — Liste les entreprises B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `companyLocation` — Récupère un emplacement d'entreprise.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `companyLocations` — Liste les emplacements B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerCreate` — Crée un client.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerUpdate` — Met à jour un client.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerDelete` — Supprime un client.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerMerge` — Fusionne des profils clients compatibles.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerAddressCreate` — Crée une adresse client.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerAddressUpdate` — Met à jour une adresse client.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerAddressDelete` — Supprime une adresse client.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerEmailMarketingConsentUpdate` — Met à jour le consentement marketing courriel.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerSmsMarketingConsentUpdate` — Met à jour le consentement marketing SMS.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerGenerateAccountActivationUrl` — Génère une URL d'activation de compte.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `customerSendAccountInviteEmail` — Envoie une invitation de compte lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `segmentCreate` — Crée un segment.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `segmentUpdate` — Met à jour un segment.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `segmentDelete` — Supprime un segment.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyCreate` — Crée une entreprise B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyUpdate` — Met à jour une entreprise.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyDelete` — Supprime une entreprise.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyLocationCreate` — Crée un emplacement B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyLocationUpdate` — Met à jour un emplacement B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyLocationDelete` — Supprime un emplacement B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyContactCreate` — Crée un contact B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyContactUpdate` — Met à jour un contact B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyContactDelete` — Supprime un contact B2B.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyContactAssignRole` — Assigne un rôle à un contact.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `companyContactRevokeRole` — Retire un rôle à un contact.
+
+====================================================================================================
+8. COMMANDES ADMIN GRAPHQL — REMISES, MARKETING ET CARTES-CADEAUX
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `discountNode` — Récupère une remise.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `discountNodes` — Liste les remises.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `discountCodeNode` — Récupère un code de réduction.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `discountCodeNodes` — Liste les codes de réduction.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `marketingActivity` — Récupère une activité marketing.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `marketingActivities` — Liste les activités marketing.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `giftCard` — Récupère une carte-cadeau.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `giftCards` — Liste les cartes-cadeaux.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeBasicCreate` — Crée un code de remise de base.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeBasicUpdate` — Met à jour un code de base.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeBxgyCreate` — Crée une remise acheter X obtenir Y.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeBxgyUpdate` — Met à jour une remise BXGY.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeFreeShippingCreate` — Crée un code de livraison gratuite.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeFreeShippingUpdate` — Met à jour ce code.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticBasicCreate` — Crée une remise automatique de base.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticBasicUpdate` — Met à jour une remise automatique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticBxgyCreate` — Crée une remise automatique BXGY.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticBxgyUpdate` — Met à jour une remise automatique BXGY.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticFreeShippingCreate` — Crée une livraison gratuite automatique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticFreeShippingUpdate` — Met à jour la livraison gratuite automatique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeDelete` — Supprime une remise par code.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticDelete` — Supprime une remise automatique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountRedeemCodeBulkAdd` — Ajoute plusieurs codes échangeables.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountRedeemCodeBulkDelete` — Supprime plusieurs codes échangeables.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeActivate` — Active une remise par code.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountCodeDeactivate` — Désactive une remise par code.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticActivate` — Active une remise automatique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `discountAutomaticDeactivate` — Désactive une remise automatique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketingActivityCreate` — Crée une activité marketing.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketingActivityUpdate` — Met à jour une activité marketing.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketingActivityDelete` — Supprime une activité marketing.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `giftCardCreate` — Crée une carte-cadeau.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `giftCardUpdate` — Met à jour une carte-cadeau.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `giftCardDeactivate` — Désactive une carte-cadeau.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `giftCardCredit` — Ajoute un crédit à une carte-cadeau.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `giftCardDebit` — Débite une carte-cadeau.
+
+====================================================================================================
+9. COMMANDES ADMIN GRAPHQL — CONTENU, THÈMES, FICHIERS, MÉTACHAMPS ET MÉTAOBJETS
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `article` — Récupère un article.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `articles` — Liste les articles.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `blog` — Récupère un blogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `blogs` — Liste les blogues.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `page` — Récupère une page.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `pages` — Liste les pages.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `menu` — Récupère un menu.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `menus` — Liste les menus.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `theme` — Récupère un thème.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `themes` — Liste les thèmes.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `files` — Liste les fichiers.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `file` — Récupère un fichier lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `metafieldDefinition` — Récupère une définition de métachamp.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `metafieldDefinitions` — Liste les définitions de métachamps.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `metaobject` — Récupère un métaobjet.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `metaobjects` — Liste les métaobjets.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `metaobjectDefinition` — Récupère une définition de métaobjet.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `metaobjectDefinitions` — Liste les définitions de métaobjets.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `urlRedirect` — Récupère une redirection.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `urlRedirects` — Liste les redirections.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `articleCreate` — Crée un article.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `articleUpdate` — Met à jour un article.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `articleDelete` — Supprime un article.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `blogCreate` — Crée un blogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `blogUpdate` — Met à jour un blogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `blogDelete` — Supprime un blogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `pageCreate` — Crée une page.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `pageUpdate` — Met à jour une page.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `pageDelete` — Supprime une page.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `menuCreate` — Crée un menu.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `menuUpdate` — Met à jour un menu.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `menuDelete` — Supprime un menu.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `themeCreate` — Crée ou importe un thème.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `themeDelete` — Supprime un thème.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `themePublish` — Publie un thème.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `themeFilesUpsert` — Crée ou remplace des fichiers de thème.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `themeFilesDelete` — Supprime des fichiers de thème.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fileCreate` — Crée des fichiers à partir d'URL ou de téléversements préparés.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fileUpdate` — Met à jour des fichiers.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `fileDelete` — Supprime des fichiers.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `stagedUploadsCreate` — Prépare des URL de téléversement vers Shopify.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metafieldsSet` — Crée ou met à jour plusieurs métachamps.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metafieldDelete` — Supprime un métachamp.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metafieldDefinitionCreate` — Crée une définition de métachamp.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metafieldDefinitionUpdate` — Met à jour une définition.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metafieldDefinitionDelete` — Supprime une définition.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metaobjectCreate` — Crée un métaobjet.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metaobjectUpdate` — Met à jour un métaobjet.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metaobjectDelete` — Supprime un métaobjet.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metaobjectBulkDelete` — Supprime plusieurs métaobjets.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metaobjectDefinitionCreate` — Crée une définition de métaobjet.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metaobjectDefinitionUpdate` — Met à jour une définition.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `metaobjectDefinitionDelete` — Supprime une définition.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `urlRedirectCreate` — Crée une redirection.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `urlRedirectUpdate` — Met à jour une redirection.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `urlRedirectDelete` — Supprime une redirection.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `urlRedirectBulkDeleteAll` — Supprime toutes les redirections autorisées.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `urlRedirectImportCreate` — Démarre un import de redirections.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `urlRedirectImportSubmit` — Soumet un import préparé.
+
+====================================================================================================
+10. COMMANDES ADMIN GRAPHQL — MARCHÉS, PRIX, LOCALISATION ET PUBLICATION
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `market` — Récupère un marché.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `markets` — Liste les marchés.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `marketLocalizations` — Récupère les localisations de marché lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `priceList` — Récupère une liste de prix.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `priceLists` — Liste les listes de prix.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `catalog` — Récupère un catalogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `catalogs` — Liste les catalogues.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `shopLocales` — Liste les locales de la boutique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `translatableResource` — Récupère une ressource traduisible.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `translatableResources` — Liste les ressources traduisibles.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketCreate` — Crée un marché.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketUpdate` — Met à jour un marché.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketDelete` — Supprime un marché.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketCurrencySettingsUpdate` — Met à jour les paramètres de devise d'un marché.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketRegionCreate` — Ajoute une région à un marché.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketRegionDelete` — Retire une région.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketWebPresenceCreate` — Crée une présence web de marché.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketWebPresenceUpdate` — Met à jour une présence web.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `marketWebPresenceDelete` — Supprime une présence web.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `priceListCreate` — Crée une liste de prix.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `priceListUpdate` — Met à jour une liste de prix.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `priceListDelete` — Supprime une liste de prix.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `priceListFixedPricesAdd` — Ajoute ou remplace des prix fixes.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `priceListFixedPricesDelete` — Supprime des prix fixes.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `catalogCreate` — Crée un catalogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `catalogUpdate` — Met à jour un catalogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `catalogDelete` — Supprime un catalogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `shopLocaleEnable` — Active une locale.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `shopLocaleDisable` — Désactive une locale.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `shopLocaleUpdate` — Met à jour une locale.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `translationsRegister` — Enregistre des traductions.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `translationsRemove` — Supprime des traductions.
+
+====================================================================================================
+11. COMMANDES ADMIN GRAPHQL — WEBHOOKS, APPLICATION, FACTURATION ET TRAITEMENTS EN LOT
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `webhookSubscription` — Récupère un abonnement webhook.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `webhookSubscriptions` — Liste les abonnements webhook.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `currentAppInstallation` — Récupère l'installation courante de l'application.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `appInstallation` — Récupère une installation.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `appSubscriptions` — Liste les abonnements de l'application.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `appSubscription` — Récupère un abonnement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `currentBulkOperation` — Récupère l'opération en lot courante.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `bulkOperation` — Récupère une opération en lot par ID.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `webhookSubscriptionCreate` — Crée un abonnement webhook HTTP, Pub/Sub ou EventBridge selon le type.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `webhookSubscriptionUpdate` — Met à jour un abonnement webhook.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `webhookSubscriptionDelete` — Supprime un abonnement webhook.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `appSubscriptionCreate` — Crée une demande d'abonnement facturé à l'application.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `appSubscriptionCancel` — Annule un abonnement d'application.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `appSubscriptionLineItemUpdate` — Met à jour un plafond de tarification à l'usage.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `appPurchaseOneTimeCreate` — Crée une demande d'achat unique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `appUsageRecordCreate` — Enregistre une charge à l'usage.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `appCreditCreate` — Crée un crédit d'application.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `bulkOperationRunQuery` — Lance une extraction GraphQL massive asynchrone.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `bulkOperationRunMutation` — Lance une mutation massive à partir d'un fichier JSONL.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `bulkOperationCancel` — Annule une opération en lot.
+
+====================================================================================================
+12. COMMANDES ADMIN GRAPHQL — SHOPIFY PAYMENTS, RISQUES ET PARAMÈTRES DE BOUTIQUE
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `shop` — Récupère l'identité, les paramètres et capacités de la boutique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `shopifyPaymentsAccount` — Récupère le compte Shopify Payments, soldes, versements et transactions autorisés.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `shopifyPaymentsDispute` — Récupère un litige.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `shopifyPaymentsDisputes` — Liste les litiges.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `shopifyPaymentsPayout` — Récupère un versement.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `shopifyPaymentsPayouts` — Liste les versements.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `orderRiskAssessment` — Récupère l'évaluation de risque d'une commande.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `orderRiskAssessments` — Liste les évaluations de risque lorsqu'exposé.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL query `shopPolicies` — Récupère les politiques de la boutique.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `shopPolicyUpdate` — Met à jour une politique lorsque le schéma et les droits le permettent.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `orderRiskAssessmentCreate` — Crée une évaluation de risque.
+[ACTUEL] POST    https://{shop}.myshopify.com/admin/api/2026-07/graphql.json
+          GraphQL mutation `shopifyPaymentsDisputeEvidenceUpdate` — Met à jour les éléments de preuve d'un litige lorsqu'autorisé.
+
+====================================================================================================
+13. STOREFRONT GRAPHQL — REQUÊTES ET MUTATIONS DE VITRINE
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `shop` — Lit les informations publiques de la boutique.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `product` — Lit un produit par identifiant.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `products` — Liste et filtre les produits publiés.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `collection` — Lit une collection.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `collections` — Liste les collections publiées.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `search` — Recherche dans le catalogue et le contenu.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `predictiveSearch` — Retourne des suggestions de recherche.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `page` — Lit une page.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `pages` — Liste les pages.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `blog` — Lit un blogue.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `blogs` — Liste les blogues.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `article` — Lit un article.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `articles` — Liste les articles.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `menu` — Lit un menu de navigation.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `localization` — Lit pays, langue et marché actifs.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `cart` — Lit un panier par ID.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `node` — Lit une ressource publique par Global ID.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `nodes` — Lit plusieurs ressources publiques.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `metaobject` — Lit un métaobjet exposé à la vitrine.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL query `metaobjects` — Liste des métaobjets exposés.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartCreate` — Crée un panier.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartLinesAdd` — Ajoute des lignes au panier.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartLinesUpdate` — Met à jour quantité ou attributs des lignes.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartLinesRemove` — Retire des lignes.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartBuyerIdentityUpdate` — Met à jour pays, client et préférences d'acheteur.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartDiscountCodesUpdate` — Applique ou retire des codes de réduction.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartGiftCardCodesUpdate` — Applique ou retire des cartes-cadeaux.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartAttributesUpdate` — Met à jour les attributs du panier.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartNoteUpdate` — Met à jour la note du panier.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartSelectedDeliveryOptionsUpdate` — Sélectionne les options de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartDeliveryAddressesAdd` — Ajoute des adresses de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartDeliveryAddressesUpdate` — Met à jour les adresses de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartDeliveryAddressesRemove` — Retire des adresses de livraison.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartBillingAddressUpdate` — Met à jour l'adresse de facturation.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartPaymentUpdate` — Ajoute ou met à jour les informations de paiement prises en charge.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartMetafieldsSet` — Crée ou met à jour des métachamps de panier.
+[ACTUEL] POST    https://{shop}.myshopify.com/api/2026-07/graphql.json
+          GraphQL mutation `cartMetafieldDelete` — Supprime un métachamp de panier.
+
+====================================================================================================
+14. CUSTOMER ACCOUNT GRAPHQL — COMPTE CLIENT
+====================================================================================================
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL query `customer` — Lit le profil du client authentifié.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL query `order` — Lit une commande appartenant au client.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL query `orders` — Liste l'historique des commandes du client.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL query `shop` — Lit les informations de boutique accessibles au compte.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL query `company` — Lit les données B2B accessibles au contact.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL query `return` — Lit un retour du client.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `customerUpdate` — Met à jour prénom, nom ou propriétés autorisées.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `customerAddressCreate` — Crée une adresse enregistrée.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `customerAddressUpdate` — Met à jour une adresse.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `customerAddressDelete` — Supprime une adresse.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `customerEmailMarketingSubscribe` — Abonne le client au marketing courriel.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `customerEmailMarketingUnsubscribe` — Désabonne le client du marketing courriel.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `customerWhatsAppMarketingConsentUpdate` — Met à jour le consentement WhatsApp lorsque disponible.
+[ACTUEL] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `companyLocationAssignAddress` — Assigne une adresse à un emplacement B2B autorisé.
+[DÉPRÉCIÉ] POST    https://{shop}.myshopify.com/customer/api/2026-07/graphql
+          GraphQL mutation `storefrontCustomerAccessTokenCreate` — Échange un jeton Customer Account contre un ancien jeton Storefront; commande dépréciée.
+
+====================================================================================================
+15. ADMIN REST — ACCÈS ET FACTURATION (API HÉRITÉE)
+====================================================================================================
+
+--- ACCÈS ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/storefront_access_tokens.json
+          Liste les jetons Storefront.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/storefront_access_tokens.json
+          Crée un jeton Storefront.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/storefront_access_tokens/{id}.json
+          Supprime un jeton Storefront.
+
+--- FACTURATION ---
+[REST HÉRITÉ / LIMITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/application_charges.json
+          Crée une charge d'application unique ancienne génération.
+[REST HÉRITÉ / LIMITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/application_charges/{id}.json
+          Récupère une charge unique.
+[REST HÉRITÉ / LIMITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/application_charges/{id}/activate.json
+          Active une charge unique acceptée.
+[REST HÉRITÉ / LIMITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/application_credits.json
+          Crée un crédit d'application.
+[REST HÉRITÉ / LIMITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/application_credits/{id}.json
+          Récupère un crédit d'application.
+[REST HÉRITÉ / LIMITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges.json
+          Crée un abonnement récurrent ancien modèle.
+[REST HÉRITÉ / LIMITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges.json
+          Liste les abonnements récurrents.
+[REST HÉRITÉ / LIMITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges/{id}.json
+          Récupère un abonnement récurrent.
+[REST HÉRITÉ / LIMITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges/{id}/activate.json
+          Active un abonnement accepté.
+[REST HÉRITÉ / LIMITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges/{id}/customize.json
+          Modifie le plafond d'utilisation.
+[REST HÉRITÉ / LIMITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges/{id}.json
+          Annule un abonnement récurrent.
+[REST HÉRITÉ / LIMITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges/{charge_id}/usage_charges.json
+          Crée une charge à l'usage.
+[REST HÉRITÉ / LIMITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges/{charge_id}/usage_charges.json
+          Liste les charges à l'usage.
+[REST HÉRITÉ / LIMITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/recurring_application_charges/{charge_id}/usage_charges/{id}.json
+          Récupère une charge à l'usage.
+
+--- CLIENTS ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customers.json
+          Liste et filtre les clients.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customers/count.json
+          Compte les clients.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customers/search.json?query={query}
+          Recherche des clients.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}.json
+          Récupère un client.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/customers.json
+          Crée un client.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}.json
+          Met à jour un client.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}.json
+          Supprime un client.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/account_activation_url.json
+          Génère une URL d'activation.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/send_invite.json
+          Envoie ou personnalise une invitation de compte.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/orders.json
+          Liste les commandes d'un client.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/addresses.json
+          Liste les adresses d'un client.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/addresses/{address_id}.json
+          Récupère une adresse.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/addresses.json
+          Crée une adresse.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/addresses/{address_id}.json
+          Met à jour une adresse.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/addresses/{address_id}.json
+          Supprime une adresse.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/addresses/{address_id}/default.json
+          Définit l'adresse par défaut.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/addresses/set.json
+          Modifie en lot plusieurs adresses.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/addresses.json?address_ids[]={address_id}
+          Supprime plusieurs adresses.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customer_saved_searches.json
+          Liste les recherches clients enregistrées.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customer_saved_searches/count.json
+          Compte les recherches enregistrées.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customer_saved_searches/{id}.json
+          Récupère une recherche enregistrée.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/customer_saved_searches.json
+          Crée une recherche enregistrée.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/customer_saved_searches/{id}.json
+          Met à jour une recherche enregistrée.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/customer_saved_searches/{id}.json
+          Supprime une recherche enregistrée.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customer_saved_searches/{id}/customers.json
+          Exécute une recherche enregistrée et retourne ses clients.
+
+--- REMISES ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/price_rules.json
+          Liste les règles de prix.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/count.json
+          Compte les règles de prix.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}.json
+          Récupère une règle.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/price_rules.json
+          Crée une règle de prix.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}.json
+          Met à jour une règle.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}.json
+          Supprime une règle et ses codes.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/discount_codes.json
+          Liste les codes d'une règle.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/discount_codes/count.json
+          Compte les codes.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json
+          Récupère un code.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/discount_codes.json
+          Crée un code.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json
+          Met à jour un code.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json
+          Supprime un code.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/discount_codes/lookup.json?code={code}
+          Recherche un code par sa valeur.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/batch.json
+          Crée plusieurs codes en traitement asynchrone.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/batch/{batch_id}.json
+          Récupère l'état d'un lot.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/batch/{batch_id}/discount_codes.json
+          Liste les codes d'un lot.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/price_rules/{price_rule_id}/batch/{batch_id}.json
+          Met à jour plusieurs codes d'un lot.
+
+--- ÉVÉNEMENTS ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/events.json
+          Liste les événements d'administration accessibles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/events/count.json
+          Compte les événements.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/events/{event_id}.json
+          Récupère un événement.
+
+--- CARTES-CADEAUX ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/gift_cards.json
+          Liste les cartes-cadeaux.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/gift_cards/count.json
+          Compte les cartes-cadeaux.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/gift_cards/search.json?query={query}
+          Recherche des cartes-cadeaux.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/gift_cards/{gift_card_id}.json
+          Récupère une carte-cadeau.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/gift_cards.json
+          Crée une carte-cadeau.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/gift_cards/{gift_card_id}.json
+          Met à jour une carte-cadeau.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/gift_cards/{gift_card_id}/disable.json
+          Désactive définitivement une carte-cadeau.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/gift_cards/{gift_card_id}/adjustments.json
+          Ajuste le solde selon les capacités accordées.
+
+--- INVENTAIRE ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/inventory_items.json?ids={inventory_item_ids}
+          Récupère plusieurs articles d'inventaire.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/inventory_items/{inventory_item_id}.json
+          Récupère un article d'inventaire.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/inventory_items/{inventory_item_id}.json
+          Met à jour coût, SKU, douanes et suivi.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/inventory_levels.json?inventory_item_ids={ids}&location_ids={ids}
+          Liste les niveaux d'inventaire.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/inventory_levels/adjust.json
+          Ajuste une quantité disponible par delta.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/inventory_levels/connect.json
+          Connecte un article à un emplacement.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/inventory_levels/set.json
+          Fixe la quantité disponible.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/inventory_levels.json?inventory_item_id={id}&location_id={id}
+          Déconnecte un article d'un emplacement.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/locations.json
+          Liste les emplacements.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/locations/count.json
+          Compte les emplacements.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/locations/{location_id}.json
+          Récupère un emplacement.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/locations/{location_id}/inventory_levels.json
+          Liste l'inventaire d'un emplacement.
+
+--- MARKETING ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/marketing_events.json
+          Liste les événements marketing.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/marketing_events/count.json
+          Compte les événements marketing.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/marketing_events/{marketing_event_id}.json
+          Récupère un événement marketing.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/marketing_events.json
+          Crée un événement marketing.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/marketing_events/{marketing_event_id}.json
+          Met à jour un événement marketing.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/marketing_events/{marketing_event_id}.json
+          Supprime un événement marketing.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/marketing_events/{marketing_event_id}/engagements.json
+          Ajoute des métriques d'engagement.
+
+--- MÉTACHAMPS ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/metafields.json
+          Liste les métachamps de boutique accessibles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/metafields/count.json
+          Compte les métachamps de boutique.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/metafields/{metafield_id}.json
+          Récupère un métachamp.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/metafields.json
+          Crée un métachamp de boutique.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/metafields/{metafield_id}.json
+          Met à jour un métachamp.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/metafields/{metafield_id}.json
+          Supprime un métachamp.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/metafields.json
+          Liste les métachamps associés à products.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/metafields.json
+          Crée un métachamp associé à products.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/variants/{variant_id}/metafields.json
+          Liste les métachamps associés à variants.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/variants/{variant_id}/metafields.json
+          Crée un métachamp associé à variants.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/metafields.json
+          Liste les métachamps associés à customers.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/customers/{customer_id}/metafields.json
+          Crée un métachamp associé à customers.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/metafields.json
+          Liste les métachamps associés à orders.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/metafields.json
+          Crée un métachamp associé à orders.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/collections/{collection_id}/metafields.json
+          Liste les métachamps associés à collections.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/collections/{collection_id}/metafields.json
+          Crée un métachamp associé à collections.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}/metafields.json
+          Liste les métachamps associés à blogs.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}/metafields.json
+          Crée un métachamp associé à blogs.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/articles/{article_id}/metafields.json
+          Liste les métachamps associés à articles.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/articles/{article_id}/metafields.json
+          Crée un métachamp associé à articles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/pages/{page_id}/metafields.json
+          Liste les métachamps associés à pages.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/pages/{page_id}/metafields.json
+          Crée un métachamp associé à pages.
+
+--- MOBILE ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/mobile_platform_applications.json
+          Liste les applications de plateforme mobile.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/mobile_platform_applications/{id}.json
+          Récupère une application mobile.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/mobile_platform_applications.json
+          Crée une configuration d'application mobile.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/mobile_platform_applications/{id}.json
+          Met à jour cette configuration.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/mobile_platform_applications/{id}.json
+          Supprime cette configuration.
+
+--- BOUTIQUE EN LIGNE ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/blogs.json
+          Liste les blogues.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/blogs/count.json
+          Compte les blogues.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}.json
+          Récupère un blogue.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/blogs.json
+          Crée un blogue.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}.json
+          Met à jour un blogue.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}.json
+          Supprime un blogue.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}/articles.json
+          Liste les articles d'un blogue.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}/articles/count.json
+          Compte les articles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}/articles/{article_id}.json
+          Récupère un article.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}/articles.json
+          Crée un article.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}/articles/{article_id}.json
+          Met à jour un article.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/blogs/{blog_id}/articles/{article_id}.json
+          Supprime un article.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/articles/authors.json
+          Liste les auteurs d'articles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/articles/tags.json
+          Liste les tags d'articles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/comments.json
+          Liste les commentaires.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/comments/count.json
+          Compte les commentaires.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/comments/{comment_id}.json
+          Récupère un commentaire.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/comments.json
+          Crée un commentaire.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/comments/{comment_id}.json
+          Met à jour un commentaire.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/comments/{comment_id}.json
+          Supprime un commentaire.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/comments/{comment_id}/approve.json
+          Approuve un commentaire.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/comments/{comment_id}/not_spam.json
+          Marque un commentaire comme non indésirable.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/comments/{comment_id}/remove.json
+          Retire un commentaire.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/comments/{comment_id}/spam.json
+          Marque un commentaire comme indésirable.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/comments/{comment_id}/restore.json
+          Restaure un commentaire retiré.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/pages.json
+          Liste les pages.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/pages/count.json
+          Compte les pages.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/pages/{page_id}.json
+          Récupère une page.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/pages.json
+          Crée une page.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/pages/{page_id}.json
+          Met à jour une page.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/pages/{page_id}.json
+          Supprime une page.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/redirects.json
+          Liste les redirections.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/redirects/count.json
+          Compte les redirections.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/redirects/{redirect_id}.json
+          Récupère une redirection.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/redirects.json
+          Crée une redirection.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/redirects/{redirect_id}.json
+          Met à jour une redirection.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/redirects/{redirect_id}.json
+          Supprime une redirection.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/script_tags.json
+          Liste les balises de script héritées.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/script_tags/count.json
+          Compte les balises de script.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/script_tags/{script_tag_id}.json
+          Récupère une balise.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/script_tags.json
+          Crée une balise de script héritée.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/script_tags/{script_tag_id}.json
+          Met à jour une balise.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/script_tags/{script_tag_id}.json
+          Supprime une balise.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/themes.json
+          Liste les thèmes.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/themes/{theme_id}.json
+          Récupère un thème.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/themes.json
+          Crée ou importe un thème.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/themes/{theme_id}.json
+          Modifie ou publie un thème selon le corps.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/themes/{theme_id}.json
+          Supprime un thème.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/themes/{theme_id}/assets.json
+          Liste ou récupère un asset; utiliser le paramètre asset[key].
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/themes/{theme_id}/assets.json
+          Crée ou remplace un asset de thème; scope protégé possible.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/themes/{theme_id}/assets.json?asset[key]={asset_key}
+          Supprime un asset de thème; scope protégé possible.
+
+--- COMMANDES ---
+[REST HÉRITÉ / LIMITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/checkouts.json
+          Liste les passages à la caisse abandonnés accessibles.
+[REST HÉRITÉ / LIMITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/checkouts/count.json
+          Compte les passages à la caisse abandonnés.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/draft_orders.json
+          Liste les brouillons.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/draft_orders/count.json
+          Compte les brouillons.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/draft_orders/{draft_order_id}.json
+          Récupère un brouillon.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/draft_orders.json
+          Crée un brouillon.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/draft_orders/{draft_order_id}.json
+          Met à jour un brouillon.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/draft_orders/{draft_order_id}.json
+          Supprime un brouillon.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/draft_orders/{draft_order_id}/complete.json
+          Finalise un brouillon en commande.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/draft_orders/{draft_order_id}/send_invoice.json
+          Envoie la facture d'un brouillon.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders.json
+          Liste et filtre les commandes.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/count.json
+          Compte les commandes.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}.json
+          Récupère une commande.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders.json
+          Crée une commande.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}.json
+          Met à jour une commande.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}.json
+          Supprime une commande lorsque permis.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/close.json
+          Ferme une commande.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/open.json
+          Rouvre une commande.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/cancel.json
+          Annule une commande.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/risks.json
+          Liste les risques d'une commande.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/risks/{risk_id}.json
+          Récupère un risque.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/risks.json
+          Crée un risque.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/risks/{risk_id}.json
+          Met à jour un risque.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/risks/{risk_id}.json
+          Supprime un risque.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/transactions.json
+          Liste les transactions d'une commande.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/transactions/count.json
+          Compte les transactions.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/transactions/{transaction_id}.json
+          Récupère une transaction.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/transactions.json
+          Crée capture, vente, remboursement ou annulation selon le type.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/refunds.json
+          Liste les remboursements.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/refunds/{refund_id}.json
+          Récupère un remboursement.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/refunds/calculate.json
+          Calcule un remboursement sans l'exécuter.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/refunds.json
+          Crée un remboursement.
+
+--- SHOPIFY PLUS ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/users.json
+          Liste les utilisateurs administrateurs accessibles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/users/{user_id}.json
+          Récupère un utilisateur.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/users/current.json
+          Récupère l'utilisateur lié au jeton en ligne.
+
+--- PRODUITS ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/products.json
+          Liste et filtre les produits; ressource REST produit dépréciée.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/products/count.json
+          Compte les produits.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}.json
+          Récupère un produit.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/products.json
+          Crée un produit; utiliser GraphQL pour les nouveaux développements.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}.json
+          Met à jour un produit.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}.json
+          Supprime un produit.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/variants.json
+          Liste les variantes d'un produit.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/variants/count.json
+          Compte les variantes.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/variants.json
+          Crée une variante.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/variants/{variant_id}.json
+          Récupère une variante.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/variants/{variant_id}.json
+          Met à jour une variante.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/variants/{variant_id}.json
+          Supprime une variante.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/images.json
+          Liste les images d'un produit.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/images/{image_id}.json
+          Récupère une image.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/images.json
+          Ajoute une image.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/images/{image_id}.json
+          Met à jour une image.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/images/{image_id}.json
+          Supprime une image.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/custom_collections.json
+          Liste les collections manuelles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/custom_collections/count.json
+          Compte les collections manuelles.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/custom_collections/{collection_id}.json
+          Récupère une collection manuelle.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/custom_collections.json
+          Crée une collection manuelle.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/custom_collections/{collection_id}.json
+          Met à jour une collection manuelle.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/custom_collections/{collection_id}.json
+          Supprime une collection manuelle.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/smart_collections.json
+          Liste les collections automatisées.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/smart_collections/count.json
+          Compte les collections automatisées.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/smart_collections/{collection_id}.json
+          Récupère une collection automatisée.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/smart_collections.json
+          Crée une collection automatisée.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/smart_collections/{collection_id}.json
+          Met à jour une collection automatisée.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/smart_collections/{collection_id}.json
+          Supprime une collection automatisée.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/smart_collections/{collection_id}/order.json
+          Réordonne manuellement ses produits lorsque permis.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/collections.json?product_id={product_id}
+          Liste les collections contenant un produit.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/collections/{collection_id}.json
+          Récupère une collection par l'interface de lecture commune.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/collects.json
+          Liste les relations produit-collection manuelle.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/collects/count.json
+          Compte les relations.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/collects/{collect_id}.json
+          Récupère une relation.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/collects.json
+          Ajoute un produit à une collection manuelle.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/collects/{collect_id}.json
+          Retire un produit d'une collection manuelle.
+
+--- CANAUX DE VENTE ---
+[REST HÉRITÉ / CANAL] GET     https://{shop}.myshopify.com/admin/api/2026-07/product_listings.json
+          Liste les produits publiés sur le canal de l'application.
+[REST HÉRITÉ / CANAL] GET     https://{shop}.myshopify.com/admin/api/2026-07/product_listings/product_ids.json
+          Liste leurs IDs.
+[REST HÉRITÉ / CANAL] GET     https://{shop}.myshopify.com/admin/api/2026-07/product_listings/{product_id}.json
+          Récupère une publication produit.
+[REST HÉRITÉ / CANAL] PUT     https://{shop}.myshopify.com/admin/api/2026-07/product_listings/{product_id}.json
+          Publie ou met à jour un produit sur le canal.
+[REST HÉRITÉ / CANAL] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/product_listings/{product_id}.json
+          Retire un produit du canal.
+[REST HÉRITÉ / CANAL] GET     https://{shop}.myshopify.com/admin/api/2026-07/collection_listings.json
+          Liste les collections publiées sur le canal.
+[REST HÉRITÉ / CANAL] GET     https://{shop}.myshopify.com/admin/api/2026-07/collection_listings/product_ids.json
+          Liste les IDs de produits des collections publiées.
+[REST HÉRITÉ / CANAL] GET     https://{shop}.myshopify.com/admin/api/2026-07/collection_listings/{collection_id}.json
+          Récupère une publication de collection.
+[REST HÉRITÉ / CANAL] GET     https://{shop}.myshopify.com/admin/api/2026-07/resource_feedback.json
+          Récupère les retours de validation de ressources.
+[REST HÉRITÉ / CANAL] POST    https://{shop}.myshopify.com/admin/api/2026-07/resource_feedback.json
+          Crée ou met à jour un retour de ressource.
+[REST HÉRITÉ / CANAL] GET     https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/resource_feedback.json
+          Récupère le retour d'un produit.
+[REST HÉRITÉ / CANAL] POST    https://{shop}.myshopify.com/admin/api/2026-07/products/{product_id}/resource_feedback.json
+          Crée un retour de validation produit.
+
+--- EXPÉDITION ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/carrier_services.json
+          Liste les services de transport.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/carrier_services/{carrier_service_id}.json
+          Récupère un service.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/carrier_services.json
+          Crée un service de calcul de tarifs.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/carrier_services/{carrier_service_id}.json
+          Met à jour un service.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/carrier_services/{carrier_service_id}.json
+          Supprime un service.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/countries.json
+          Liste les pays configurés pour taxes/expédition.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/countries/count.json
+          Compte les pays.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/countries/{country_id}.json
+          Récupère un pays.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/countries.json
+          Ajoute un pays.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/countries/{country_id}.json
+          Met à jour un pays.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/countries/{country_id}.json
+          Supprime un pays.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/countries/{country_id}/provinces.json
+          Liste les provinces/régions.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/countries/{country_id}/provinces/count.json
+          Compte les provinces.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/countries/{country_id}/provinces/{province_id}.json
+          Récupère une province.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/countries/{country_id}/provinces/{province_id}.json
+          Met à jour une province et ses taxes.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_services.json
+          Liste les services d'exécution.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_services/{fulfillment_service_id}.json
+          Récupère un service.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_services.json
+          Crée un service d'exécution.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_services/{fulfillment_service_id}.json
+          Met à jour un service.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_services/{fulfillment_service_id}.json
+          Supprime un service.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/assigned_fulfillment_orders.json?assignment_status={status}&location_ids[]={location_id}
+          Liste les ordres assignés à l'application.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/fulfillment_orders.json
+          Liste les ordres d'exécution d'une commande.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}.json
+          Récupère un ordre d'exécution.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/move.json
+          Déplace l'ordre vers un autre emplacement.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/hold.json
+          Met l'ordre en attente.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/release_hold.json
+          Libère l'attente.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/reschedule.json
+          Replanifie l'exécution.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/close.json
+          Ferme l'ordre.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/open.json
+          Rouvre l'ordre lorsque cette action est supportée.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/fulfillment_request.json
+          Envoie une demande d'exécution.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/fulfillment_request/accept.json
+          Accepte la demande.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/fulfillment_request/reject.json
+          Refuse la demande.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/cancellation_request.json
+          Envoie une demande d'annulation.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/cancellation_request/accept.json
+          Accepte l'annulation.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/cancellation_request/reject.json
+          Refuse l'annulation.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/fulfillment_orders/{fulfillment_order_id}/fulfillments.json
+          Liste les exécutions liées à un ordre d'exécution.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillments.json
+          Crée une exécution moderne à partir d'ordres d'exécution.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/fulfillments/{fulfillment_id}.json
+          Récupère une exécution.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/fulfillments/{fulfillment_id}.json
+          Met à jour une exécution.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillments/{fulfillment_id}/cancel.json
+          Annule une exécution.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/fulfillments/{fulfillment_id}/update_tracking.json
+          Met à jour le suivi et peut notifier le client.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/fulfillments/{fulfillment_id}/events.json
+          Liste les événements de suivi.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/fulfillments/{fulfillment_id}/events/{event_id}.json
+          Récupère un événement.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/fulfillments/{fulfillment_id}/events.json
+          Crée un événement de suivi.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/orders/{order_id}/fulfillments/{fulfillment_id}/events/{event_id}.json
+          Supprime un événement.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shipping_zones.json
+          Liste les zones, tarifs et services d'expédition.
+
+--- SHOPIFY PAYMENTS ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/balance.json
+          Récupère les soldes Shopify Payments.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/payouts.json
+          Liste les versements.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/payouts/{payout_id}.json
+          Récupère un versement.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/balance/transactions.json
+          Liste le grand livre des transactions de solde.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/disputes.json
+          Liste les litiges.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/disputes/{dispute_id}.json
+          Récupère un litige.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/disputes/{dispute_id}/dispute_evidences.json
+          Récupère les preuves d'un litige.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/disputes/{dispute_id}/dispute_evidences.json
+          Met à jour ou soumet les preuves.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/shopify_payments/dispute_file_uploads.json
+          Téléverse un fichier de preuve lorsque permis.
+
+--- PARAMÈTRES BOUTIQUE ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shop.json
+          Récupère configuration, domaine, devise, locale et coordonnées.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/currencies.json
+          Liste les devises de présentation activées.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/policies.json
+          Récupère les politiques de la boutique.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/shipping_zones.json
+          Récupère les zones d'expédition.
+
+--- TRANSACTIONS DE PAIEMENT ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/tender_transactions.json
+          Liste les transactions de moyens de paiement.
+
+--- WEBHOOKS ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/webhooks.json
+          Liste les abonnements webhooks créés via REST.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/webhooks/count.json
+          Compte les abonnements.
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/webhooks/{webhook_id}.json
+          Récupère un abonnement.
+[REST HÉRITÉ] POST    https://{shop}.myshopify.com/admin/api/2026-07/webhooks.json
+          Crée un abonnement HTTP à une URL callback.
+[REST HÉRITÉ] PUT     https://{shop}.myshopify.com/admin/api/2026-07/webhooks/{webhook_id}.json
+          Met à jour un abonnement.
+[REST HÉRITÉ] DELETE  https://{shop}.myshopify.com/admin/api/2026-07/webhooks/{webhook_id}.json
+          Supprime un abonnement.
+
+--- DIAGNOSTIC ---
+[REST HÉRITÉ] GET     https://{shop}.myshopify.com/admin/api/2026-07/deprecated_api_calls.json
+          Liste les appels dépréciés détectés pour l'application.
+
+====================================================================================================
+16. SHOPIFY AJAX API — VITRINE HÉBERGÉE PAR SHOPIFY
+====================================================================================================
+[PUBLIC / AJAX] GET     https://{storefront_domain}/{locale}/cart.js
+          Retourne le panier courant en JSON.
+[PUBLIC / AJAX] POST    https://{storefront_domain}/{locale}/cart/add.js
+          Ajoute une ou plusieurs variantes au panier.
+[PUBLIC / AJAX] POST    https://{storefront_domain}/{locale}/cart/change.js
+          Modifie une ligne précise du panier.
+[PUBLIC / AJAX] POST    https://{storefront_domain}/{locale}/cart/update.js
+          Modifie plusieurs lignes, attributs, note ou code de réduction du panier.
+[PUBLIC / AJAX] POST    https://{storefront_domain}/{locale}/cart/clear.js
+          Vide le panier.
+[PUBLIC / AJAX] GET     https://{storefront_domain}/{locale}/products/{product_handle}.js
+          Retourne un produit publié en JSON.
+[PUBLIC / AJAX] GET     https://{storefront_domain}/{locale}/recommendations/products.json?product_id={product_id}&limit={limit}&intent={related|complementary}
+          Retourne des recommandations de produits en JSON.
+[PUBLIC / AJAX] GET     https://{storefront_domain}/{locale}/recommendations/products?product_id={product_id}&section_id={section_id}&limit={limit}&intent={related|complementary}
+          Retourne le HTML rendu d'une section de recommandations.
+[PUBLIC / AJAX] GET     https://{storefront_domain}/{locale}/search/suggest.json?q={query}&resources[type]={types}&resources[limit]={limit}
+          Retourne les résultats de recherche prédictive en JSON.
+[PUBLIC / AJAX] GET     https://{storefront_domain}/{locale}/search/suggest?q={query}&resources[type]={types}&section_id={section_id}
+          Retourne une section HTML de recherche prédictive.
+
+Limite : l'Ajax API sert surtout au thème et au panier. Elle ne remplace pas l'Admin API et ne
+permet pas d'administrer directement les commandes, clients, paramètres ou inventaires privés.
+
+====================================================================================================
+17. URLS DE BOUTIQUE SPÉCIALES UTILES À UNE INTÉGRATION
+====================================================================================================
+[SHOPIFY PLUS] GET     https://{storefront_domain}/account/login/multipass/{multipass_token}
+          Connecte un client via Multipass; fonctionnalité Shopify Plus et non une API Admin générale.
+[APP PROXY] GET/POST https://{storefront_domain}/apps/{app_proxy_subpath}
+          Route App Proxy publique de la boutique; Shopify transmet la requête à l'URL de l'application configurée.
+[VOTRE SERVEUR] POST    {callback_url}
+          Destination appartenant à votre application qui reçoit les événements webhook signés par Shopify; ce n'est pas une URL Shopify.
+[VOTRE SERVEUR] POST    {carrier_service_callback_url}
+          Destination appartenant au transporteur/app qui reçoit une demande de tarifs et renvoie les tarifs calculés.
+[VOTRE SERVEUR] POST    {fulfillment_service_callback_url}
+          Destination de service d'exécution appelée selon l'intégration et le flux configuré.
+
+====================================================================================================
+18. WEBHOOKS — SUJETS MAJEURS À ABONNER VIA GRAPHQL OU REST
+====================================================================================================
+Les sujets ne sont pas des URL différentes. Ils sont associés à une URL callback lors de la création
+de l'abonnement. Exemples de sujets documentés et utiles à la gestion automatisée :
+- app/uninstalled
+- app/scopes_update
+- carts/create
+- carts/update
+- checkouts/create
+- checkouts/update
+- checkouts/delete
+- collections/create
+- collections/update
+- collections/delete
+- products/create
+- products/update
+- products/delete
+- variants/in_stock
+- variants/out_of_stock
+- inventory_items/create
+- inventory_items/update
+- inventory_items/delete
+- inventory_levels/connect
+- inventory_levels/update
+- inventory_levels/disconnect
+- locations/create
+- locations/update
+- locations/delete
+- locations/activate
+- locations/deactivate
+- customers/create
+- customers/update
+- customers/delete
+- customers/enable
+- customers/disable
+- customers_marketing_consent/update
+- customers_email_marketing_consent/update
+- customer.tags_added
+- customer.tags_removed
+- customer.joined_segment
+- customer.left_segment
+- segments/create
+- segments/update
+- segments/delete
+- orders/create
+- orders/updated
+- orders/paid
+- orders/cancelled
+- orders/fulfilled
+- orders/partially_fulfilled
+- orders/edited
+- orders/delete
+- orders/risk_assessment_changed
+- order_transactions/create
+- refunds/create
+- draft_orders/create
+- draft_orders/update
+- draft_orders/delete
+- fulfillments/create
+- fulfillments/update
+- fulfillment_events/create
+- fulfillment_events/delete
+- fulfillment_orders/moved
+- fulfillment_orders/placed_on_hold
+- fulfillment_orders/hold_released
+- fulfillment_orders/rescheduled
+- fulfillment_orders/cancelled
+- fulfillment_orders/fulfillment_request_submitted
+- fulfillment_orders/fulfillment_request_accepted
+- fulfillment_orders/fulfillment_request_rejected
+- fulfillment_orders/cancellation_request_submitted
+- fulfillment_orders/cancellation_request_accepted
+- fulfillment_orders/cancellation_request_rejected
+- returns/request
+- returns/approve
+- returns/decline
+- returns/update
+- returns/process
+- returns/cancel
+- returns/close
+- returns/reopen
+- reverse_fulfillment_orders/dispose
+- disputes/create
+- disputes/update
+- tender_transactions/create
+- themes/create
+- themes/update
+- themes/publish
+- themes/delete
+- shop/update
+- markets/create
+- markets/update
+- markets/delete
+- companies/create
+- companies/update
+- companies/delete
+- company_locations/create
+- company_locations/update
+- company_locations/delete
+- company_contacts/create
+- company_contacts/update
+- company_contacts/delete
+- metafield_definitions/create
+- metafield_definitions/update
+- metafield_definitions/delete
+- bulk_operations/finish
+- app_subscriptions/update
+- app_subscriptions/approaching_capped_amount
+- app_purchases_one_time/update
+- shop/redact
+- customers/redact
+- customers/data_request
+
+====================================================================================================
+19. NOTES D'IMPLÉMENTATION POUR LE PROJET SHOPIFY AI COMMERCE ORCHESTRATOR
+====================================================================================================
+- Utiliser ADMIN GRAPHQL 2026-07 comme voie principale.
+- Conserver REST uniquement derrière un adaptateur de compatibilité pour les ressources encore nécessaires.
+- Ne jamais stocker le jeton Admin, le secret webhook ou les clés fournisseur dans le code ou dans ce fichier.
+- Valider les scopes à la connexion avec /admin/oauth/access_scopes.json et avec les capacités GraphQL.
+- Utiliser les webhooks pour commandes payées, remboursements, inventaire, exécution et suivi plutôt que
+  de faire uniquement du polling.
+- Pour le flux fournisseur Alibaba prévu : ne passer la commande fournisseur qu'après confirmation
+  vérifiée du paiement Shopify; conserver l'adresse client de façon sécurisée; transmettre le suivi
+  à Shopify dès qu'il est disponible; appliquer le pourcentage de profit configuré dans .env.
+- Pour les opérations volumineuses, utiliser bulkOperationRunQuery et bulkOperationRunMutation.
+- Pour les thèmes, préférer themeFilesUpsert/themeFilesDelete à l'ancien Asset REST lorsque disponible.
+- Pour les produits, utiliser productSet et les mutations bulk de variantes plutôt que Product REST.
+
+====================================================================================================
+20. SOURCES OFFICIELLES SHOPIFY CONSULTÉES
+====================================================================================================
+- https://shopify.dev/docs/api/admin-graphql/2026-07
+- https://shopify.dev/docs/api/admin-rest
+- https://shopify.dev/docs/api/storefront/2026-07
+- https://shopify.dev/docs/api/customer/2026-07
+- https://shopify.dev/docs/api/webhooks/2026-07
+- https://shopify.dev/docs/apps/build/authentication-authorization
+- https://shopify.dev/docs/storefronts/headless/building-with-the-customer-account-api/authenticate-customers
+- https://shopify.dev/docs/api/usage/versioning
+- https://github.com/Shopify/shopify-api-ruby
+
+FIN DU CATALOGUE
+Ce fichier est conçu comme inventaire de travail. Avant d'exécuter une commande destructive,
+vérifier le scope, la version, l'identifiant, l'environnement de test et les userErrors GraphQL.
