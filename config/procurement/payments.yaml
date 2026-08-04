@@ -1,0 +1,3 @@
+manual_approval_required: true
+maximum_batch_cad: 1000
+reconcile_after_seconds: 60

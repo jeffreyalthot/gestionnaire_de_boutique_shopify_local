@@ -1,0 +1,4 @@
+max_attempts: 8
+base_retry_seconds: 5
+maximum_retry_seconds: 3600
+dead_letter_after_attempts: 8

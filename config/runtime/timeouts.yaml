@@ -1,0 +1,4 @@
+shopify_seconds: 30
+alibaba_seconds: 30
+media_download_seconds: 20
+worker_lease_seconds: 120

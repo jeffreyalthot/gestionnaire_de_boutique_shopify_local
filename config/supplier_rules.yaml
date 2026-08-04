@@ -1,0 +1,4 @@
+suppliers:
+  require_verified_company: true
+  minimum_score: 0.70
+  maximum_dispute_rate: 0.10

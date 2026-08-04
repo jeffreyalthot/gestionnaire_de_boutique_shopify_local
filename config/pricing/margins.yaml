@@ -1,0 +1,4 @@
+target_gross_margin_percent: 50
+minimum_gross_margin_percent: 40
+refund_reserve_percent: 2
+currency_buffer_percent: 2

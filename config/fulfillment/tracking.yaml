@@ -1,0 +1,5 @@
+poll_interval_seconds: 300
+late_dispatch_hours: 72
+stalled_transit_hours: 120
+notify_customer: true
+deduplicate_events: true

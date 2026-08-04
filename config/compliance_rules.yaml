@@ -1,0 +1,4 @@
+compliance:
+  block_counterfeit_indicators: true
+  block_dangerous_goods: true
+  preserve_audit_log: true

@@ -1,0 +1,4 @@
+title_max_length: 70
+description_max_length: 320
+handle_max_length: 255
+require_unique_title: true

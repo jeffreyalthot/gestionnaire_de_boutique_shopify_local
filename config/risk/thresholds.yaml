@@ -1,0 +1,6 @@
+review: 0.35
+hold: 0.50
+block: 0.80
+velocity:
+  order_limit_per_hour: 3
+  customer_amount_limit_cad: 1000

@@ -1,0 +1,3 @@
+default_country: CA
+default_currency: CAD
+enabled_locales: [fr-CA, en-CA]

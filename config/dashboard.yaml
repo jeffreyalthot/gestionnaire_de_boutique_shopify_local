@@ -1,0 +1,3 @@
+dashboard:
+  refresh_seconds: 5
+  panels: [runtime, api_health, orders, procurement, inventory, finance, ai, alerts]

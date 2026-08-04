@@ -1,0 +1,3 @@
+z_score_threshold: 3.0
+minimum_samples: 20
+lookback_days: 30

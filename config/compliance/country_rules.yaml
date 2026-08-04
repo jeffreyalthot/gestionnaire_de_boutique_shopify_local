@@ -1,0 +1,3 @@
+default_market: CA
+restricted_destinations: []
+require_customs_data: true

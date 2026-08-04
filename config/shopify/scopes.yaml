@@ -1,0 +1,2 @@
+read: [read_products, read_orders, read_inventory, read_fulfillments, read_customers]
+write: [write_products, write_inventory, write_fulfillments, write_returns]

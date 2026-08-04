@@ -1,0 +1,3 @@
+prefer_tracked_shipping: true
+max_delivery_days: 45
+minimum_carrier_score: 0.70

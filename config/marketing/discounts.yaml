@@ -1,0 +1,4 @@
+minimum_margin_percent: 40
+maximum_storewide_discount_percent: 20
+approval_required_above_percent: 10
+prevent_discount_stacking: true

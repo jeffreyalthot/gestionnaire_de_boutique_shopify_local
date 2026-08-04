@@ -1,0 +1,4 @@
+mode: catalog_research
+dry_run: true
+workers: 1
+media_cache_mb: 128

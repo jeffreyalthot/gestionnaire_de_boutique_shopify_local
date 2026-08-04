@@ -1,0 +1,5 @@
+accounting:
+  currency: CAD
+  double_entry: true
+  recognize_revenue_on_paid: true
+  recognize_cost_on_supplier_payment: true

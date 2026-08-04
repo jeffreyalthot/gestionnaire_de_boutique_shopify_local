@@ -1,0 +1,5 @@
+automatic_launch: false
+maximum_campaign_budget_cad: 250
+minimum_campaign_duration_minutes: 30
+require_margin_guard: true
+require_marketing_consent: true

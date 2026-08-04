@@ -1,0 +1,4 @@
+approval_required: true
+minimum_media_count: 1
+minimum_quality_score: 0.68
+channels: [online_store]

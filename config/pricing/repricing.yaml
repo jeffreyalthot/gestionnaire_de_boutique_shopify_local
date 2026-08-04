@@ -1,0 +1,3 @@
+interval_seconds: 900
+maximum_change_percent: 15
+require_approval_above_percent: 10

@@ -1,0 +1,4 @@
+risk:
+  maximum_automatic_order_cad: 1000
+  hold_high_risk_shopify_orders: true
+  reject_address_mismatch: true

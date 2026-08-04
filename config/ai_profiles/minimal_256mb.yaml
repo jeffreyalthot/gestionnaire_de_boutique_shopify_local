@@ -1,0 +1,5 @@
+profile:
+  max_ram_mb: 256
+  worker_threads: 1
+  sparse_features: true
+  micro_llm: false

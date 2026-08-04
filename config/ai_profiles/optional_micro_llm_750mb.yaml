@@ -1,0 +1,6 @@
+profile:
+  max_ram_mb: 750
+  worker_threads: 1
+  sparse_features: true
+  micro_llm: true
+  unload_after_inference: true

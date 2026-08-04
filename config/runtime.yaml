@@ -1,0 +1,6 @@
+runtime:
+  event_driven: true
+  reconciliation: true
+  graceful_shutdown_seconds: 30
+  task_lease_seconds: 120
+  dead_letter_after_attempts: 8

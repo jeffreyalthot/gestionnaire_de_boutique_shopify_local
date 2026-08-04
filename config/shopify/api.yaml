@@ -1,0 +1,7 @@
+transport: graphql
+api_version: 2026-07
+rest_compatibility: false
+max_retries: 5
+request_timeout_seconds: 30
+max_concurrency: 2
+bulk_jsonl_streaming: true

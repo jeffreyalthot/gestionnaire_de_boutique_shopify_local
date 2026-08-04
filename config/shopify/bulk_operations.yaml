@@ -1,0 +1,4 @@
+maximum_active_queries: 1
+maximum_active_mutations: 1
+jsonl_streaming: true
+poll_seconds: 5

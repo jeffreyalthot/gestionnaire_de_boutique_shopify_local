@@ -1,0 +1,6 @@
+pricing:
+  mode: gross_margin
+  target_percent: 50
+  minimum_percent: 40
+  include_shipping: true
+  include_platform_fees: true

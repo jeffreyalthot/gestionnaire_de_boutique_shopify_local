@@ -1,0 +1,5 @@
+refund_percent: 2
+chargeback_percent: 1
+duty_tax_percent: 5
+currency_percent: 2
+supplier_payment_exposure_cad: 1000

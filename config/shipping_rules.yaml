@@ -1,0 +1,4 @@
+shipping:
+  refresh_quote_before_purchase: true
+  maximum_quote_age_minutes: 30
+  prefer_trackable_services: true

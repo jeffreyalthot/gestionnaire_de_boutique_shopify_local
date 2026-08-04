@@ -1,0 +1,2 @@
+currency: CAD
+accounts: [cash, revenue, cogs, shipping, fees, refunds, chargebacks, taxes, supplier_payable]

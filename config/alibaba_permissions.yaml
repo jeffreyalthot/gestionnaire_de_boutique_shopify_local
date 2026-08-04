@@ -1,0 +1,7 @@
+required_capabilities:
+  products: alibaba.dropshipping.product.get
+  stock: alibaba.icbu.product.sku.inventory.get
+  freight: alibaba.order.freight.calculate
+  create_order: alibaba.buynow.order.create
+  pay_order: alibaba.dropshipping.order.pay
+  tracking: alibaba.order.logistics.tracking.get

@@ -1,0 +1,8 @@
+batch_threshold_cad: 500
+max_age_minutes: 240
+max_orders: 100
+max_suppliers: 20
+recheck_stock: true
+recheck_price: true
+recheck_freight: true
+manual_payment_approval: true

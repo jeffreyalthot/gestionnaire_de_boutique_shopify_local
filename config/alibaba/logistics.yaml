@@ -1,0 +1,4 @@
+timeouts_seconds: 30
+tracking_poll_seconds: 300
+quote_cache_seconds: 900
+max_shipping_days: 45

@@ -1,0 +1,15 @@
+profile: minimal_2gb
+runtime:
+  max_rss_mb: 650
+  max_cpu_percent: 65
+  workers: 1
+  http_concurrency: 1
+  heavy_operations_per_cycle: 1
+  queue_limit: 2500
+  media_cache_mb: 128
+terminal:
+  fixed_rows: 30
+  pages: 8
+  refresh_seconds: 5
+ai:
+  enabled: false

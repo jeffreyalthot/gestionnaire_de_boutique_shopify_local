@@ -1,0 +1,11 @@
+block_on:
+  - counterfeit_risk
+  - restricted_product
+  - sanctions_match
+  - dangerous_goods_without_transport_support
+  - missing_media_rights
+quarantine_on:
+  - medical_claim
+  - electrical_safety_unknown
+  - battery_shipping_unknown
+  - trademark_authorization_unknown

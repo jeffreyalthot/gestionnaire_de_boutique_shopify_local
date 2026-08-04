@@ -1,0 +1,4 @@
+retention:
+  customer_address_days: 90
+  api_payload_days: 30
+  audit_days: 2555

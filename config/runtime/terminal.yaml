@@ -1,0 +1,8 @@
+alternate_screen: true
+single_output_owner: true
+fixed_rows: 30
+event_ring_rows: 6
+pages: [executive, catalog, orders, fulfillment, finance, marketing, compliance, system]
+refresh_seconds: 5
+ascii_fallback: true
+no_worker_stdout: true

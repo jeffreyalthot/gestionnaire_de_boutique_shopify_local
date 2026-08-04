@@ -1,0 +1,3 @@
+required_read: [product, supplier, logistics, order]
+required_write: [order_create]
+optional: [payment]

@@ -1,0 +1,5 @@
+logging:
+  format: json
+  rotation_mb: 20
+  retained_files: 10
+  redact_secrets: true

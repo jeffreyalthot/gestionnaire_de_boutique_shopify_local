@@ -1,0 +1,4 @@
+require_stock_recheck: true
+require_price_recheck: true
+require_freight_recheck: true
+max_lines_per_order: 50

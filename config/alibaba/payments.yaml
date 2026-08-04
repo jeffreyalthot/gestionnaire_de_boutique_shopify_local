@@ -1,0 +1,4 @@
+mode: authorized_api
+manual_approval_required: true
+maximum_single_payment_cad: 1000
+idempotency_required: true

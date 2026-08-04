@@ -1,0 +1,4 @@
+minimum_title_length: 12
+minimum_description_length: 80
+minimum_image_dimension: 400
+reject_duplicate_images: true

@@ -1,0 +1,16 @@
+profile: lite_2gb
+runtime:
+  max_rss_mb: 850
+  max_cpu_percent: 75
+  workers: 2
+  http_concurrency: 2
+  heavy_operations_per_cycle: 1
+  queue_limit: 5000
+  media_cache_mb: 256
+terminal:
+  fixed_rows: 30
+  pages: 8
+  refresh_seconds: 5
+ai:
+  enabled: false
+  optional_limit_mb: 750

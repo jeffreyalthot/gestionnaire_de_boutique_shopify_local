@@ -1,0 +1,4 @@
+batching:
+  threshold_cad: 500
+  maximum_age_minutes: 240
+  split_by_supplier: true

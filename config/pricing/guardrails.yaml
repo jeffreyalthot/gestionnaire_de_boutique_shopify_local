@@ -1,0 +1,6 @@
+mode: gross_margin
+target_margin_percent: 50
+minimum_margin_percent: 40
+currency_buffer_percent: 2
+refund_reserve_percent: 2
+duty_tax_buffer_percent: 5

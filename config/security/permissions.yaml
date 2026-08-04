@@ -1,0 +1,5 @@
+roles:
+  viewer: [status, catalog-review, order-review, finance-review]
+  operator: [status, catalog-review, order-review, finance-review, catalog-sync, inventory-sync, tracking-sync]
+  administrator: ['*']
+sensitive_actions_require_explicit_approval: true

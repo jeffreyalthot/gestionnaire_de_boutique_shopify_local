@@ -1,0 +1,4 @@
+journal_mode: WAL
+synchronous: NORMAL
+busy_timeout_ms: 5000
+cache_size_kib: 32768

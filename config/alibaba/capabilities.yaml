@@ -1,0 +1,13 @@
+read:
+  - product_search
+  - product_detail
+  - supplier_profile
+  - inventory
+  - freight_quote
+  - tracking
+write:
+  - order_create
+  - shipping_submit
+financial:
+  - order_payment
+manual_approval_required: true

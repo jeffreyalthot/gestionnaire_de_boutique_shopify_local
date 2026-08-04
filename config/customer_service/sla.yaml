@@ -1,0 +1,4 @@
+default_hours: 24
+urgent_hours: 4
+chargeback_hours: 2
+automatic_refund_limit_cad: 0

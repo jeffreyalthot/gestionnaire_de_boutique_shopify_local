@@ -1,0 +1,4 @@
+mode: fulfillment_only
+dry_run: false
+workers: 1
+financial_mutations: false

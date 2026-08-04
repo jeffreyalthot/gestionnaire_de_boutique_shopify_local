@@ -1,0 +1,4 @@
+maximum_pending_tasks: 5000
+lease_seconds: 30
+claim_batch_size: 1
+backpressure_ratio: 0.85

@@ -1,0 +1,7 @@
+max_download_bytes: 12582912
+minimum_dimension: 400
+maximum_dimension: 10000
+allowed_content_types: [image/jpeg, image/png, image/webp, image/gif]
+rights_evidence_required: true
+sha256_deduplication: true
+strip_metadata: true

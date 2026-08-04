@@ -1,0 +1,4 @@
+memory_cache_mb: 32
+media_cache_mb: 256
+api_cache_mb: 32
+default_ttl_seconds: 300

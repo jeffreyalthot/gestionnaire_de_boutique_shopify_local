@@ -1,0 +1,19 @@
+enabled: true
+cycle_interval_seconds: 60
+max_operations_per_cycle: 20
+max_heavy_operations_per_cycle: 1
+queues:
+  - webhooks
+  - orders
+  - procurement
+  - payments
+  - fulfillment
+  - inventory
+  - pricing
+  - catalog
+  - media
+  - customer_service
+  - returns
+  - finance
+  - compliance
+  - maintenance

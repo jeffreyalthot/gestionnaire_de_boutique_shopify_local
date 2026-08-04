@@ -1,0 +1,5 @@
+selection:
+  minimum_supplier_score: 0.70
+  minimum_stock: 10
+  maximum_processing_days: 14
+  reject_restricted_products: true

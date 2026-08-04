@@ -1,0 +1,3 @@
+default_locale: fr-CA
+fallback_locale: en-CA
+templates: [order_status, shipping_delay, refund_received, return_instructions]

@@ -1,0 +1,4 @@
+supplier_purchase_cad: 1000
+marketing_daily_cad: 100
+refund_reserve_percent: 2
+chargeback_reserve_percent: 1

@@ -1,0 +1,4 @@
+late_after_days: 3
+lost_after_days: 45
+auto_notify_customer: true
+escalate_value_cad: 250

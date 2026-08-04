@@ -1,0 +1,12 @@
+profile: live_2gb
+runtime:
+  max_rss_mb: 850
+  max_cpu_percent: 75
+  workers: 2
+  http_concurrency: 2
+  heavy_operations_per_cycle: 1
+safety:
+  explicit_financial_approval: true
+  automatic_approvals: false
+  maximum_live_financial_amount_cad: 1000
+  payment_card_storage_forbidden: true

@@ -1,0 +1,5 @@
+default_safety_stock: 1
+allow_backorder: false
+allow_preorder: false
+stale_after_seconds: 900
+reservation_lease_seconds: 600

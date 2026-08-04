@@ -1,0 +1,9 @@
+profile: lite_2gb
+max_rss_mb: 850
+max_cpu_percent: 75
+worker_threads: 2
+max_http_concurrency: 2
+max_pending_tasks: 5000
+max_heavy_operations_per_cycle: 1
+media_cache_mb: 256
+sqlite_cache_kb: 8192

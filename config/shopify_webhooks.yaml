@@ -1,0 +1,13 @@
+topics:
+  - orders/create
+  - orders/updated
+  - orders/paid
+  - orders/cancelled
+  - orders/fulfilled
+  - refunds/create
+  - products/update
+  - products/delete
+  - inventory_levels/update
+  - fulfillments/update
+  - app/uninstalled
+  - app/scopes_update
