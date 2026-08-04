@@ -1,0 +1,23 @@
+{
+  "id": "gid://shopify/Order/1",
+  "name": "#1001",
+  "displayFinancialStatus": "PAID",
+  "displayFulfillmentStatus": "UNFULFILLED",
+  "currentTotalPriceSet": {
+    "shopMoney": {
+      "amount": "100.00",
+      "currencyCode": "CAD"
+    }
+  },
+  "shippingAddress": {
+    "firstName": "Test",
+    "lastName": "Client",
+    "address1": "1 rue Test",
+    "city": "Montréal",
+    "countryCodeV2": "CA",
+    "zip": "H1H1H1"
+  },
+  "lineItems": {
+    "nodes": []
+  }
+}
