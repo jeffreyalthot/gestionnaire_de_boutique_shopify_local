@@ -1,0 +1,4 @@
+name: dropshipping
+methods: [product.search, product.get, order.create, logistics.get]
+mutations: [order.create]
+payment_enabled: false

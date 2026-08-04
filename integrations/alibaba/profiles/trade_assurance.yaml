@@ -1,0 +1,4 @@
+name: trade_assurance
+methods: [product.search, product.get, supplier.get, trade_assurance.order.create, payment.status]
+mutations: [trade_assurance.order.create]
+payment_enabled: true

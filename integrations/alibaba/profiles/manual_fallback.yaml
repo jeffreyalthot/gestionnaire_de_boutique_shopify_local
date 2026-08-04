@@ -1,0 +1,4 @@
+name: manual_fallback
+methods: [product.search, product.get, supplier.get]
+mutations: []
+payment_enabled: false

@@ -1,0 +1,4 @@
+name: icbu_distribution
+methods: [product.search, product.get, supplier.get, order.create, logistics.get]
+mutations: [order.create]
+payment_enabled: false
