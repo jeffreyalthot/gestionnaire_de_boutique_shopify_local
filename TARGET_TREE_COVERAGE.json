@@ -1,0 +1,11 @@
+{
+  "reference_version": "2.4.0",
+  "target_version": "2.5.0",
+  "reference_files": 2171,
+  "preserved_reference_files": 2171,
+  "missing_reference_files": 0,
+  "coverage_percent": 100.0,
+  "status": "complete",
+  "new_files_beyond_reference": 16,
+  "note": "Tous les chemins présents dans la distribution 2.4.0 sont présents dans la version 2.5.0."
+}

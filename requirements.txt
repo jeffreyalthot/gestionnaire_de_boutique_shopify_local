@@ -1,0 +1,9 @@
+httpx>=0.28,<1
+pydantic>=2.10,<3
+pydantic-settings>=2.7,<3
+fastapi>=0.115,<1
+uvicorn[standard]>=0.34,<1
+rich>=13.9,<15
+psutil>=6.1,<8
+cryptography>=44,<47
+python-dotenv>=1.0,<2

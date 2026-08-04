@@ -1,0 +1,2459 @@
+LÉGENDE DES STATUTS DE DÉVELOPPEMENT
+✅ COMPLET — implémentation substantielle et syntaxe valide
+🧪 TEST — fichier de test exécutable
+🛠 DÉVELOPPÉ — logique réelle présente, approfondissement encore possible
+🔗 INTÉGRATION — contrat/connecteur/configuration relié au runtime
+📚 DOCUMENTATION — documentation ou procédure opérationnelle
+📦 ARTEFACT — paquet généré ou fichier de distribution
+📁 DONNÉES — répertoire de données, cache ou fichier sentinelle
+⚠ À APPROFONDIR — fichier très court ou contenant une implémentation minimale
+❌ ERREUR — syntaxe invalide ou fichier illisible
+
+RACINE: shopify_alibaba_ai_orchestrator-2.5.0
+FICHIERS: 2187
+
+├── ai/
+│   ├── agents/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── accounting_agent.py  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   │   ├── anomaly_agent.py  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   │   ├── base_agent.py  ✅ COMPLET | code=147 lignes=166
+│   │   ├── compliance_agent.py  🛠 DÉVELOPPÉ | code=14 lignes=18
+│   │   ├── customer_service_agent.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   │   ├── demand_agent.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   │   ├── inventory_agent.py  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   │   ├── order_risk_agent.py  🛠 DÉVELOPPÉ | code=11 lignes=15
+│   │   ├── pricing_agent.py  ✅ COMPLET | code=35 lignes=46
+│   │   ├── procurement_agent.py  🛠 DÉVELOPPÉ | code=10 lignes=14
+│   │   ├── product_quality_agent.py  🛠 DÉVELOPPÉ | code=10 lignes=14
+│   │   ├── product_scout_agent.py  🛠 DÉVELOPPÉ | code=10 lignes=14
+│   │   ├── shipping_agent.py  🛠 DÉVELOPPÉ | code=10 lignes=14
+│   │   ├── supervisor_agent.py  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   │   └── supplier_risk_agent.py  🛠 DÉVELOPPÉ | code=10 lignes=14
+│   ├── features/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── base.py  ✅ COMPLET | code=43 lignes=56
+│   │   ├── customer_features.py  🛠 DÉVELOPPÉ | code=19 lignes=22
+│   │   ├── feature_store.py  ✅ COMPLET | code=142 lignes=165
+│   │   ├── order_features.py  🛠 DÉVELOPPÉ | code=23 lignes=26
+│   │   ├── pricing_features.py  🛠 DÉVELOPPÉ | code=16 lignes=19
+│   │   ├── product_features.py  🛠 DÉVELOPPÉ | code=20 lignes=23
+│   │   ├── shipping_features.py  🛠 DÉVELOPPÉ | code=17 lignes=20
+│   │   └── supplier_features.py  🛠 DÉVELOPPÉ | code=18 lignes=21
+│   ├── language/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── customer_reply_generator.py  ✅ COMPLET | code=55 lignes=67
+│   │   ├── optional_llama_cpp_adapter.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── product_copy_generator.py  🛠 DÉVELOPPÉ | code=31 lignes=38
+│   │   ├── template_engine.py  ✅ COMPLET | code=89 lignes=106
+│   │   ├── text_sanitizer.py  ✅ COMPLET | code=46 lignes=58
+│   │   └── translation_adapter.py  ✅ COMPLET | code=91 lignes=107
+│   ├── memory/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── decision_history.py  ✅ COMPLET | code=48 lignes=58
+│   │   ├── error_memory.py  ✅ COMPLET | code=54 lignes=63
+│   │   ├── long_term_memory.py  ✅ COMPLET | code=102 lignes=121
+│   │   ├── product_memory.py  🛠 DÉVELOPPÉ | code=27 lignes=36
+│   │   ├── short_term_memory.py  ✅ COMPLET | code=67 lignes=76
+│   │   └── supplier_memory.py  🛠 DÉVELOPPÉ | code=27 lignes=36
+│   ├── model_files/
+│   │   ├── active/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   ├── checkpoints/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   ├── rollback/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   └── README.md  📚 DOCUMENTATION | code=3 lignes=3
+│   ├── models/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── anomaly_detector.py  ✅ COMPLET | code=73 lignes=87
+│   │   ├── contextual_bandit.py  ✅ COMPLET | code=77 lignes=90
+│   │   ├── conversion_predictor.py  🛠 DÉVELOPPÉ | code=11 lignes=12
+│   │   ├── demand_forecaster.py  🛠 DÉVELOPPÉ | code=17 lignes=18
+│   │   ├── model_result.py  ✅ COMPLET | code=44 lignes=53
+│   │   ├── online_classifier.py  ✅ COMPLET | code=79 lignes=86
+│   │   ├── online_regressor.py  ✅ COMPLET | code=43 lignes=48
+│   │   ├── product_ranker.py  🛠 DÉVELOPPÉ | code=20 lignes=24
+│   │   ├── return_probability_model.py  🛠 DÉVELOPPÉ | code=13 lignes=14
+│   │   ├── shipping_delay_model.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── supplier_risk_model.py  🛠 DÉVELOPPÉ | code=20 lignes=23
+│   │   └── text_category_model.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   ├── policies/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── autonomy_policy.py  🛠 DÉVELOPPÉ | code=28 lignes=37
+│   │   ├── confidence_policy.py  🛠 DÉVELOPPÉ | code=20 lignes=23
+│   │   ├── financial_action_policy.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   ├── human_approval_policy.py  🛠 DÉVELOPPÉ | code=24 lignes=28
+│   │   └── safe_action_policy.py  🛠 DÉVELOPPÉ | code=28 lignes=32
+│   ├── runtime/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── ai_runtime.py  ✅ COMPLET | code=89 lignes=99
+│   │   ├── cpu_budget.py  🛠 DÉVELOPPÉ | code=30 lignes=40
+│   │   ├── fallback_engine.py  🛠 DÉVELOPPÉ | code=32 lignes=40
+│   │   ├── inference_scheduler.py  ✅ COMPLET | code=46 lignes=54
+│   │   ├── memory_budget.py  🛠 DÉVELOPPÉ | code=19 lignes=21
+│   │   ├── model_loader.py  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   │   ├── model_registry.py  ✅ COMPLET | code=43 lignes=55
+│   │   ├── model_unloader.py  ✅ COMPLET | code=48 lignes=58
+│   │   └── resource_guard.py  ✅ COMPLET | code=49 lignes=58
+│   ├── training/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── checkpoint_manager.py  ✅ COMPLET | code=112 lignes=127
+│   │   ├── drift_detector.py  ✅ COMPLET | code=52 lignes=62
+│   │   ├── evaluation.py  ✅ COMPLET | code=60 lignes=67
+│   │   ├── feedback_collector.py  ✅ COMPLET | code=49 lignes=59
+│   │   ├── online_trainer.py  ✅ COMPLET | code=48 lignes=59
+│   │   └── rollback_manager.py  ✅ COMPLET | code=39 lignes=48
+│   └── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+├── analytics/
+│   ├── anomaly/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── base.py  ✅ COMPLET | code=48 lignes=57
+│   │   ├── cashflow_anomaly.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── conversion_anomaly.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── inventory_anomaly.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── order_anomaly.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── price_anomaly.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── refund_anomaly.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── shipping_anomaly.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   └── supplier_anomaly.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── attribution/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── campaign_attribution.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   ├── channel_attribution.py  🛠 DÉVELOPPÉ | code=30 lignes=33
+│   │   └── order_attribution.py  🛠 DÉVELOPPÉ | code=10 lignes=15
+│   ├── cohorts/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── customer_cohort.py  🛠 DÉVELOPPÉ | code=16 lignes=19
+│   │   ├── product_cohort.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   │   └── supplier_cohort.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   ├── forecasting/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=14 lignes=18
+│   │   ├── demand_forecast.py  🛠 DÉVELOPPÉ | code=8 lignes=12
+│   │   ├── inventory_forecast.py  🛠 DÉVELOPPÉ | code=8 lignes=12
+│   │   ├── profit_forecast.py  🛠 DÉVELOPPÉ | code=8 lignes=12
+│   │   ├── revenue_forecast.py  🛠 DÉVELOPPÉ | code=8 lignes=12
+│   │   └── shipping_forecast.py  🛠 DÉVELOPPÉ | code=8 lignes=12
+│   ├── scorecards/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── base.py  ✅ COMPLET | code=39 lignes=48
+│   │   ├── catalog_scorecard.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   ├── product_scorecard.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   ├── store_scorecard.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   ├── supplier_scorecard.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   └── workflow_scorecard.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── collector.py  🛠 DÉVELOPPÉ | code=30 lignes=37
+│   ├── event_facts.py  🛠 DÉVELOPPÉ | code=14 lignes=18
+│   ├── forecasting.py  ✅ COMPLET | code=37 lignes=46
+│   ├── forecasting_core.py  ✅ COMPLET | code=41 lignes=50
+│   ├── kpi_registry.py  🛠 DÉVELOPPÉ | code=17 lignes=24
+│   ├── metric_dimensions.py  🛠 DÉVELOPPÉ | code=16 lignes=21
+│   └── snapshot_store.py  🛠 DÉVELOPPÉ | code=15 lignes=21
+├── api/
+│   ├── middleware/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── body_size_limit.py  🛠 DÉVELOPPÉ | code=28 lignes=34
+│   │   ├── exception_guard.py  🛠 DÉVELOPPÉ | code=26 lignes=31
+│   │   ├── rate_limiter.py  ✅ COMPLET | code=72 lignes=81
+│   │   ├── request_id.py  🛠 DÉVELOPPÉ | code=13 lignes=18
+│   │   ├── request_logging.py  🛠 DÉVELOPPÉ | code=25 lignes=31
+│   │   └── security_headers.py  🛠 DÉVELOPPÉ | code=23 lignes=27
+│   ├── routes/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── alibaba_oauth.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── analytics.py  🛠 DÉVELOPPÉ | code=24 lignes=30
+│   │   ├── automation.py  🛠 DÉVELOPPÉ | code=34 lignes=44
+│   │   ├── configuration.py  🛠 DÉVELOPPÉ | code=19 lignes=24
+│   │   ├── dashboard_data.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── exceptions.py  🛠 DÉVELOPPÉ | code=14 lignes=21
+│   │   ├── health.py  🛠 DÉVELOPPÉ | code=21 lignes=28
+│   │   ├── manual_approvals.py  🛠 DÉVELOPPÉ | code=17 lignes=17
+│   │   ├── metrics.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── queues.py  🛠 DÉVELOPPÉ | code=14 lignes=15
+│   │   ├── reports.py  🛠 DÉVELOPPÉ | code=18 lignes=19
+│   │   ├── runtime.py  🛠 DÉVELOPPÉ | code=14 lignes=15
+│   │   ├── shopify_carrier_rates.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── shopify_oauth.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── shopify_webhooks.py  🛠 DÉVELOPPÉ | code=11 lignes=17
+│   │   └── status.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── schemas/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── approvals.py  🛠 DÉVELOPPÉ | code=12 lignes=14
+│   │   ├── dashboard.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   │   ├── health.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── oauth.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── shipping.py  🛠 DÉVELOPPÉ | code=15 lignes=15
+│   │   └── webhooks.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── dependencies.py  🛠 DÉVELOPPÉ | code=22 lignes=30
+│   ├── exception_handlers.py  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   ├── operator_auth.py  ✅ COMPLET | code=35 lignes=43
+│   ├── request_context.py  🛠 DÉVELOPPÉ | code=24 lignes=29
+│   ├── router.py  ✅ COMPLET | code=38 lignes=42
+│   └── server.py  🛠 DÉVELOPPÉ | code=19 lignes=20
+├── app/
+│   ├── __init__.py  🔗 INTÉGRATION | code=12 lignes=19
+│   ├── application.py  ✅ COMPLET | code=157 lignes=178
+│   ├── automation_runtime.py  ✅ COMPLET | code=70 lignes=75
+│   ├── bootstrap.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── capability_bootstrap.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   ├── command_bus.py  🛠 DÉVELOPPÉ | code=17 lignes=24
+│   ├── config_reloader.py  ✅ COMPLET | code=70 lignes=80
+│   ├── dependency_container.py  ✅ COMPLET | code=369 lignes=389
+│   ├── event_bus.py  🛠 DÉVELOPPÉ | code=14 lignes=20
+│   ├── exception_router.py  🛠 DÉVELOPPÉ | code=34 lignes=41
+│   ├── graceful_shutdown.py  ✅ COMPLET | code=38 lignes=45
+│   ├── health_aggregator.py  ✅ COMPLET | code=48 lignes=56
+│   ├── lifecycle.py  ✅ COMPLET | code=65 lignes=78
+│   ├── liveness.py  🛠 DÉVELOPPÉ | code=26 lignes=32
+│   ├── mode_controller.py  🛠 DÉVELOPPÉ | code=13 lignes=19
+│   ├── query_bus.py  🛠 DÉVELOPPÉ | code=27 lignes=35
+│   ├── readiness.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   ├── recovery_manager.py  🛠 DÉVELOPPÉ | code=32 lignes=39
+│   ├── resource_governor.py  ✅ COMPLET | code=49 lignes=62
+│   ├── runtime_coordinator.py  ✅ COMPLET | code=41 lignes=49
+│   ├── runtime_profiles.py  🛠 DÉVELOPPÉ | code=17 lignes=24
+│   ├── runtime_snapshot.py  🛠 DÉVELOPPÉ | code=18 lignes=22
+│   ├── service_registry.py  ✅ COMPLET | code=35 lignes=45
+│   ├── shutdown_report.py  🛠 DÉVELOPPÉ | code=25 lignes=31
+│   ├── startup_banner.py  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   ├── startup_checks.py  🛠 DÉVELOPPÉ | code=23 lignes=24
+│   ├── stdout_guard.py  ✅ COMPLET | code=40 lignes=51
+│   ├── terminal_session_owner.py  🛠 DÉVELOPPÉ | code=27 lignes=34
+│   └── version.py  🛠 DÉVELOPPÉ | code=1 lignes=1
+├── automation/
+│   ├── audit/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=3
+│   │   ├── action_audit.py  🛠 DÉVELOPPÉ | code=9 lignes=14
+│   │   ├── decision_audit.py  🛠 DÉVELOPPÉ | code=7 lignes=11
+│   │   ├── policy_audit.py  🛠 DÉVELOPPÉ | code=7 lignes=11
+│   │   └── reconciliation_audit.py  🛠 DÉVELOPPÉ | code=7 lignes=11
+│   ├── core/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=8 lignes=9
+│   │   ├── automation_context.py  🛠 DÉVELOPPÉ | code=14 lignes=18
+│   │   ├── automation_cycle.py  🛠 DÉVELOPPÉ | code=26 lignes=34
+│   │   ├── automation_state.py  ✅ COMPLET | code=49 lignes=58
+│   │   ├── automation_supervisor.py  ✅ COMPLET | code=117 lignes=127
+│   │   ├── autonomy_controller.py  ✅ COMPLET | code=36 lignes=45
+│   │   ├── autonomy_kernel.py  ✅ COMPLET | code=116 lignes=130
+│   │   ├── capability_matrix.py  🛠 DÉVELOPPÉ | code=33 lignes=41
+│   │   ├── dependency_graph.py  ✅ COMPLET | code=45 lignes=51
+│   │   ├── goal_registry.py  ✅ COMPLET | code=38 lignes=47
+│   │   ├── operation_registry.py  🛠 DÉVELOPPÉ | code=24 lignes=33
+│   │   ├── runtime_budget.py  ✅ COMPLET | code=90 lignes=102
+│   │   ├── single_writer_guard.py  ✅ COMPLET | code=35 lignes=41
+│   │   └── workflow_catalog.py  🛠 DÉVELOPPÉ | code=25 lignes=34
+│   ├── decisions/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=3
+│   │   ├── decision_context.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   │   ├── decision_engine.py  🛠 DÉVELOPPÉ | code=22 lignes=28
+│   │   ├── decision_explainer.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   │   ├── decision_journal.py  🛠 DÉVELOPPÉ | code=23 lignes=28
+│   │   ├── decision_score.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   │   ├── deterministic_rules.py  🛠 DÉVELOPPÉ | code=29 lignes=37
+│   │   ├── lightweight_ranker.py  🛠 DÉVELOPPÉ | code=20 lignes=26
+│   │   └── threshold_resolver.py  🛠 DÉVELOPPÉ | code=9 lignes=12
+│   ├── exceptions/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=3
+│   │   ├── exception_classifier.py  🛠 DÉVELOPPÉ | code=25 lignes=27
+│   │   ├── exception_queue.py  ✅ COMPLET | code=36 lignes=44
+│   │   ├── human_intervention_queue.py  🛠 DÉVELOPPÉ | code=17 lignes=22
+│   │   ├── recovery_playbook.py  🛠 DÉVELOPPÉ | code=26 lignes=32
+│   │   ├── retry_decider.py  🛠 DÉVELOPPÉ | code=24 lignes=30
+│   │   └── stuck_operation_detector.py  🛠 DÉVELOPPÉ | code=14 lignes=18
+│   ├── execution/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=3
+│   │   ├── action_executor.py  ✅ COMPLET | code=53 lignes=60
+│   │   ├── action_plan.py  🛠 DÉVELOPPÉ | code=15 lignes=20
+│   │   ├── action_result.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   │   ├── compensation_executor.py  🛠 DÉVELOPPÉ | code=25 lignes=30
+│   │   ├── dry_run_executor.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── idempotent_action.py  🛠 DÉVELOPPÉ | code=14 lignes=20
+│   │   ├── live_executor.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   │   ├── operation_checkpoint.py  🛠 DÉVELOPPÉ | code=19 lignes=25
+│   │   ├── operation_handlers.py  ✅ COMPLET | code=400 lignes=454
+│   │   └── transaction_boundary.py  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   ├── optimization/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   │   ├── batch_window_optimizer.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   │   ├── cache_budget_optimizer.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   │   ├── cpu_budget_optimizer.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   │   ├── http_concurrency_optimizer.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   │   ├── memory_budget_optimizer.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── schedule_optimizer.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+│   │   └── sqlite_maintenance_optimizer.py  🛠 DÉVELOPPÉ | code=18 lignes=22
+│   ├── policies/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=3
+│   │   ├── action_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── approval_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── autonomy_mode_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── budget_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── catalog_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── customer_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── data_quality_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── financial_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── inventory_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── marketing_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── order_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── policy_engine.py  ✅ COMPLET | code=153 lignes=167
+│   │   ├── procurement_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── publication_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── refund_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── risk_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── rule_policy.py  ✅ COMPLET | code=105 lignes=120
+│   │   ├── shipping_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   └── supplier_policy.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   ├── reconciliation/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=3
+│   │   ├── base_reconciler.py  ✅ COMPLET | code=189 lignes=213
+│   │   ├── catalog_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── customer_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── finance_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── fulfillment_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── inventory_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── order_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── payment_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── persistent_reconciler.py  ✅ COMPLET | code=62 lignes=71
+│   │   ├── product_media_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── refund_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   ├── supplier_order_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   │   └── tracking_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=14
+│   └── __init__.py  🔗 INTÉGRATION | code=5 lignes=6
+├── catalog/
+│   ├── discovery/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=5 lignes=6
+│   │   ├── candidate_deduplicator.py  🛠 DÉVELOPPÉ | code=20 lignes=25
+│   │   ├── candidate_repository.py  🛠 DÉVELOPPÉ | code=16 lignes=21
+│   │   ├── opportunity_detector.py  🛠 DÉVELOPPÉ | code=13 lignes=16
+│   │   ├── product_candidate.py  🛠 DÉVELOPPÉ | code=17 lignes=21
+│   │   ├── query_builder.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   │   ├── search_plan.py  🛠 DÉVELOPPÉ | code=18 lignes=22
+│   │   ├── search_scheduler.py  🛠 DÉVELOPPÉ | code=12 lignes=17
+│   │   └── source_cursor.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   ├── intelligence/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   │   ├── competition_signal.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── demand_signal.py  🛠 DÉVELOPPÉ | code=9 lignes=12
+│   │   ├── niche_ranker.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   │   ├── product_ranker.py  🛠 DÉVELOPPÉ | code=22 lignes=30
+│   │   ├── profitability_signal.py  🛠 DÉVELOPPÉ | code=6 lignes=8
+│   │   ├── research_snapshot.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   │   ├── return_risk_signal.py  🛠 DÉVELOPPÉ | code=3 lignes=5
+│   │   ├── saturation_signal.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   │   ├── seasonality_signal.py  🛠 DÉVELOPPÉ | code=7 lignes=10
+│   │   └── trend_signal.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── lifecycle/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── archive_planner.py  🛠 DÉVELOPPÉ | code=23 lignes=29
+│   │   ├── end_of_life_policy.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+│   │   ├── product_lifecycle.py  🛠 DÉVELOPPÉ | code=24 lignes=29
+│   │   ├── product_refresh_planner.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   │   ├── stale_product_detector.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   └── supplier_delisting_handler.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── media/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=5 lignes=6
+│   │   ├── alibaba_media_fetcher.py  🛠 DÉVELOPPÉ | code=19 lignes=24
+│   │   ├── content_type_detector.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   │   ├── image_alt_text_builder.py  🛠 DÉVELOPPÉ | code=6 lignes=9
+│   │   ├── image_background_policy.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── image_compressor.py  🛠 DÉVELOPPÉ | code=17 lignes=20
+│   │   ├── image_deduplicator.py  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   │   ├── image_dimension_validator.py  🛠 DÉVELOPPÉ | code=15 lignes=20
+│   │   ├── image_downloader.py  ✅ COMPLET | code=57 lignes=66
+│   │   ├── image_hash_store.py  🛠 DÉVELOPPÉ | code=22 lignes=27
+│   │   ├── image_metadata_scrubber.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   │   ├── image_quality_analyzer.py  🛠 DÉVELOPPÉ | code=29 lignes=35
+│   │   ├── image_resizer.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   │   ├── image_sequence_builder.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   │   ├── media_cache.py  🛠 DÉVELOPPÉ | code=20 lignes=25
+│   │   ├── media_manifest.py  🛠 DÉVELOPPÉ | code=22 lignes=28
+│   │   ├── media_reconciliation.py  🛠 DÉVELOPPÉ | code=7 lignes=11
+│   │   ├── media_rights_guard.py  🛠 DÉVELOPPÉ | code=16 lignes=21
+│   │   ├── media_url_validator.py  ✅ COMPLET | code=43 lignes=49
+│   │   ├── shopify_media_attacher.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   │   ├── shopify_staged_upload.py  🛠 DÉVELOPPÉ | code=18 lignes=23
+│   │   └── video_validator.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   ├── merchandising/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── bundle_builder.py  🛠 DÉVELOPPÉ | code=12 lignes=14
+│   │   ├── collection_assigner.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── cross_sell_mapper.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+│   │   ├── product_type_assigner.py  🛠 DÉVELOPPÉ | code=9 lignes=12
+│   │   ├── search_term_builder.py  🛠 DÉVELOPPÉ | code=11 lignes=15
+│   │   ├── smart_tag_engine.py  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   │   ├── upsell_mapper.py  🛠 DÉVELOPPÉ | code=15 lignes=17
+│   │   └── variant_display_policy.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── normalization/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── attribute_normalizer.py  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   │   ├── barcode_policy.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   │   ├── brand_normalizer.py  🛠 DÉVELOPPÉ | code=11 lignes=15
+│   │   ├── color_normalizer.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   │   ├── dimension_normalizer.py  🛠 DÉVELOPPÉ | code=19 lignes=26
+│   │   ├── material_normalizer.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   │   ├── option_normalizer.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   │   ├── sku_generator.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   │   ├── unit_normalizer.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   │   ├── vendor_normalizer.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   │   └── weight_normalizer.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   ├── publishing/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── channel_publisher.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   │   ├── draft_builder.py  🛠 DÉVELOPPÉ | code=18 lignes=21
+│   │   ├── product_change_set.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   │   ├── publication_planner.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── publish_compensator.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   │   ├── publish_validator.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   │   └── unpublish_planner.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── attribute_mapper.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── catalog_automation_service.py  ✅ COMPLET | code=78 lignes=87
+│   ├── catalog_sync.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── category_mapper.py  🛠 DÉVELOPPÉ | code=24 lignes=31
+│   ├── description_generator.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── discovery_engine.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   ├── duplicate_detector.py  🛠 DÉVELOPPÉ | code=28 lignes=36
+│   ├── image_pipeline.py  ✅ COMPLET | code=44 lignes=55
+│   ├── image_validator.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── import_pipeline.py  🛠 DÉVELOPPÉ | code=28 lignes=29
+│   ├── product_eligibility.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── product_normalizer.py  ✅ COMPLET | code=42 lignes=50
+│   ├── publishing_policy.py  🛠 DÉVELOPPÉ | code=20 lignes=28
+│   ├── quality_score.py  🛠 DÉVELOPPÉ | code=27 lignes=35
+│   ├── seo_generator.py  🛠 DÉVELOPPÉ | code=17 lignes=20
+│   ├── supplier_score.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── tag_generator.py  🛠 DÉVELOPPÉ | code=17 lignes=20
+│   ├── title_generator.py  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   └── variant_normalizer.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+├── cli/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── ai_commands.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   ├── approval_commands.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   ├── base_commands.py  🛠 DÉVELOPPÉ | code=18 lignes=18
+│   ├── batch_commands.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   ├── command_router.py  🛠 DÉVELOPPÉ | code=28 lignes=28
+│   ├── emergency_commands.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   ├── interactive_shell.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── inventory_commands.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   ├── main_menu.py  🛠 DÉVELOPPÉ | code=2 lignes=2
+│   ├── maintenance_commands.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   ├── menu_renderer.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── order_commands.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   ├── payment_commands.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   ├── product_commands.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   ├── reconciliation_commands.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   └── status_commands.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+├── compliance/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── age_restricted_product_filter.py  🛠 DÉVELOPPÉ | code=11 lignes=16
+│   ├── base.py  ✅ COMPLET | code=42 lignes=53
+│   ├── battery_shipping_filter.py  🛠 DÉVELOPPÉ | code=16 lignes=19
+│   ├── brand_authorization_filter.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   ├── canada_consumer_product_filter.py  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   ├── compliance_orchestrator.py  ✅ COMPLET | code=49 lignes=60
+│   ├── compliance_report.py  🛠 DÉVELOPPÉ | code=21 lignes=29
+│   ├── counterfeit_risk_filter.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   ├── country_restriction_filter.py  🛠 DÉVELOPPÉ | code=27 lignes=31
+│   ├── customer_data_retention.py  🛠 DÉVELOPPÉ | code=22 lignes=26
+│   ├── customs_compliance.py  🛠 DÉVELOPPÉ | code=26 lignes=30
+│   ├── dangerous_goods_filter.py  🛠 DÉVELOPPÉ | code=17 lignes=21
+│   ├── electrical_safety_filter.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   ├── environmental_claim_filter.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   ├── export_control_filter.py  🛠 DÉVELOPPÉ | code=13 lignes=16
+│   ├── image_usage_rights_filter.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   ├── intellectual_property_filter.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   ├── medical_claim_filter.py  🛠 DÉVELOPPÉ | code=12 lignes=17
+│   ├── pci_guard.py  🛠 DÉVELOPPÉ | code=9 lignes=13
+│   ├── privacy_compliance.py  🛠 DÉVELOPPÉ | code=32 lignes=44
+│   ├── product_safety_filter.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   ├── quebec_language_filter.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   ├── record_retention_policy.py  🛠 DÉVELOPPÉ | code=12 lignes=17
+│   ├── restricted_product_filter.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   ├── sanctions_filter.py  🛠 DÉVELOPPÉ | code=16 lignes=23
+│   ├── tax_compliance.py  🛠 DÉVELOPPÉ | code=20 lignes=23
+│   ├── textile_label_filter.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   └── trademark_filter.py  🛠 DÉVELOPPÉ | code=19 lignes=23
+├── config/
+│   ├── ai_profiles/
+│   │   ├── balanced_512mb.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   │   ├── minimal_256mb.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   │   ├── optional_micro_llm_750mb.yaml  🔗 INTÉGRATION | code=6 lignes=6
+│   │   └── strict_750mb.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   ├── alibaba/
+│   │   ├── api_profiles.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── capabilities.yaml  🔗 INTÉGRATION | code=13 lignes=13
+│   │   ├── logistics.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── media.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── orders.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── payments.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── permissions.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── products.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   └── suppliers.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── analytics/
+│   │   ├── anomalies.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── forecasts.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   └── kpis.yaml  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── catalog/
+│   │   ├── discovery.yaml  🔗 INTÉGRATION | code=6 lignes=6
+│   │   ├── lifecycle.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── media.yaml  🔗 INTÉGRATION | code=7 lignes=7
+│   │   ├── publishing.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   └── quality.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── compliance/
+│   │   ├── country_rules.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── ip_rules.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   └── product_rules.yaml  🔗 INTÉGRATION | code=11 lignes=11
+│   ├── customer_service/
+│   │   ├── sla.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   └── templates.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   ├── finance/
+│   │   ├── accounts.yaml  🔗 INTÉGRATION | code=2 lignes=2
+│   │   ├── budgets.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   └── reserves.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   ├── fulfillment/
+│   │   ├── exceptions.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── routing.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   └── tracking.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   ├── inventory/
+│   │   └── policies.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   ├── marketing/
+│   │   ├── campaigns.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   │   ├── discounts.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   └── seo.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── pricing/
+│   │   ├── guardrails.yaml  🔗 INTÉGRATION | code=6 lignes=6
+│   │   ├── margins.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   └── repricing.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   ├── procurement/
+│   │   ├── batching.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── payments.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   └── purchasing.yaml  🔗 INTÉGRATION | code=8 lignes=8
+│   ├── profiles/
+│   │   ├── audit_only.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── catalog_research.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── fulfillment_only.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── lite_2gb.yaml  🔗 INTÉGRATION | code=16 lignes=16
+│   │   ├── live_2gb.yaml  🔗 INTÉGRATION | code=12 lignes=12
+│   │   └── minimal_2gb.yaml  🔗 INTÉGRATION | code=15 lignes=15
+│   ├── risk/
+│   │   └── thresholds.yaml  🔗 INTÉGRATION | code=6 lignes=6
+│   ├── runtime/
+│   │   ├── automation.yaml  🔗 INTÉGRATION | code=19 lignes=19
+│   │   ├── caches.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── database.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── exception_handling.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── queues.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── reconciliation.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── resources.yaml  🔗 INTÉGRATION | code=9 lignes=9
+│   │   ├── retries.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── schedules.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── terminal.yaml  🔗 INTÉGRATION | code=8 lignes=8
+│   │   └── timeouts.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── security/
+│   │   ├── permissions.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   │   ├── retention.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   └── secrets.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── shopify/
+│   │   ├── api.yaml  🔗 INTÉGRATION | code=7 lignes=7
+│   │   ├── bulk_operations.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── markets.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── media.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── publications.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── scopes.yaml  🔗 INTÉGRATION | code=2 lignes=2
+│   │   └── webhooks.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── accounting_rules.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   ├── alibaba_permissions.yaml  🔗 INTÉGRATION | code=7 lignes=7
+│   ├── batching_rules.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── compliance_rules.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── constants.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   ├── dashboard.yaml  🔗 INTÉGRATION | code=3 lignes=3
+│   ├── env_schema.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   ├── feature_flags.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   ├── logging.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   ├── paths.py  🛠 DÉVELOPPÉ | code=16 lignes=18
+│   ├── pricing_rules.yaml  🔗 INTÉGRATION | code=6 lignes=6
+│   ├── product_selection_rules.yaml  🔗 INTÉGRATION | code=5 lignes=5
+│   ├── retention_rules.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── risk_rules.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── runtime.yaml  🔗 INTÉGRATION | code=6 lignes=6
+│   ├── settings.py  ✅ COMPLET | code=155 lignes=176
+│   ├── shipping_rules.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── shopify_scopes.yaml  🔗 INTÉGRATION | code=9 lignes=9
+│   ├── shopify_webhooks.yaml  🔗 INTÉGRATION | code=13 lignes=13
+│   └── supplier_rules.yaml  🔗 INTÉGRATION | code=4 lignes=4
+├── customer_service/
+│   ├── channels/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── email_channel.py  🛠 DÉVELOPPÉ | code=11 lignes=16
+│   │   ├── shopify_inbox_adapter.py  🛠 DÉVELOPPÉ | code=13 lignes=18
+│   │   └── terminal_channel.py  🛠 DÉVELOPPÉ | code=9 lignes=13
+│   ├── __init__.py  🔗 INTÉGRATION | code=4 lignes=5
+│   ├── automatic_reply_policy.py  🛠 DÉVELOPPÉ | code=19 lignes=25
+│   ├── cancellation_request_handler.py  🛠 DÉVELOPPÉ | code=13 lignes=16
+│   ├── damaged_item_handler.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   ├── escalation_policy.py  🛠 DÉVELOPPÉ | code=27 lignes=33
+│   ├── message_history.py  🛠 DÉVELOPPÉ | code=15 lignes=20
+│   ├── missing_item_handler.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   ├── order_context_builder.py  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   ├── refund_request_classifier.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   ├── response_template_engine.py  🛠 DÉVELOPPÉ | code=10 lignes=14
+│   ├── return_request_handler.py  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   ├── service_result.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   ├── shipping_question_handler.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   ├── sla_monitor.py  🛠 DÉVELOPPÉ | code=8 lignes=13
+│   ├── ticket.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   ├── ticket_priority.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── ticket_repository.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   ├── ticket_router.py  ✅ COMPLET | code=41 lignes=49
+│   └── wrong_item_handler.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+├── customers/
+│   ├── privacy/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── consent_ledger.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   │   ├── customer_export.py  🛠 DÉVELOPPÉ | code=11 lignes=15
+│   │   ├── customer_redaction.py  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   │   └── data_minimizer.py  🛠 DÉVELOPPÉ | code=7 lignes=11
+│   ├── segments/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── retention_segment.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+│   │   ├── risk_segment.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   ├── segment_builder.py  🛠 DÉVELOPPÉ | code=30 lignes=35
+│   │   ├── segment_membership.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   │   └── value_segment.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── customer_consent.py  🛠 DÉVELOPPÉ | code=29 lignes=34
+│   ├── customer_identity_resolver.py  🛠 DÉVELOPPÉ | code=17 lignes=23
+│   ├── customer_lifetime_value.py  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   ├── customer_merge_service.py  🛠 DÉVELOPPÉ | code=20 lignes=24
+│   ├── customer_note_service.py  🛠 DÉVELOPPÉ | code=15 lignes=21
+│   ├── customer_preferences.py  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   ├── customer_profile.py  🛠 DÉVELOPPÉ | code=18 lignes=22
+│   ├── customer_repository.py  🛠 DÉVELOPPÉ | code=31 lignes=38
+│   ├── customer_risk_profile.py  🛠 DÉVELOPPÉ | code=25 lignes=31
+│   └── customer_tag_service.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+├── dashboard/
+│   ├── pages/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=9 lignes=10
+│   │   ├── catalog_page.py  🛠 DÉVELOPPÉ | code=21 lignes=24
+│   │   ├── common.py  🛠 DÉVELOPPÉ | code=11 lignes=18
+│   │   ├── compliance_page.py  🛠 DÉVELOPPÉ | code=18 lignes=21
+│   │   ├── executive_page.py  🛠 DÉVELOPPÉ | code=26 lignes=30
+│   │   ├── finance_page.py  🛠 DÉVELOPPÉ | code=19 lignes=23
+│   │   ├── fulfillment_page.py  🛠 DÉVELOPPÉ | code=18 lignes=21
+│   │   ├── marketing_page.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   │   ├── orders_page.py  🛠 DÉVELOPPÉ | code=21 lignes=24
+│   │   └── system_page.py  🛠 DÉVELOPPÉ | code=20 lignes=23
+│   ├── panels/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── activity_log_panel.py  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │   ├── ai_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── alerts_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── api_health_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── automation_panel.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   │   ├── base_panel.py  ✅ COMPLET | code=107 lignes=122
+│   │   ├── cashflow_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── catalog_media_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── catalog_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── compliance_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── customer_service_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── database_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── exceptions_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── expenses_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── header_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── inventory_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── marketing_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── orders_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── payments_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── procurement_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── profit_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── quality_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── queue_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── refunds_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── resource_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── revenue_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── runtime_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── scheduler_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   ├── shipping_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │   └── supplier_panel.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── dashboard_controller.py  🛠 DÉVELOPPÉ | code=20 lignes=26
+│   ├── dashboard_state.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── differential_renderer.py  🛠 DÉVELOPPÉ | code=25 lignes=33
+│   ├── fixed_line_registry.py  🛠 DÉVELOPPÉ | code=24 lignes=32
+│   ├── fixed_region_layout.py  🛠 DÉVELOPPÉ | code=27 lignes=35
+│   ├── formatter.py  ✅ COMPLET | code=68 lignes=83
+│   ├── input_line_controller.py  🛠 DÉVELOPPÉ | code=24 lignes=30
+│   ├── keyboard_handler.py  🛠 DÉVELOPPÉ | code=22 lignes=27
+│   ├── live_dashboard.py  ✅ COMPLET | code=103 lignes=117
+│   ├── log_ring_buffer.py  🛠 DÉVELOPPÉ | code=17 lignes=22
+│   ├── native_dashboard_bridge.py  🛠 DÉVELOPPÉ | code=24 lignes=30
+│   ├── progress_line_controller.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   ├── refresh_loop.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── runtime_snapshot.py  🛠 DÉVELOPPÉ | code=15 lignes=20
+│   ├── stdout_guard.py  🛠 DÉVELOPPÉ | code=16 lignes=22
+│   ├── terminal_event_bus.py  🛠 DÉVELOPPÉ | code=23 lignes=30
+│   ├── terminal_page.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   ├── terminal_page_registry.py  🛠 DÉVELOPPÉ | code=22 lignes=31
+│   ├── terminal_snapshot.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   └── theme.py  🛠 DÉVELOPPÉ | code=29 lignes=39
+├── data/
+│   ├── audit/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── backups/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── cache/
+│   │   ├── api/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   ├── media/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── checkpoints/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── contracts/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── database/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── events/
+│   │   ├── failed/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   ├── incoming/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   └── processed/
+│   │       └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── exports/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── logs/
+│   │   ├── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   └── orchestrator.jsonl  📁 DONNÉES | code=0 lignes=0
+│   ├── native_plans/
+│   │   ├── awaiting_approval/
+│   │   ├── pending/
+│   │   ├── processed/
+│   │   └── rejected/
+│   ├── quarantine/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── queues/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── read_models/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── reports/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── temporary/
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   ├── terminal/
+│   │   ├── commands/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   ├── snapshots/
+│   │   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   └── tmp/
+│       └── .gitkeep  📁 DONNÉES | code=0 lignes=0
+├── deploy/
+│   ├── docker/
+│   │   ├── docker-compose.yml  🔗 INTÉGRATION | code=12 lignes=12
+│   │   ├── Dockerfile  🔗 INTÉGRATION | code=8 lignes=8
+│   │   └── entrypoint.sh  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── reverse_proxy/
+│   │   ├── caddyfile.example  🔗 INTÉGRATION | code=3 lignes=3
+│   │   └── nginx.conf.example  🔗 INTÉGRATION | code=10 lignes=10
+│   ├── systemd/
+│   │   └── shopify-alibaba-orchestrator.service  🔗 INTÉGRATION | code=15 lignes=17
+│   └── windows/
+│       ├── service_config.xml  🔗 INTÉGRATION | code=9 lignes=9
+│       └── task_scheduler_template.xml  🔗 INTÉGRATION | code=4 lignes=4
+├── dist/
+│   ├── shopify_alibaba_ai_orchestrator-2.1.0-py3-none-any.whl  📦 ARTEFACT | code=0 lignes=0
+│   ├── shopify_alibaba_ai_orchestrator-2.2.0-py3-none-any.whl  📦 ARTEFACT | code=0 lignes=0
+│   ├── shopify_alibaba_ai_orchestrator-2.3.0-py3-none-any.whl  📦 ARTEFACT | code=0 lignes=0
+│   ├── shopify_alibaba_ai_orchestrator-2.4.0-py3-none-any.whl  📦 ARTEFACT | code=0 lignes=0
+│   └── shopify_alibaba_ai_orchestrator-2.5.0-py3-none-any.whl  📦 ARTEFACT | code=0 lignes=0
+├── docs/
+│   ├── runbooks/
+│   │   ├── alibaba_api_outage.md  📚 DOCUMENTATION | code=6 lignes=16
+│   │   ├── chargeback_response.md  📚 DOCUMENTATION | code=6 lignes=16
+│   │   ├── credential_rotation.md  📚 DOCUMENTATION | code=6 lignes=16
+│   │   ├── database_recovery.md  📚 DOCUMENTATION | code=6 lignes=16
+│   │   ├── emergency_stop.md  📚 DOCUMENTATION | code=6 lignes=16
+│   │   ├── inventory_drift.md  📚 DOCUMENTATION | code=6 lignes=16
+│   │   ├── payment_failure.md  📚 DOCUMENTATION | code=6 lignes=16
+│   │   ├── shipping_delay.md  📚 DOCUMENTATION | code=6 lignes=16
+│   │   └── shopify_api_outage.md  📚 DOCUMENTATION | code=6 lignes=16
+│   ├── 00_PROJECT_OVERVIEW.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 01_ARCHITECTURE.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 02_RUNTIME_LIFECYCLE.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 03_SHOPIFY_SETUP.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 04_ALIBABA_SETUP.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 05_REQUIRED_PERMISSIONS.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 06_PRODUCT_IMPORT_FLOW.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 07_ORDER_FLOW.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 08_SHIPPING_FLOW.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 09_BATCH_PROCUREMENT.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 10_PAYMENT_SECURITY.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 11_PRICING_AND_MARGIN.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 12_AI_ARCHITECTURE.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 13_MEMORY_BUDGET.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 14_DATABASE_SCHEMA.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 15_DASHBOARD.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 16_RECOVERY_PROCEDURES.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 17_SECURITY.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 18_PRIVACY.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 19_TESTING.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 20_DEPLOYMENT_WINDOWS.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 21_OPERATIONS_RUNBOOK.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 22_API_METHOD_MAPPING.md  📚 DOCUMENTATION | code=1 lignes=3
+│   ├── 23_SOURCE_INDEX.md  📚 DOCUMENTATION | code=968 lignes=2248
+│   ├── 24_TARGET_ARCHITECTURE.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 25_TERMINAL_FIXED_LINE_CONTRACT.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 26_AUTOMATION_RUNTIME.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 27_SHOPIFY_GRAPHQL_COVERAGE.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 28_ALIBABA_CAPABILITY_PROFILES.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 29_PRODUCT_DISCOVERY_AND_SELECTION.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 30_ALIBABA_MEDIA_TO_SHOPIFY.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 31_ORDER_TO_CUSTOMER_FULFILLMENT.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 32_CUSTOMER_SERVICE_AUTOMATION.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 33_MARKETING_AUTOMATION.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 34_FINANCIAL_CONTROL.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 35_COMPLIANCE_AND_PRODUCT_SAFETY.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 36_RESOURCE_BUDGET_WINDOWS_2GB.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 37_FAILURE_RECOVERY.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 38_PRODUCTION_ROLLOUT.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 39_API_VERSION_MIGRATION.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 40_OPERATOR_COMMAND_REFERENCE.md  📚 DOCUMENTATION | code=14 lignes=24
+│   ├── 41_RELEASE_2_1_0.md  📚 DOCUMENTATION | code=7 lignes=15
+│   ├── 41_TARGET_TREE_COVERAGE.md  📚 DOCUMENTATION | code=6 lignes=10
+│   ├── 42_COMMERCE_CONTROL_PLANE.md  📚 DOCUMENTATION | code=8 lignes=13
+│   ├── 43_SECURITY_AND_RECOVERY.md  📚 DOCUMENTATION | code=7 lignes=9
+│   ├── 44_RELEASE_2_2_0.md  📚 DOCUMENTATION | code=14 lignes=20
+│   ├── 45_RELEASE_2_3_0.md  📚 DOCUMENTATION | code=7 lignes=10
+│   ├── 46_FILE_STATUS_LEGEND.md  📚 DOCUMENTATION | code=11 lignes=14
+│   ├── 46_RELEASE_2_4_0.md  📚 DOCUMENTATION | code=13 lignes=21
+│   └── 47_RELEASE_2_5_0.md  📚 DOCUMENTATION | code=12 lignes=18
+├── domain/
+│   ├── entities/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── ai_decision.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── api_event.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── audit_event.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── customer.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── customer_address.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   │   ├── expense.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── fulfillment.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── inventory_item.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── inventory_snapshot.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── ledger_entry.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── manual_approval.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── payment.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── payment_attempt.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── procurement_batch.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── product.py  🛠 DÉVELOPPÉ | code=11 lignes=12
+│   │   ├── product_category.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   │   ├── product_media.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── product_variant.py  🛠 DÉVELOPPÉ | code=11 lignes=12
+│   │   ├── profit_snapshot.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── reconciliation_checkpoint.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── refund.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── return_request.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── shipment.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── shipping_quote.py  🛠 DÉVELOPPÉ | code=11 lignes=12
+│   │   ├── shop.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── shopify_order.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── shopify_order_line.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── supplier.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── supplier_offer.py  🛠 DÉVELOPPÉ | code=11 lignes=12
+│   │   ├── supplier_order.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── supplier_order_line.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   └── tracking_event.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   ├── enums/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── approval_status.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   │   ├── batch_status.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── decision_type.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   │   ├── fulfillment_status.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   │   ├── order_status.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── payment_status.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   │   ├── product_status.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   │   ├── risk_level.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   │   ├── shipment_status.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   │   └── supplier_status.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   ├── events/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── ai_events.py  🛠 DÉVELOPPÉ | code=7 lignes=13
+│   │   ├── base_event.py  ✅ COMPLET | code=100 lignes=112
+│   │   ├── inventory_events.py  🛠 DÉVELOPPÉ | code=7 lignes=13
+│   │   ├── order_events.py  🛠 DÉVELOPPÉ | code=7 lignes=13
+│   │   ├── payment_events.py  🛠 DÉVELOPPÉ | code=7 lignes=13
+│   │   ├── procurement_events.py  🛠 DÉVELOPPÉ | code=7 lignes=13
+│   │   ├── product_events.py  🛠 DÉVELOPPÉ | code=7 lignes=13
+│   │   └── shipping_events.py  🛠 DÉVELOPPÉ | code=7 lignes=13
+│   ├── services/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── batching_service.py  ✅ COMPLET | code=38 lignes=48
+│   │   ├── inventory_service.py  🛠 DÉVELOPPÉ | code=33 lignes=41
+│   │   ├── landed_cost_service.py  🛠 DÉVELOPPÉ | code=18 lignes=23
+│   │   ├── order_validation_service.py  ✅ COMPLET | code=37 lignes=45
+│   │   ├── pricing_service.py  🛠 DÉVELOPPÉ | code=13 lignes=18
+│   │   ├── profit_service.py  🛠 DÉVELOPPÉ | code=24 lignes=32
+│   │   ├── refund_service.py  🛠 DÉVELOPPÉ | code=19 lignes=27
+│   │   ├── risk_service.py  ✅ COMPLET | code=38 lignes=46
+│   │   └── shipping_service.py  ✅ COMPLET | code=42 lignes=50
+│   ├── state_machines/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── base.py  ✅ COMPLET | code=140 lignes=160
+│   │   ├── fulfillment_state_machine.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── payment_state_machine.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── procurement_batch_state_machine.py  🛠 DÉVELOPPÉ | code=13 lignes=14
+│   │   ├── return_state_machine.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   │   ├── shopify_order_state_machine.py  🛠 DÉVELOPPÉ | code=13 lignes=14
+│   │   └── supplier_order_state_machine.py  🛠 DÉVELOPPÉ | code=11 lignes=12
+│   ├── value_objects/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── address.py  🛠 DÉVELOPPÉ | code=27 lignes=30
+│   │   ├── barcode.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── country_code.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── currency_code.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── date_range.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── dimensions.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── external_id.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── idempotency_key.py  🛠 DÉVELOPPÉ | code=4 lignes=5
+│   │   ├── money.py  🛠 DÉVELOPPÉ | code=27 lignes=35
+│   │   ├── percentage.py  🛠 DÉVELOPPÉ | code=13 lignes=16
+│   │   ├── quantity.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   │   ├── sku.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   └── weight.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   └── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+├── finance/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── account_repository.py  🛠 DÉVELOPPÉ | code=17 lignes=22
+│   ├── accounting_engine.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   ├── cash_reserve_policy.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+│   ├── cashflow_forecast.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   ├── chargeback_reserve.py  🛠 DÉVELOPPÉ | code=8 lignes=12
+│   ├── chart_of_accounts.py  🛠 DÉVELOPPÉ | code=31 lignes=41
+│   ├── cost_of_goods_sold.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── currency_gain_loss.py  🛠 DÉVELOPPÉ | code=16 lignes=17
+│   ├── daily_close.py  🛠 DÉVELOPPÉ | code=20 lignes=24
+│   ├── double_entry_ledger.py  🛠 DÉVELOPPÉ | code=15 lignes=15
+│   ├── duty_reserve.py  🛠 DÉVELOPPÉ | code=7 lignes=11
+│   ├── expense_recognizer.py  🛠 DÉVELOPPÉ | code=21 lignes=30
+│   ├── financial_anomaly_detector.py  🛠 DÉVELOPPÉ | code=16 lignes=19
+│   ├── financial_period_lock.py  🛠 DÉVELOPPÉ | code=16 lignes=22
+│   ├── financial_snapshot.py  ✅ COMPLET | code=36 lignes=45
+│   ├── gross_profit_calculator.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   ├── inventory_asset_valuation.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── journal_repository.py  🛠 DÉVELOPPÉ | code=10 lignes=15
+│   ├── liability_calculator.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   ├── marketing_budget.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── money_math.py  ✅ COMPLET | code=58 lignes=72
+│   ├── monthly_close.py  🛠 DÉVELOPPÉ | code=22 lignes=27
+│   ├── net_profit_calculator.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   ├── payout_reconciler.py  🛠 DÉVELOPPÉ | code=13 lignes=16
+│   ├── payout_schedule.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   ├── profit_by_channel.py  🛠 DÉVELOPPÉ | code=3 lignes=5
+│   ├── profit_by_dimension.py  🛠 DÉVELOPPÉ | code=30 lignes=34
+│   ├── profit_by_order.py  🛠 DÉVELOPPÉ | code=3 lignes=5
+│   ├── profit_by_product.py  🛠 DÉVELOPPÉ | code=3 lignes=5
+│   ├── profit_by_supplier.py  🛠 DÉVELOPPÉ | code=3 lignes=5
+│   ├── purchase_budget.py  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   ├── refund_reserve.py  🛠 DÉVELOPPÉ | code=22 lignes=23
+│   ├── reserve_calculator.py  🛠 DÉVELOPPÉ | code=25 lignes=31
+│   ├── revenue_recognizer.py  🛠 DÉVELOPPÉ | code=31 lignes=41
+│   ├── shipping_variance.py  🛠 DÉVELOPPÉ | code=16 lignes=17
+│   ├── supplier_payment_reconciler.py  🛠 DÉVELOPPÉ | code=27 lignes=38
+│   ├── tax_reserve.py  🛠 DÉVELOPPÉ | code=21 lignes=25
+│   └── transaction_matcher.py  🛠 DÉVELOPPÉ | code=22 lignes=26
+├── fulfillment/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── address_validator.py  ✅ COMPLET | code=46 lignes=58
+│   ├── customer_notification_planner.py  ✅ COMPLET | code=61 lignes=69
+│   ├── customs_data_builder.py  ✅ COMPLET | code=53 lignes=64
+│   ├── customs_document_repository.py  🛠 DÉVELOPPÉ | code=11 lignes=15
+│   ├── damaged_package_handler.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── delivery_estimate.py  🛠 DÉVELOPPÉ | code=25 lignes=31
+│   ├── delivery_exception_handler.py  ✅ COMPLET | code=47 lignes=59
+│   ├── delivery_option_selector.py  ✅ COMPLET | code=61 lignes=71
+│   ├── delivery_promise_monitor.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   ├── fulfillment_order_router.py  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   ├── fulfillment_plan.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   ├── fulfillment_repository.py  🛠 DÉVELOPPÉ | code=9 lignes=15
+│   ├── fulfillment_sync.py  ✅ COMPLET | code=50 lignes=60
+│   ├── late_shipment_detector.py  🛠 DÉVELOPPÉ | code=27 lignes=35
+│   ├── lost_package_handler.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── shipment_monitor.py  ✅ COMPLET | code=37 lignes=47
+│   ├── shipping_exception_classifier.py  🛠 DÉVELOPPÉ | code=12 lignes=14
+│   ├── shipping_quote_cache.py  ✅ COMPLET | code=46 lignes=56
+│   ├── shipping_quote_engine.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   ├── tracking_event.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   ├── tracking_repository.py  🛠 DÉVELOPPÉ | code=16 lignes=22
+│   ├── tracking_status_mapper.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   ├── tracking_sync.py  🛠 DÉVELOPPÉ | code=19 lignes=19
+│   └── undeliverable_handler.py  🛠 DÉVELOPPÉ | code=8 lignes=10
+├── infrastructure/
+│   ├── cache/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── cache_keys.py  🛠 DÉVELOPPÉ | code=25 lignes=32
+│   │   ├── memory_cache.py  ✅ COMPLET | code=106 lignes=122
+│   │   ├── sqlite_cache.py  ✅ COMPLET | code=48 lignes=61
+│   │   └── ttl_cache.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   ├── console/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── console_exclusivity.py  🛠 DÉVELOPPÉ | code=20 lignes=25
+│   │   ├── log_event_sink.py  🛠 DÉVELOPPÉ | code=9 lignes=12
+│   │   ├── stderr_capture.py  🛠 DÉVELOPPÉ | code=15 lignes=17
+│   │   └── stdout_capture.py  🛠 DÉVELOPPÉ | code=15 lignes=17
+│   ├── database/
+│   │   ├── models/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── ai_decision.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── ai_memory.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── approval.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── audit.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── customer.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── event.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── inventory.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── ledger.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── order.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── payment.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── procurement_batch.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── product.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── product_mapping.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── refund.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── shipment.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── shop.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── supplier.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── supplier_order.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── task.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   └── tracking.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── repositories/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── ai_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── analytics_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   │   ├── audit_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── base_repository.py  🛠 DÉVELOPPÉ | code=19 lignes=25
+│   │   │   ├── batch_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── customer_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   │   ├── event_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── exception_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   │   ├── inventory_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── ledger_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── media_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   │   ├── order_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── payment_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── policy_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   │   ├── price_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   │   ├── product_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── return_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   │   ├── shipment_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── supplier_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── task_repository.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   └── ticket_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── backup.py  🛠 DÉVELOPPÉ | code=11 lignes=12
+│   │   ├── base.py  🛠 DÉVELOPPÉ | code=1 lignes=1
+│   │   ├── checkpoint_manager.py  🛠 DÉVELOPPÉ | code=14 lignes=16
+│   │   ├── engine.py  ✅ COMPLET | code=719 lignes=783
+│   │   ├── health_check.py  ✅ COMPLET | code=45 lignes=55
+│   │   ├── integrity_checker.py  🛠 DÉVELOPPÉ | code=18 lignes=20
+│   │   ├── migrations_manager.py  🛠 DÉVELOPPÉ | code=25 lignes=27
+│   │   ├── query_budget.py  🛠 DÉVELOPPÉ | code=12 lignes=13
+│   │   ├── read_model_store.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── restore.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   │   ├── schema_version.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── session.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   │   ├── sqlite_pragmas.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── unit_of_work.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── vacuum_manager.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   │   └── write_batcher.py  🛠 DÉVELOPPÉ | code=15 lignes=15
+│   ├── filesystem/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=2
+│   │   ├── atomic_file.py  🛠 DÉVELOPPÉ | code=15 lignes=17
+│   │   ├── disk_budget.py  🛠 DÉVELOPPÉ | code=14 lignes=14
+│   │   ├── file_hash.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   │   ├── quarantine.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   │   └── temp_cleanup.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   ├── http/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── adaptive_timeout.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── async_client.py  ✅ COMPLET | code=95 lignes=115
+│   │   ├── backoff.py  🛠 DÉVELOPPÉ | code=20 lignes=27
+│   │   ├── circuit_breaker.py  🛠 DÉVELOPPÉ | code=29 lignes=29
+│   │   ├── connection_pool.py  ✅ COMPLET | code=51 lignes=59
+│   │   ├── domain_rate_limiter.py  🛠 DÉVELOPPÉ | code=14 lignes=14
+│   │   ├── download_client.py  🛠 DÉVELOPPÉ | code=25 lignes=25
+│   │   ├── proxy.py  ✅ COMPLET | code=46 lignes=54
+│   │   ├── request_budget.py  🛠 DÉVELOPPÉ | code=18 lignes=22
+│   │   ├── request_trace.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── response_cache.py  🛠 DÉVELOPPÉ | code=15 lignes=15
+│   │   ├── response_validator.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   │   ├── retry.py  ✅ COMPLET | code=67 lignes=82
+│   │   └── tls.py  🛠 DÉVELOPPÉ | code=19 lignes=25
+│   ├── ipc/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── command_receiver.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   │   ├── heartbeat_channel.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── message.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   │   ├── message_codec.py  🛠 DÉVELOPPÉ | code=15 lignes=15
+│   │   ├── named_pipe_client.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── named_pipe_server.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── runtime_bridge.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   └── terminal_snapshot_publisher.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── locking/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── file_lock.py  ✅ COMPLET | code=58 lignes=66
+│   │   ├── process_lock.py  🛠 DÉVELOPPÉ | code=20 lignes=29
+│   │   └── resource_lock.py  ✅ COMPLET | code=69 lignes=80
+│   ├── process/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   ├── cpu_affinity.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── crash_reporter.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── memory_limit.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── process_supervisor.py  🛠 DÉVELOPPÉ | code=19 lignes=19
+│   │   ├── thread_limiter.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   │   └── watchdog.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── queue/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── backpressure_controller.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   │   ├── dead_letter_queue.py  🛠 DÉVELOPPÉ | code=16 lignes=17
+│   │   ├── delayed_queue.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   │   ├── durable_queue.py  ✅ COMPLET | code=52 lignes=52
+│   │   ├── idempotent_executor.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── lease_manager.py  🛠 DÉVELOPPÉ | code=21 lignes=31
+│   │   ├── poison_message_handler.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── priority_queue.py  🛠 DÉVELOPPÉ | code=21 lignes=32
+│   │   ├── queue_metrics.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── queue_reconciler.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── queue_registry.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── task.py  ✅ COMPLET | code=56 lignes=63
+│   │   ├── task_claim.py  🛠 DÉVELOPPÉ | code=24 lignes=33
+│   │   └── task_serializer.py  🛠 DÉVELOPPÉ | code=28 lignes=38
+│   ├── scheduler/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── cron_parser.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── distributed_lock.py  🛠 DÉVELOPPÉ | code=19 lignes=27
+│   │   ├── job_budget.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── job_checkpoint.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── job_dependencies.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── job_health.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── job_jitter.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── job_registry.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   │   ├── missed_job_recovery.py  ✅ COMPLET | code=46 lignes=59
+│   │   ├── schedule_registry.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   └── scheduler.py  ✅ COMPLET | code=35 lignes=35
+│   ├── secrets/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── encrypted_file_provider.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   │   ├── env_provider.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   ├── keyring_provider.py  🛠 DÉVELOPPÉ | code=15 lignes=15
+│   │   ├── secret_store.py  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │   └── windows_dpapi_provider.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   └── native_plan_bridge.py  ✅ COMPLET | code=174 lignes=192
+├── integrations/
+│   ├── alibaba/
+│   │   ├── contracts/
+│   │   │   ├── freight_quote.schema.json  🔗 INTÉGRATION | code=29 lignes=29
+│   │   │   ├── order_create.schema.json  🔗 INTÉGRATION | code=24 lignes=24
+│   │   │   ├── order_status.schema.json  🔗 INTÉGRATION | code=22 lignes=22
+│   │   │   ├── payment_result.schema.json  🔗 INTÉGRATION | code=22 lignes=22
+│   │   │   ├── product_detail.schema.json  🔗 INTÉGRATION | code=29 lignes=29
+│   │   │   ├── product_search.schema.json  🔗 INTÉGRATION | code=21 lignes=21
+│   │   │   ├── supplier_profile.schema.json  🔗 INTÉGRATION | code=25 lignes=25
+│   │   │   └── tracking.schema.json  🔗 INTÉGRATION | code=26 lignes=26
+│   │   ├── disputes/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   │   ├── dispute_repository.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   │   ├── dispute_status_mapper.py  🛠 DÉVELOPPÉ | code=2 lignes=2
+│   │   │   └── refund_repository.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── mappers/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── order_mapper.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   │   │   ├── payment_mapper.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   │   │   ├── product_mapper.py  🛠 DÉVELOPPÉ | code=18 lignes=18
+│   │   │   ├── shipping_mapper.py  🛠 DÉVELOPPÉ | code=16 lignes=19
+│   │   │   ├── supplier_mapper.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+│   │   │   └── tracking_mapper.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+│   │   ├── media/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   │   ├── media_rights_mapper.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   │   ├── photobank_repository.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   │   └── product_media_repository.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── methods/
+│   │   │   ├── events/
+│   │   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── tmc_messages_confirm.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── tmc_messages_consume.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── tmc_queue_status.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── tmc_topics_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── tmc_user_permit.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   └── tmc_websocket_adapter.py  🛠 DÉVELOPPÉ | code=26 lignes=34
+│   │   │   ├── logistics/
+│   │   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── fulfillment_channels.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── order_freight_calculator.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── order_logistics_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── product_freight_calculator.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── shipping_channels.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── shipping_submit.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   └── tracking_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   ├── orders/
+│   │   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── buy_now_order_create.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── intention_order_save.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── order_payment_result.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── seller_order_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── seller_order_list.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── trade_address_list.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── trade_address_save.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── trade_address_schema.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   └── trade_assurance_order_create.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   ├── payments/
+│   │   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── dropshipping_order_pay.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── order_funds_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── payment_capability_probe.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── payment_result_query.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   └── service_charge_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   ├── products/
+│   │   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── category_attributes_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── category_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── distribution_product_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── distribution_product_query.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── dropshipping_product_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── dropshipping_token_create.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── inventory_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── logistics_country_cost_status.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── photobank_list.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── product_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── product_list.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── product_schema_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   └── sku_inventory_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   ├── suppliers/
+│   │   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── company_profile_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── member_profile_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── supplier_credit_report.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   ├── supplier_items_get.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   │   └── supplier_list.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   └── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── profiles/
+│   │   │   ├── dropshipping.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   │   ├── icbu_distribution.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   │   ├── manual_fallback.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   │   └── trade_assurance.yaml  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── repositories/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── logistics_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   │   ├── order_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   │   ├── payment_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   │   ├── product_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   │   └── supplier_repository.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   ├── rfq/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   │   ├── quote_repository.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   │   └── rfq_repository.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── samples/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   │   └── sample_repository.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── api_profile.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── api_profile_registry.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   │   ├── base_method.py  ✅ COMPLET | code=115 lignes=130
+│   │   ├── capability_discovery.py  🛠 DÉVELOPPÉ | code=19 lignes=19
+│   │   ├── capability_registry.py  🛠 DÉVELOPPÉ | code=32 lignes=40
+│   │   ├── client.py  ✅ COMPLET | code=76 lignes=104
+│   │   ├── contract_validator.py  🛠 DÉVELOPPÉ | code=18 lignes=18
+│   │   ├── error_mapper.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── gateway.py  ✅ COMPLET | code=106 lignes=117
+│   │   ├── idempotency_registry.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── method_alias_registry.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── oauth.py  🛠 DÉVELOPPÉ | code=23 lignes=24
+│   │   ├── order_id_mapper.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── permission_probe.py  🛠 DÉVELOPPÉ | code=28 lignes=28
+│   │   ├── rate_limit_manager.py  ✅ COMPLET | code=41 lignes=50
+│   │   ├── request_audit.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── request_builder.py  🛠 DÉVELOPPÉ | code=30 lignes=38
+│   │   ├── response_parser.py  🛠 DÉVELOPPÉ | code=29 lignes=37
+│   │   ├── retry_policy.py  🛠 DÉVELOPPÉ | code=23 lignes=33
+│   │   ├── schema_cache.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   │   ├── signer.py  🛠 DÉVELOPPÉ | code=21 lignes=25
+│   │   ├── timestamp_service.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   │   └── token_manager.py  🛠 DÉVELOPPÉ | code=32 lignes=42
+│   ├── carriers/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── carrier_registry.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── delivery_estimator.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── tracking_normalizer.py  🛠 DÉVELOPPÉ | code=3 lignes=3
+│   │   └── tracking_url_builder.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── currency/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── bank_of_canada_provider.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   │   ├── converter.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── rate_cache.py  ✅ COMPLET | code=37 lignes=48
+│   │   ├── shopify_market_provider.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   └── static_rate_provider.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── email/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   ├── delivery_receipt.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── email_client.py  🛠 DÉVELOPPÉ | code=17 lignes=17
+│   │   └── template_renderer.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   ├── notifications/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── critical_alert_notifier.py  ✅ COMPLET | code=39 lignes=47
+│   │   ├── email_notifier.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   │   ├── notification_service.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   └── terminal_notifier.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── search/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   ├── google_trends_provider.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── keyword_provider.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   └── search_provider.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── shopify/
+│   │   ├── bulk/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   │   ├── bulk_mutation_runner.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── bulk_operation_monitor.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   │   │   ├── bulk_query_runner.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   │   ├── bulk_result_importer.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   │   └── jsonl_stream_reader.py  🛠 DÉVELOPPÉ | code=14 lignes=14
+│   │   ├── mappers/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── base.py  ✅ COMPLET | code=70 lignes=89
+│   │   │   ├── customer_mapper.py  🛠 DÉVELOPPÉ | code=28 lignes=31
+│   │   │   ├── fulfillment_mapper.py  ✅ COMPLET | code=36 lignes=39
+│   │   │   ├── inventory_mapper.py  🛠 DÉVELOPPÉ | code=31 lignes=34
+│   │   │   ├── order_mapper.py  ✅ COMPLET | code=74 lignes=80
+│   │   │   ├── product_mapper.py  ✅ COMPLET | code=40 lignes=44
+│   │   │   ├── refund_mapper.py  🛠 DÉVELOPPÉ | code=34 lignes=38
+│   │   │   └── variant_mapper.py  🛠 DÉVELOPPÉ | code=32 lignes=35
+│   │   ├── operations/
+│   │   │   ├── collections/
+│   │   │   │   ├── add_products.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── create_collection.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_collections.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── remove_products.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── update_collection.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── customers/
+│   │   │   │   ├── add_customer_tags.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_customer.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_customers.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── remove_customer_tags.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── update_customer.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── discounts/
+│   │   │   │   ├── create_automatic_discount.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── create_code_discount.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── delete_discount.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── query_discounts.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── files/
+│   │   │   │   ├── file_create.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── file_delete.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_files.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── staged_uploads_create.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── fulfillment/
+│   │   │   │   ├── accept_fulfillment_request.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── create_fulfillment.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_fulfillment_orders.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── reject_fulfillment_request.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── update_tracking.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── inventory/
+│   │   │   │   ├── activate_inventory_item.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── adjust_inventory_quantities.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_inventory_items.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_inventory_levels.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── set_inventory_quantities.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── locations/
+│   │   │   │   └── query_locations.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── markets/
+│   │   │   │   ├── query_markets.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── update_market.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── metafields/
+│   │   │   │   ├── delete_metafields.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── set_metafields.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── metaobjects/
+│   │   │   │   ├── query_metaobjects.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── upsert_metaobject.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── orders/
+│   │   │   │   ├── add_order_tags.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── cancel_order.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── close_order.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── open_order.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_order.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_orders.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── remove_order_tags.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── update_order.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── products/
+│   │   │   │   ├── create_product.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── delete_media.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── delete_product.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── product_set.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── publish_product.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_product.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_products.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── reorder_media.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── unpublish_product.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── update_product.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── publications/
+│   │   │   │   ├── publishable_publish.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── publishable_unpublish.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── query_publications.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── refunds/
+│   │   │   │   └── create_refund.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── returns/
+│   │   │   │   ├── approve_return.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── create_return.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── decline_return.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── query_returns.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── shop/
+│   │   │   │   ├── query_access_scopes.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── query_api_versions.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── query_shop.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── translations/
+│   │   │   │   ├── query_translatable_resource.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   └── register_translations.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   └── variants/
+│   │   │       ├── bulk_create_variants.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │       ├── bulk_delete_variants.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │       └── bulk_update_variants.graphql  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── repositories/
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── base_repository.py  ✅ COMPLET | code=38 lignes=47
+│   │   │   ├── fulfillment_repository.py  🛠 DÉVELOPPÉ | code=15 lignes=22
+│   │   │   ├── inventory_repository.py  🛠 DÉVELOPPÉ | code=10 lignes=15
+│   │   │   ├── order_repository.py  🛠 DÉVELOPPÉ | code=13 lignes=18
+│   │   │   ├── product_repository.py  🛠 DÉVELOPPÉ | code=18 lignes=26
+│   │   │   └── webhook_repository.py  🛠 DÉVELOPPÉ | code=15 lignes=22
+│   │   ├── webhooks/
+│   │   │   ├── handlers/
+│   │   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   │   ├── app_scopes_update.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── app_subscriptions_update.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── app_uninstalled.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── base.py  ✅ COMPLET | code=182 lignes=207
+│   │   │   │   ├── bulk_operations_finish.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── customer_data_request.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── customer_redact.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── customer_tags_added.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── customer_tags_removed.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_cancellation_request_accepted.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_cancellation_request_rejected.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_cancellation_request_submitted.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_fulfillment_request_accepted.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_fulfillment_request_rejected.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_fulfillment_request_submitted.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_hold_released.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_moved.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillment_orders_order_routing_complete.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── fulfillments_update.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── inventory_update.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── orders_cancelled.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── orders_create.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── orders_fulfilled.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── orders_paid.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── orders_risk_assessment_changed.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── orders_updated.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── products_delete.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── products_update.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── refunds_create.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── returns_approve.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── returns_decline.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── returns_request.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── returns_update.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── scopes_update.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   ├── shop_redact.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   │   └── shop_update.py  🛠 DÉVELOPPÉ | code=3 lignes=4
+│   │   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   │   ├── compliance_handlers.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   │   ├── deduplicator.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   │   ├── dispatcher.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   │   ├── envelope.py  🛠 DÉVELOPPÉ | code=18 lignes=18
+│   │   │   ├── handler_registry.py  🛠 DÉVELOPPÉ | code=32 lignes=34
+│   │   │   ├── hmac_verifier.py  🛠 DÉVELOPPÉ | code=2 lignes=2
+│   │   │   ├── receiver.py  ✅ COMPLET | code=37 lignes=38
+│   │   │   ├── reconciliation_cursor.py  🛠 DÉVELOPPÉ | code=29 lignes=33
+│   │   │   ├── sequence_guard.py  🛠 DÉVELOPPÉ | code=31 lignes=35
+│   │   │   └── subscription_manager.py  🛠 DÉVELOPPÉ | code=18 lignes=18
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── api_version_monitor.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── bulk_jsonl_stream.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   │   ├── bulk_operations.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   ├── capability_registry.py  🛠 DÉVELOPPÉ | code=26 lignes=34
+│   │   ├── client.py  ✅ COMPLET | code=168 lignes=186
+│   │   ├── cost_calculator.py  🛠 DÉVELOPPÉ | code=28 lignes=38
+│   │   ├── deprecation_monitor.py  🛠 DÉVELOPPÉ | code=23 lignes=30
+│   │   ├── error_mapper.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   │   ├── events_hmac_verifier.py  🛠 DÉVELOPPÉ | code=2 lignes=2
+│   │   ├── events_receiver.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── files_client.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── graphql_cost_budget.py  ✅ COMPLET | code=73 lignes=83
+│   │   ├── graphql_document_loader.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── graphql_response_validator.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   │   ├── graphql_transport.py  ✅ COMPLET | code=110 lignes=123
+│   │   ├── graphql_user_error_mapper.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   │   ├── id_converter.py  🛠 DÉVELOPPÉ | code=26 lignes=37
+│   │   ├── idempotency_registry.py  🛠 DÉVELOPPÉ | code=29 lignes=37
+│   │   ├── media_client.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── oauth.py  🛠 DÉVELOPPÉ | code=19 lignes=20
+│   │   ├── pagination.py  🛠 DÉVELOPPÉ | code=27 lignes=28
+│   │   ├── rest_compatibility_client.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── retry_policy.py  🛠 DÉVELOPPÉ | code=23 lignes=33
+│   │   ├── schema_introspection.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   │   ├── scope_validator.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   │   ├── staged_uploads.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   │   ├── throttle_manager.py  🛠 DÉVELOPPÉ | code=17 lignes=21
+│   │   └── token_manager.py  🛠 DÉVELOPPÉ | code=25 lignes=35
+│   ├── tax/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=0
+│   │   ├── shopify_tax_provider.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── static_tax_provider.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   │   └── tax_provider.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   └── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+├── inventory/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── backorder_policy.py  🛠 DÉVELOPPÉ | code=24 lignes=27
+│   ├── inventory_allocation.py  🛠 DÉVELOPPÉ | code=26 lignes=31
+│   ├── inventory_availability.py  🛠 DÉVELOPPÉ | code=18 lignes=20
+│   ├── inventory_buffer.py  🛠 DÉVELOPPÉ | code=15 lignes=17
+│   ├── inventory_drift_detector.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   ├── inventory_event_projector.py  🛠 DÉVELOPPÉ | code=29 lignes=31
+│   ├── inventory_mirror.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   ├── inventory_policy.py  🛠 DÉVELOPPÉ | code=16 lignes=17
+│   ├── inventory_position.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   ├── inventory_reconciler.py  🛠 DÉVELOPPÉ | code=25 lignes=32
+│   ├── inventory_reservation.py  ✅ COMPLET | code=55 lignes=66
+│   ├── inventory_snapshot_repository.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+│   ├── location_inventory_mapper.py  🛠 DÉVELOPPÉ | code=21 lignes=23
+│   ├── out_of_stock_handler.py  🛠 DÉVELOPPÉ | code=18 lignes=19
+│   ├── oversell_preventer.py  🛠 DÉVELOPPÉ | code=24 lignes=32
+│   ├── preorder_policy.py  🛠 DÉVELOPPÉ | code=24 lignes=26
+│   ├── safety_stock.py  🛠 DÉVELOPPÉ | code=25 lignes=29
+│   ├── sku_crosswalk.py  🛠 DÉVELOPPÉ | code=22 lignes=24
+│   ├── stale_inventory_detector.py  ✅ COMPLET | code=58 lignes=68
+│   ├── stock_update_scheduler.py  🛠 DÉVELOPPÉ | code=19 lignes=22
+│   └── supplier_inventory_cache.py  🛠 DÉVELOPPÉ | code=29 lignes=31
+├── localization/
+│   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   ├── currency_presenter.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── fallback_locale_policy.py  🛠 DÉVELOPPÉ | code=22 lignes=27
+│   ├── locale_registry.py  🛠 DÉVELOPPÉ | code=34 lignes=44
+│   ├── product_translation.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── store_translation.py  🛠 DÉVELOPPÉ | code=31 lignes=41
+│   ├── translation_memory.py  ✅ COMPLET | code=56 lignes=67
+│   └── unit_presenter.py  🛠 DÉVELOPPÉ | code=19 lignes=26
+├── marketing/
+│   ├── content/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── blog_planner.py  🛠 DÉVELOPPÉ | code=26 lignes=29
+│   │   ├── brand_voice_policy.py  🛠 DÉVELOPPÉ | code=20 lignes=22
+│   │   ├── content_calendar.py  🛠 DÉVELOPPÉ | code=13 lignes=16
+│   │   ├── page_content_manager.py  🛠 DÉVELOPPÉ | code=26 lignes=29
+│   │   └── product_content_auditor.py  🛠 DÉVELOPPÉ | code=25 lignes=27
+│   ├── email/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── abandoned_checkout_flow.py  🛠 DÉVELOPPÉ | code=20 lignes=22
+│   │   ├── campaign_builder.py  🛠 DÉVELOPPÉ | code=27 lignes=29
+│   │   ├── customer_journey.py  🛠 DÉVELOPPÉ | code=20 lignes=22
+│   │   ├── post_purchase_flow.py  🛠 DÉVELOPPÉ | code=21 lignes=23
+│   │   ├── replenishment_flow.py  🛠 DÉVELOPPÉ | code=20 lignes=20
+│   │   └── winback_flow.py  🛠 DÉVELOPPÉ | code=19 lignes=19
+│   ├── seo/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── internal_link_builder.py  🛠 DÉVELOPPÉ | code=19 lignes=21
+│   │   ├── keyword_map.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   │   ├── meta_description_builder.py  🛠 DÉVELOPPÉ | code=20 lignes=22
+│   │   ├── meta_title_builder.py  🛠 DÉVELOPPÉ | code=17 lignes=19
+│   │   ├── seo_auditor.py  🛠 DÉVELOPPÉ | code=26 lignes=28
+│   │   ├── structured_data_builder.py  🛠 DÉVELOPPÉ | code=23 lignes=23
+│   │   └── url_handle_builder.py  🛠 DÉVELOPPÉ | code=19 lignes=21
+│   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── automatic_discount_manager.py  🛠 DÉVELOPPÉ | code=22 lignes=24
+│   ├── bundle_discount_policy.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── campaign.py  🛠 DÉVELOPPÉ | code=12 lignes=14
+│   ├── campaign_budget.py  🛠 DÉVELOPPÉ | code=12 lignes=14
+│   ├── campaign_guardrails.py  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   ├── campaign_repository.py  🛠 DÉVELOPPÉ | code=9 lignes=12
+│   ├── campaign_scheduler.py  🛠 DÉVELOPPÉ | code=21 lignes=23
+│   ├── customer_segment_targeting.py  🛠 DÉVELOPPÉ | code=18 lignes=20
+│   ├── discount_code_manager.py  🛠 DÉVELOPPÉ | code=23 lignes=25
+│   ├── discount_guardrails.py  🛠 DÉVELOPPÉ | code=15 lignes=20
+│   ├── discount_optimizer.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── free_shipping_policy.py  🛠 DÉVELOPPÉ | code=16 lignes=18
+│   ├── promotion_calendar.py  🛠 DÉVELOPPÉ | code=26 lignes=28
+│   └── seo_auditor.py  🛠 DÉVELOPPÉ | code=13 lignes=15
+├── migrations/
+│   ├── versions/
+│   │   ├── .gitkeep  📁 DONNÉES | code=0 lignes=0
+│   │   └── README.md  📚 DOCUMENTATION | code=1 lignes=1
+│   ├── env.py  🛠 DÉVELOPPÉ | code=3 lignes=3
+│   └── script.py.mako  🔗 INTÉGRATION | code=1 lignes=1
+├── native/
+│   ├── include/
+│   │   └── commerce/
+│   │       ├── commands/
+│   │       │   ├── catalog_commands.h  🛠 DÉVELOPPÉ | code=1 lignes=2
+│   │       │   ├── command.h  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   │       │   ├── command_parser.h  🛠 DÉVELOPPÉ | code=9 lignes=13
+│   │       │   ├── command_registry.h  🛠 DÉVELOPPÉ | code=11 lignes=17
+│   │       │   ├── compliance_commands.h  🛠 DÉVELOPPÉ | code=1 lignes=2
+│   │       │   ├── finance_commands.h  🛠 DÉVELOPPÉ | code=1 lignes=2
+│   │       │   ├── fulfillment_commands.h  🛠 DÉVELOPPÉ | code=1 lignes=2
+│   │       │   ├── marketing_commands.h  🛠 DÉVELOPPÉ | code=1 lignes=2
+│   │       │   ├── order_commands.h  🛠 DÉVELOPPÉ | code=1 lignes=2
+│   │       │   ├── procurement_commands.h  🛠 DÉVELOPPÉ | code=1 lignes=2
+│   │       │   └── system_commands.h  🛠 DÉVELOPPÉ | code=1 lignes=2
+│   │       ├── runtime/
+│   │       │   ├── command_dispatcher.h  🛠 DÉVELOPPÉ | code=11 lignes=17
+│   │       │   ├── command_result.h  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   │       │   ├── message_codec.h  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   │       │   ├── named_pipe_client.h  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   │       │   ├── resource_monitor.h  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   │       │   ├── runtime_bridge.h  🛠 DÉVELOPPÉ | code=10 lignes=14
+│   │       │   ├── runtime_snapshot.h  🛠 DÉVELOPPÉ | code=9 lignes=12
+│   │       │   ├── shutdown_controller.h  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   │       │   └── single_output_owner.h  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   │       ├── terminal/
+│   │       │   ├── alert_widget.h  🛠 DÉVELOPPÉ | code=1 lignes=3
+│   │       │   ├── alternate_screen.h  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   │       │   ├── ansi_console_backend.h  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   │       │   ├── ascii_sanitizer.h  🛠 DÉVELOPPÉ | code=10 lignes=17
+│   │       │   ├── console_backend.h  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   │       │   ├── cursor_guard.h  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   │       │   ├── diff_renderer.h  🛠 DÉVELOPPÉ | code=16 lignes=27
+│   │       │   ├── event_ring.h  🛠 DÉVELOPPÉ | code=13 lignes=24
+│   │       │   ├── fixed_line_registry.h  🛠 DÉVELOPPÉ | code=18 lignes=29
+│   │       │   ├── fixed_region.h  🛠 DÉVELOPPÉ | code=5 lignes=8
+│   │       │   ├── input_editor.h  🛠 DÉVELOPPÉ | code=9 lignes=12
+│   │       │   ├── keyboard_reader.h  🛠 DÉVELOPPÉ | code=1 lignes=4
+│   │       │   ├── metric_widget.h  🛠 DÉVELOPPÉ | code=13 lignes=23
+│   │       │   ├── page.h  🛠 DÉVELOPPÉ | code=1 lignes=5
+│   │       │   ├── page_registry.h  🛠 DÉVELOPPÉ | code=19 lignes=32
+│   │       │   ├── progress_bar.h  🛠 DÉVELOPPÉ | code=10 lignes=17
+│   │       │   ├── screen_buffer.h  🛠 DÉVELOPPÉ | code=19 lignes=30
+│   │       │   ├── screen_layout.h  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   │       │   ├── sparkline.h  🛠 DÉVELOPPÉ | code=13 lignes=23
+│   │       │   ├── status_widget.h  🛠 DÉVELOPPÉ | code=15 lignes=26
+│   │       │   ├── table_widget.h  🛠 DÉVELOPPÉ | code=22 lignes=35
+│   │       │   ├── terminal_size.h  🛠 DÉVELOPPÉ | code=13 lignes=21
+│   │       │   ├── widget.h  🛠 DÉVELOPPÉ | code=11 lignes=19
+│   │       │   └── win32_console_backend.h  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │       ├── action_policy.h  ✅ COMPLET | code=34 lignes=48
+│   │       ├── bounded_queue.h  ✅ COMPLET | code=54 lignes=73
+│   │       ├── durable_plan_store.h  ✅ COMPLET | code=26 lignes=41
+│   │       ├── sha256.h  🛠 DÉVELOPPÉ | code=3 lignes=10
+│   │       └── terminal_dashboard.h  ✅ COMPLET | code=47 lignes=66
+│   ├── src/
+│   │   ├── commands/
+│   │   │   ├── catalog_commands.cpp  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │   │   ├── command_parser.cpp  🛠 DÉVELOPPÉ | code=21 lignes=23
+│   │   │   ├── command_registry.cpp  ✅ COMPLET | code=35 lignes=47
+│   │   │   ├── compliance_commands.cpp  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   │   │   ├── finance_commands.cpp  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │   │   ├── fulfillment_commands.cpp  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   │   │   ├── marketing_commands.cpp  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   │   │   ├── order_commands.cpp  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │   │   ├── procurement_commands.cpp  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │   │   └── system_commands.cpp  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │   ├── runtime/
+│   │   │   ├── command_dispatcher.cpp  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   │   │   ├── message_codec.cpp  ✅ COMPLET | code=87 lignes=99
+│   │   │   ├── named_pipe_client.cpp  🛠 DÉVELOPPÉ | code=16 lignes=24
+│   │   │   ├── resource_monitor.cpp  🛠 DÉVELOPPÉ | code=22 lignes=40
+│   │   │   ├── runtime_bridge.cpp  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   │   │   ├── shutdown_controller.cpp  🛠 DÉVELOPPÉ | code=0 lignes=1
+│   │   │   └── single_output_owner.cpp  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   ├── terminal/
+│   │   │   ├── alert_widget.cpp  🛠 DÉVELOPPÉ | code=1 lignes=3
+│   │   │   ├── alternate_screen.cpp  🛠 DÉVELOPPÉ | code=0 lignes=1
+│   │   │   ├── ansi_console_backend.cpp  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   │   │   ├── ascii_sanitizer.cpp  ✅ COMPLET | code=49 lignes=57
+│   │   │   ├── console_backend.cpp  🛠 DÉVELOPPÉ | code=0 lignes=1
+│   │   │   ├── cursor_guard.cpp  🛠 DÉVELOPPÉ | code=0 lignes=1
+│   │   │   ├── diff_renderer.cpp  ✅ COMPLET | code=32 lignes=38
+│   │   │   ├── event_ring.cpp  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   │   │   ├── fixed_line_registry.cpp  ✅ COMPLET | code=44 lignes=56
+│   │   │   ├── input_editor.cpp  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   │   ├── keyboard_reader.cpp  🛠 DÉVELOPPÉ | code=1 lignes=3
+│   │   │   ├── metric_widget.cpp  🛠 DÉVELOPPÉ | code=19 lignes=31
+│   │   │   ├── page_registry.cpp  ✅ COMPLET | code=67 lignes=82
+│   │   │   ├── progress_bar.cpp  🛠 DÉVELOPPÉ | code=21 lignes=31
+│   │   │   ├── screen_buffer.cpp  ✅ COMPLET | code=58 lignes=75
+│   │   │   ├── screen_layout.cpp  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   │   ├── sparkline.cpp  ✅ COMPLET | code=47 lignes=58
+│   │   │   ├── status_widget.cpp  ✅ COMPLET | code=26 lignes=36
+│   │   │   ├── table_widget.cpp  ✅ COMPLET | code=61 lignes=76
+│   │   │   ├── terminal_size.cpp  ✅ COMPLET | code=30 lignes=49
+│   │   │   ├── widget.cpp  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   │   │   └── win32_console_backend.cpp  🛠 DÉVELOPPÉ | code=11 lignes=20
+│   │   ├── action_policy.cpp  ✅ COMPLET | code=56 lignes=71
+│   │   ├── durable_plan_store.cpp  ✅ COMPLET | code=91 lignes=119
+│   │   ├── main.cpp  ✅ COMPLET | code=162 lignes=197
+│   │   ├── sha256.cpp  ✅ COMPLET | code=103 lignes=124
+│   │   └── terminal_dashboard.cpp  ✅ COMPLET | code=173 lignes=215
+│   └── tests/
+│       ├── test_command_parser.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_diff_renderer.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_event_ring.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_fixed_line_registry.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_input_editor.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_message_codec.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_native_control_plane.cpp  🧪 TEST | code=31 lignes=52
+│       ├── test_resource_monitor.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_screen_layout.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_single_output_owner.cpp  🧪 TEST | code=1 lignes=3
+│       ├── test_terminal_core.cpp  🧪 TEST | code=79 lignes=105
+│       ├── test_terminal_layout.cpp  🧪 TEST | code=33 lignes=46
+│       ├── test_terminal_no_scroll.cpp  🧪 TEST | code=1 lignes=3
+│       └── test_terminal_widgets.cpp  🧪 TEST | code=48 lignes=72
+├── observability/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── action_trace.py  🛠 DÉVELOPPÉ | code=28 lignes=35
+│   ├── alert_manager.py  ✅ COMPLET | code=38 lignes=47
+│   ├── alert_router.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── alert_suppression.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── api_metrics.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   ├── business_metrics.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   ├── correlation.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── counters.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   ├── error_fingerprint.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── health_registry.py  🛠 DÉVELOPPÉ | code=15 lignes=16
+│   ├── incident_recorder.py  🛠 DÉVELOPPÉ | code=34 lignes=46
+│   ├── log_rotation.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── logger.py  ✅ COMPLET | code=42 lignes=48
+│   ├── metric_registry.py  ✅ COMPLET | code=42 lignes=52
+│   ├── metric_snapshot.py  🛠 DÉVELOPPÉ | code=13 lignes=18
+│   ├── metrics.py  🛠 DÉVELOPPÉ | code=22 lignes=27
+│   ├── resource_metrics.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   ├── sqlite_metrics_sink.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── structured_logging.py  🛠 DÉVELOPPÉ | code=4 lignes=5
+│   ├── terminal_metrics_sink.py  🛠 DÉVELOPPÉ | code=3 lignes=3
+│   ├── timers.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   ├── trace_context.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   └── workflow_trace.py  🛠 DÉVELOPPÉ | code=6 lignes=8
+├── orders/
+│   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── address_quality.py  🛠 DÉVELOPPÉ | code=29 lignes=35
+│   ├── cancellation_window.py  🛠 DÉVELOPPÉ | code=32 lignes=43
+│   ├── customer_context.py  🛠 DÉVELOPPÉ | code=17 lignes=22
+│   ├── fulfillment_status_resolver.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── order_cancellation_service.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   ├── order_change_detector.py  🛠 DÉVELOPPÉ | code=23 lignes=31
+│   ├── order_deduplicator.py  🛠 DÉVELOPPÉ | code=17 lignes=21
+│   ├── order_edit_service.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   ├── order_exception.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── order_hold_service.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── order_intake.py  🛠 DÉVELOPPÉ | code=20 lignes=27
+│   ├── order_normalizer.py  🛠 DÉVELOPPÉ | code=23 lignes=27
+│   ├── order_note_service.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── order_profit_snapshot.py  🛠 DÉVELOPPÉ | code=14 lignes=18
+│   ├── order_release_service.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── order_repository.py  🛠 DÉVELOPPÉ | code=18 lignes=24
+│   ├── order_risk_assessor.py  🛠 DÉVELOPPÉ | code=32 lignes=38
+│   ├── order_router.py  🛠 DÉVELOPPÉ | code=27 lignes=35
+│   ├── order_splitter.py  🛠 DÉVELOPPÉ | code=32 lignes=39
+│   ├── order_state_projector.py  ✅ COMPLET | code=38 lignes=44
+│   ├── order_tag_service.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── order_timeline.py  🛠 DÉVELOPPÉ | code=15 lignes=21
+│   ├── order_validator.py  🛠 DÉVELOPPÉ | code=29 lignes=36
+│   ├── oversell_guard.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   ├── payment_status_resolver.py  🛠 DÉVELOPPÉ | code=27 lignes=34
+│   └── supplier_line_mapper.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+├── pricing/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── competitor_price_adapter.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── competitor_price_monitor.py  🛠 DÉVELOPPÉ | code=6 lignes=8
+│   ├── currency_adjuster.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── currency_volatility_buffer.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── discount_margin_guard.py  🛠 DÉVELOPPÉ | code=33 lignes=42
+│   ├── dynamic_margin_policy.py  ✅ COMPLET | code=41 lignes=49
+│   ├── gross_margin_calculator.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── landed_cost_calculator.py  🛠 DÉVELOPPÉ | code=24 lignes=26
+│   ├── markup_calculator.py  🛠 DÉVELOPPÉ | code=24 lignes=33
+│   ├── minimum_advertised_price_policy.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── platform_fee_estimator.py  🛠 DÉVELOPPÉ | code=23 lignes=31
+│   ├── price_change_audit.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── price_change_detector.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   ├── price_guardrails.py  ✅ COMPLET | code=69 lignes=77
+│   ├── price_history.py  🛠 DÉVELOPPÉ | code=16 lignes=19
+│   ├── price_snapshot_repository.py  🛠 DÉVELOPPÉ | code=19 lignes=19
+│   ├── pricing_engine.py  ✅ COMPLET | code=35 lignes=37
+│   ├── profit_floor_guard.py  🛠 DÉVELOPPÉ | code=15 lignes=19
+│   ├── psychological_pricing.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── repricing_scheduler.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── shipping_cost_allocator.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── shipping_subsidy_policy.py  🛠 DÉVELOPPÉ | code=20 lignes=27
+│   └── tax_estimator.py  🛠 DÉVELOPPÉ | code=28 lignes=36
+├── procurement/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── address_builder.py  🛠 DÉVELOPPÉ | code=15 lignes=15
+│   ├── batch_builder.py  🛠 DÉVELOPPÉ | code=24 lignes=25
+│   ├── batch_optimizer.py  🛠 DÉVELOPPÉ | code=30 lignes=35
+│   ├── batch_reconciler.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── cancellation_handler.py  ✅ COMPLET | code=60 lignes=72
+│   ├── freight_requote_service.py  🛠 DÉVELOPPÉ | code=13 lignes=17
+│   ├── order_line_aggregator.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   ├── partial_failure_handler.py  🛠 DÉVELOPPÉ | code=19 lignes=22
+│   ├── payment_approval_gate.py  🛠 DÉVELOPPÉ | code=19 lignes=19
+│   ├── payment_budget_guard.py  🛠 DÉVELOPPÉ | code=29 lignes=36
+│   ├── payment_capability_gate.py  ✅ COMPLET | code=48 lignes=57
+│   ├── payment_idempotency.py  ✅ COMPLET | code=100 lignes=112
+│   ├── payment_orchestrator.py  🛠 DÉVELOPPÉ | code=26 lignes=27
+│   ├── payment_result_monitor.py  ✅ COMPLET | code=68 lignes=80
+│   ├── price_recheck_service.py  🛠 DÉVELOPPÉ | code=14 lignes=18
+│   ├── procurement_engine.py  ✅ COMPLET | code=66 lignes=70
+│   ├── purchase_compensator.py  ✅ COMPLET | code=39 lignes=46
+│   ├── purchase_intent.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   ├── purchase_intent_repository.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   ├── purchase_order_builder.py  🛠 DÉVELOPPÉ | code=27 lignes=31
+│   ├── purchase_order_repository.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── purchase_plan.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── purchase_plan_validator.py  🛠 DÉVELOPPÉ | code=16 lignes=20
+│   ├── stock_recheck_service.py  ✅ COMPLET | code=40 lignes=48
+│   ├── supplier_message_builder.py  ✅ COMPLET | code=60 lignes=66
+│   ├── supplier_order_monitor.py  🛠 DÉVELOPPÉ | code=34 lignes=42
+│   ├── supplier_order_router.py  🛠 DÉVELOPPÉ | code=23 lignes=30
+│   ├── supplier_splitter.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   └── threshold_manager.py  🛠 DÉVELOPPÉ | code=16 lignes=16
+├── quality/
+│   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=3
+│   ├── catalog_quality_gate.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── completeness_checker.py  🛠 DÉVELOPPÉ | code=32 lignes=40
+│   ├── consistency_checker.py  🛠 DÉVELOPPÉ | code=7 lignes=9
+│   ├── data_quality_score.py  ✅ COMPLET | code=35 lignes=44
+│   ├── financial_quality_gate.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── freshness_checker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── media_quality_gate.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   ├── order_quality_gate.py  🛠 DÉVELOPPÉ | code=30 lignes=40
+│   ├── quality_gate.py  🛠 DÉVELOPPÉ | code=13 lignes=18
+│   ├── supplier_quality_gate.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   └── validation_report.py  🛠 DÉVELOPPÉ | code=6 lignes=8
+├── references/
+│   ├── url_api_alibaba_2026-07.txt  📚 DOCUMENTATION | code=1030 lignes=1193
+│   └── url_api_shopify_2026-07.txt  📚 DOCUMENTATION | code=1724 lignes=1770
+├── reports/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── ai_performance_report.py  🛠 DÉVELOPPÉ | code=8 lignes=13
+│   ├── api_capability_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── audit_report.py  🛠 DÉVELOPPÉ | code=8 lignes=13
+│   ├── automation_coverage_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── cashflow_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── catalog_quality_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── compliance_exception_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── csv_exporter.py  🛠 DÉVELOPPÉ | code=24 lignes=29
+│   ├── customer_service_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── daily_report.py  🛠 DÉVELOPPÉ | code=9 lignes=14
+│   ├── data_quality_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── executive_dashboard_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── html_disabled_notice.md  📚 DOCUMENTATION | code=4 lignes=6
+│   ├── inventory_report.py  🛠 DÉVELOPPÉ | code=8 lignes=13
+│   ├── json_exporter.py  🛠 DÉVELOPPÉ | code=18 lignes=21
+│   ├── marketing_performance_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── monthly_report.py  🛠 DÉVELOPPÉ | code=9 lignes=14
+│   ├── operational_summary_report.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── order_exception_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── product_opportunity_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── product_profitability_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── profit_report.py  🛠 DÉVELOPPÉ | code=8 lignes=13
+│   ├── refund_report.py  🛠 DÉVELOPPÉ | code=8 lignes=13
+│   ├── report_base.py  ✅ COMPLET | code=113 lignes=139
+│   ├── report_registry.py  ✅ COMPLET | code=38 lignes=50
+│   ├── resource_budget_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── shipping_report.py  🛠 DÉVELOPPÉ | code=8 lignes=13
+│   ├── supplier_performance_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── supplier_report.py  🛠 DÉVELOPPÉ | code=8 lignes=13
+│   ├── supplier_risk_report.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   └── weekly_report.py  🛠 DÉVELOPPÉ | code=9 lignes=14
+├── returns/
+│   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── chargeback_evidence_builder.py  🛠 DÉVELOPPÉ | code=19 lignes=25
+│   ├── chargeback_monitor.py  ✅ COMPLET | code=42 lignes=52
+│   ├── dispute_manager.py  🛠 DÉVELOPPÉ | code=26 lignes=33
+│   ├── exchange_planner.py  🛠 DÉVELOPPÉ | code=20 lignes=25
+│   ├── refund_calculator.py  🛠 DÉVELOPPÉ | code=14 lignes=19
+│   ├── refund_decision.py  🛠 DÉVELOPPÉ | code=31 lignes=36
+│   ├── refund_executor.py  🛠 DÉVELOPPÉ | code=34 lignes=41
+│   ├── refund_policy.py  ✅ COMPLET | code=51 lignes=56
+│   ├── restocking_service.py  ✅ COMPLET | code=39 lignes=46
+│   ├── return_analytics.py  ✅ COMPLET | code=50 lignes=58
+│   ├── return_eligibility.py  🛠 DÉVELOPPÉ | code=19 lignes=24
+│   ├── return_label_planner.py  ✅ COMPLET | code=42 lignes=50
+│   ├── return_repository.py  ✅ COMPLET | code=65 lignes=76
+│   ├── return_request.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── return_shipping_tracker.py  🛠 DÉVELOPPÉ | code=33 lignes=40
+│   └── return_validator.py  ✅ COMPLET | code=40 lignes=48
+├── risk/
+│   ├── financial/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── cash_exposure.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   ├── currency_exposure.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   │   ├── refund_exposure.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   └── supplier_payment_exposure.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── fraud/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── address_mismatch_detector.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   │   ├── customer_fraud_history.py  ✅ COMPLET | code=41 lignes=48
+│   │   ├── high_risk_order_gate.py  🛠 DÉVELOPPÉ | code=12 lignes=16
+│   │   ├── order_fraud_rules.py  ✅ COMPLET | code=54 lignes=59
+│   │   └── velocity_detector.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── operational/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── api_outage_risk.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── inventory_drift_risk.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   ├── shipping_delay_risk.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   │   └── supplier_failure_risk.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── anomaly_rules.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── financial_exposure.py  🛠 DÉVELOPPÉ | code=17 lignes=23
+│   ├── risk_context.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── risk_registry.py  🛠 DÉVELOPPÉ | code=14 lignes=18
+│   ├── risk_score.py  🛠 DÉVELOPPÉ | code=26 lignes=32
+│   ├── risk_thresholds.py  🛠 DÉVELOPPÉ | code=11 lignes=14
+│   └── velocity_guard.py  🛠 DÉVELOPPÉ | code=20 lignes=24
+├── sales_channels/
+│   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   ├── base_adapter.py  🛠 DÉVELOPPÉ | code=27 lignes=29
+│   ├── channel_capabilities.py  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   ├── channel_publication_plan.py  🛠 DÉVELOPPÉ | code=6 lignes=8
+│   ├── channel_registry.py  🛠 DÉVELOPPÉ | code=17 lignes=17
+│   ├── google_merchant_adapter.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── meta_catalog_adapter.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── pos_adapter.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── shop_app_adapter.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   └── tiktok_shop_adapter.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+├── scripts/
+│   ├── linux/
+│   │   ├── backup.sh  🔗 INTÉGRATION | code=3 lignes=4
+│   │   ├── install.sh  🔗 INTÉGRATION | code=7 lignes=8
+│   │   ├── install_service.sh  🔗 INTÉGRATION | code=5 lignes=6
+│   │   ├── remove_service.sh  🔗 INTÉGRATION | code=3 lignes=4
+│   │   └── run.sh  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── maintenance/
+│   │   ├── check_database.py  🛠 DÉVELOPPÉ | code=5 lignes=6
+│   │   ├── purge_expired_pii.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   │   ├── rebuild_read_models.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── reconcile_all.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   │   ├── rotate_audit_chain.py  🛠 DÉVELOPPÉ | code=11 lignes=12
+│   │   ├── vacuum_database.py  🛠 DÉVELOPPÉ | code=6 lignes=7
+│   │   ├── verify_media_cache.py  🛠 DÉVELOPPÉ | code=12 lignes=13
+│   │   ├── verify_shopify_mappings.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   │   └── verify_supplier_mappings.py  🛠 DÉVELOPPÉ | code=7 lignes=8
+│   ├── release/
+│   │   ├── generate_checksums.py  🛠 DÉVELOPPÉ | code=16 lignes=19
+│   │   ├── generate_manifest.py  🛠 DÉVELOPPÉ | code=19 lignes=22
+│   │   ├── package_windows.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   │   └── verify_release.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── windows/
+│   │   ├── backup.ps1  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── export_diagnostics.ps1  🔗 INTÉGRATION | code=11 lignes=11
+│   │   ├── install.ps1  🔗 INTÉGRATION | code=8 lignes=8
+│   │   ├── install_core.ps1  🔗 INTÉGRATION | code=9 lignes=9
+│   │   ├── install_optional_ml.ps1  🔗 INTÉGRATION | code=5 lignes=5
+│   │   ├── install_scheduled_task.ps1  🔗 INTÉGRATION | code=5 lignes=5
+│   │   ├── open_firewall_port.ps1  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── register_startup_task.ps1  🔗 INTÉGRATION | code=5 lignes=5
+│   │   ├── remove_scheduled_task.ps1  🔗 INTÉGRATION | code=1 lignes=1
+│   │   ├── run.ps1  🔗 INTÉGRATION | code=3 lignes=3
+│   │   ├── run_forever.ps1  🔗 INTÉGRATION | code=7 lignes=7
+│   │   ├── run_lite.ps1  🔗 INTÉGRATION | code=7 lignes=7
+│   │   ├── run_live.ps1  🔗 INTÉGRATION | code=7 lignes=7
+│   │   ├── run_terminal_only.ps1  🔗 INTÉGRATION | code=4 lignes=4
+│   │   ├── unregister_startup_task.ps1  🔗 INTÉGRATION | code=2 lignes=2
+│   │   └── validate_environment.ps1  🔗 INTÉGRATION | code=12 lignes=12
+│   ├── backup_database.py  🔗 INTÉGRATION | code=4 lignes=4
+│   ├── create_admin_secret.py  🔗 INTÉGRATION | code=2 lignes=2
+│   ├── initialize_database.py  🔗 INTÉGRATION | code=3 lignes=3
+│   ├── initialize_project.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── reconcile_all.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   ├── register_shopify_webhooks.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   ├── request_alibaba_permissions.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── restore_database.py  🔗 INTÉGRATION | code=7 lignes=7
+│   ├── rotate_logs.py  🔗 INTÉGRATION | code=2 lignes=2
+│   └── validate_environment.py  🔗 INTÉGRATION | code=6 lignes=6
+├── security/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── access_control.py  🛠 DÉVELOPPÉ | code=30 lignes=40
+│   ├── audit_chain_verifier.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── audit_logger.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── command_authorizer.py  🛠 DÉVELOPPÉ | code=17 lignes=23
+│   ├── credential_rotation.py  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   ├── data_retention.py  🛠 DÉVELOPPÉ | code=27 lignes=38
+│   ├── download_scanner.py  🛠 DÉVELOPPÉ | code=18 lignes=23
+│   ├── emergency_lockdown.py  🛠 DÉVELOPPÉ | code=12 lignes=15
+│   ├── encryption.py  🛠 DÉVELOPPÉ | code=20 lignes=22
+│   ├── field_encryption.py  🛠 DÉVELOPPÉ | code=9 lignes=10
+│   ├── idempotency.py  🛠 DÉVELOPPÉ | code=30 lignes=30
+│   ├── media_content_guard.py  🛠 DÉVELOPPÉ | code=10 lignes=13
+│   ├── oauth_state_store.py  🛠 DÉVELOPPÉ | code=13 lignes=16
+│   ├── oauth_token_vault.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   ├── pci_guard.py  🛠 DÉVELOPPÉ | code=10 lignes=11
+│   ├── permission_minimizer.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── pii_vault.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   ├── replay_protection.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── request_signing.py  ✅ COMPLET | code=43 lignes=55
+│   ├── runtime_integrity_monitor.py  🛠 DÉVELOPPÉ | code=15 lignes=18
+│   ├── secret_scanner.py  ✅ COMPLET | code=69 lignes=79
+│   ├── secure_delete.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── session_integrity.py  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   ├── sqlite_integrity.py  🛠 DÉVELOPPÉ | code=8 lignes=11
+│   ├── token_redactor.py  🛠 DÉVELOPPÉ | code=10 lignes=10
+│   └── webhook_security.py  🛠 DÉVELOPPÉ | code=20 lignes=22
+├── shopify_alibaba_ai_orchestrator.egg-info/
+│   ├── dependency_links.txt  📚 DOCUMENTATION | code=0 lignes=1
+│   ├── entry_points.txt  📚 DOCUMENTATION | code=2 lignes=2
+│   ├── PKG-INFO  🔗 INTÉGRATION | code=171 lignes=231
+│   ├── requires.txt  📚 DOCUMENTATION | code=19 lignes=21
+│   ├── SOURCES.txt  📚 DOCUMENTATION | code=2162 lignes=2162
+│   └── top_level.txt  📚 DOCUMENTATION | code=38 lignes=38
+├── store_management/
+│   ├── __init__.py  🔗 INTÉGRATION | code=2 lignes=3
+│   ├── blog_manager.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── domain_auditor.py  🛠 DÉVELOPPÉ | code=24 lignes=26
+│   ├── location_manager.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   ├── markets_manager.py  🛠 DÉVELOPPÉ | code=28 lignes=30
+│   ├── menu_manager.py  🛠 DÉVELOPPÉ | code=31 lignes=33
+│   ├── metafield_definition_manager.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   ├── metaobject_definition_manager.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+│   ├── mutation_plan.py  🛠 DÉVELOPPÉ | code=19 lignes=20
+│   ├── navigation_manager.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── page_manager.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── payment_settings_audit.py  🛠 DÉVELOPPÉ | code=21 lignes=23
+│   ├── publication_manager.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── redirect_manager.py  🛠 DÉVELOPPÉ | code=34 lignes=36
+│   ├── search_and_discovery_manager.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   ├── settings_sync.py  🛠 DÉVELOPPÉ | code=33 lignes=36
+│   ├── shipping_settings_audit.py  🛠 DÉVELOPPÉ | code=27 lignes=29
+│   ├── shop_policy_manager.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── store_profile.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── store_settings_sync.py  🛠 DÉVELOPPÉ | code=5 lignes=9
+│   ├── tax_settings_audit.py  🛠 DÉVELOPPÉ | code=20 lignes=22
+│   ├── theme_asset_guard.py  🛠 DÉVELOPPÉ | code=25 lignes=27
+│   ├── theme_settings_manager.py  🛠 DÉVELOPPÉ | code=19 lignes=21
+│   └── translations_manager.py  🛠 DÉVELOPPÉ | code=12 lignes=12
+├── supplier_intelligence/
+│   ├── due_diligence/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── certification_verifier.py  🛠 DÉVELOPPÉ | code=30 lignes=32
+│   │   ├── company_verifier.py  🛠 DÉVELOPPÉ | code=22 lignes=24
+│   │   ├── credential_verifier.py  🛠 DÉVELOPPÉ | code=31 lignes=34
+│   │   ├── factory_audit_registry.py  🛠 DÉVELOPPÉ | code=13 lignes=14
+│   │   └── trade_assurance_verifier.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── rfq/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── negotiation_policy.py  🛠 DÉVELOPPÉ | code=16 lignes=18
+│   │   ├── quote_comparator.py  ✅ COMPLET | code=53 lignes=59
+│   │   ├── quote_normalizer.py  🛠 DÉVELOPPÉ | code=28 lignes=30
+│   │   ├── rfq_builder.py  🛠 DÉVELOPPÉ | code=22 lignes=24
+│   │   └── rfq_dispatcher.py  🛠 DÉVELOPPÉ | code=11 lignes=11
+│   ├── samples/
+│   │   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   │   ├── sample_order_builder.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   │   ├── sample_quality_review.py  🛠 DÉVELOPPÉ | code=13 lignes=13
+│   │   └── sample_tracker.py  🛠 DÉVELOPPÉ | code=16 lignes=17
+│   ├── __init__.py  🔗 INTÉGRATION | code=0 lignes=1
+│   ├── supplier_blacklist.py  🛠 DÉVELOPPÉ | code=25 lignes=27
+│   ├── supplier_candidate.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   ├── supplier_capacity.py  🛠 DÉVELOPPÉ | code=24 lignes=31
+│   ├── supplier_delivery_history.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── supplier_discovery.py  🛠 DÉVELOPPÉ | code=32 lignes=40
+│   ├── supplier_dispute_history.py  🛠 DÉVELOPPÉ | code=16 lignes=18
+│   ├── supplier_identity_resolver.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── supplier_price_history.py  🛠 DÉVELOPPÉ | code=3 lignes=5
+│   ├── supplier_profile.py  🛠 DÉVELOPPÉ | code=18 lignes=19
+│   ├── supplier_quality_history.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── supplier_ranker.py  🛠 DÉVELOPPÉ | code=21 lignes=29
+│   ├── supplier_repository.py  🛠 DÉVELOPPÉ | code=19 lignes=20
+│   ├── supplier_response_time.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── supplier_risk_assessor.py  🛠 DÉVELOPPÉ | code=20 lignes=21
+│   ├── supplier_score.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   └── supplier_watchlist.py  🛠 DÉVELOPPÉ | code=23 lignes=25
+├── suppliers/
+│   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── due_diligence.py  🛠 DÉVELOPPÉ | code=20 lignes=25
+│   ├── offer_comparator.py  🛠 DÉVELOPPÉ | code=14 lignes=16
+│   ├── performance_monitor.py  🛠 DÉVELOPPÉ | code=14 lignes=17
+│   ├── supplier_repository.py  🛠 DÉVELOPPÉ | code=16 lignes=22
+│   └── supplier_score.py  🛠 DÉVELOPPÉ | code=18 lignes=25
+├── tax/
+│   ├── __init__.py  🔗 INTÉGRATION | code=3 lignes=4
+│   ├── country_rule_registry.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── duty_estimator.py  🛠 DÉVELOPPÉ | code=16 lignes=21
+│   ├── import_thresholds.py  🛠 DÉVELOPPÉ | code=14 lignes=14
+│   ├── province_rule_registry.py  🛠 DÉVELOPPÉ | code=33 lignes=43
+│   ├── tax_category_mapper.py  🛠 DÉVELOPPÉ | code=27 lignes=35
+│   ├── tax_context.py  🛠 DÉVELOPPÉ | code=8 lignes=10
+│   ├── tax_engine.py  🛠 DÉVELOPPÉ | code=24 lignes=24
+│   ├── tax_reconciliation.py  🛠 DÉVELOPPÉ | code=26 lignes=33
+│   └── tax_reserve_calculator.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+├── tests/
+│   ├── chaos/
+│   │   ├── test_alibaba_timeout_recovery.py  🧪 TEST | code=5 lignes=6
+│   │   ├── test_corrupt_plan_quarantine.py  🧪 TEST | code=9 lignes=10
+│   │   ├── test_database_lock_recovery.py  🧪 TEST | code=5 lignes=6
+│   │   ├── test_disk_full_protection.py  🧪 TEST | code=4 lignes=5
+│   │   ├── test_process_crash_recovery.py  🧪 TEST | code=5 lignes=6
+│   │   └── test_shopify_timeout_recovery.py  🧪 TEST | code=6 lignes=7
+│   ├── contract/
+│   │   ├── alibaba/
+│   │   │   ├── test_order_contract.py  🧪 TEST | code=3 lignes=4
+│   │   │   ├── test_payment_contract.py  🧪 TEST | code=3 lignes=4
+│   │   │   ├── test_product_contract.py  🧪 TEST | code=3 lignes=4
+│   │   │   ├── test_supplier_contract.py  🧪 TEST | code=3 lignes=4
+│   │   │   └── test_tracking_contract.py  🧪 TEST | code=3 lignes=4
+│   │   ├── shopify/
+│   │   │   ├── test_bulk_contract.py  🧪 TEST | code=4 lignes=5
+│   │   │   ├── test_fulfillment_contract.py  🧪 TEST | code=4 lignes=5
+│   │   │   ├── test_inventory_contract.py  🧪 TEST | code=4 lignes=5
+│   │   │   ├── test_media_contract.py  🧪 TEST | code=4 lignes=5
+│   │   │   ├── test_orders_contract.py  🧪 TEST | code=4 lignes=5
+│   │   │   ├── test_products_contract.py  🧪 TEST | code=4 lignes=5
+│   │   │   └── test_returns_contract.py  🧪 TEST | code=4 lignes=5
+│   │   ├── __init__.py  🧪 TEST | code=1 lignes=1
+│   │   ├── test_alibaba_method_contract.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_currency_contract.py  🧪 TEST | code=5 lignes=5
+│   │   ├── test_extended_integration_contracts.py  🧪 TEST | code=31 lignes=39
+│   │   ├── test_shopify_schema_contract.py  🧪 TEST | code=2 lignes=2
+│   │   └── test_webhook_payload_contract.py  🧪 TEST | code=1 lignes=1
+│   ├── e2e/
+│   │   ├── test_duplicate_webhook_idempotency.py  🧪 TEST | code=7 lignes=8
+│   │   ├── test_full_store_automation_dry_run.py  🧪 TEST | code=9 lignes=10
+│   │   ├── test_image_import_to_shopify.py  🧪 TEST | code=11 lignes=13
+│   │   ├── test_payment_failure_compensation.py  🧪 TEST | code=11 lignes=12
+│   │   ├── test_restart_recovery.py  🧪 TEST | code=6 lignes=7
+│   │   └── test_supplier_partial_failure.py  🧪 TEST | code=6 lignes=7
+│   ├── end_to_end/
+│   │   ├── __init__.py  🧪 TEST | code=1 lignes=1
+│   │   ├── test_paid_order_to_alibaba.py  🧪 TEST | code=3 lignes=3
+│   │   ├── test_product_to_shopify.py  🧪 TEST | code=3 lignes=3
+│   │   ├── test_recovery_after_crash.py  🧪 TEST | code=4 lignes=4
+│   │   ├── test_refund_flow.py  🧪 TEST | code=2 lignes=2
+│   │   └── test_tracking_to_shopify.py  🧪 TEST | code=3 lignes=3
+│   ├── fixtures/
+│   │   ├── alibaba_order.json  🧪 TEST | code=6 lignes=6
+│   │   ├── alibaba_payment_result.json  🧪 TEST | code=4 lignes=4
+│   │   ├── alibaba_product.json  🧪 TEST | code=7 lignes=7
+│   │   ├── alibaba_shipping_quote.json  🧪 TEST | code=5 lignes=5
+│   │   ├── alibaba_tracking.json  🧪 TEST | code=6 lignes=6
+│   │   ├── shopify_order_paid.json  🧪 TEST | code=23 lignes=23
+│   │   ├── shopify_product.json  🧪 TEST | code=5 lignes=5
+│   │   └── shopify_refund.json  🧪 TEST | code=4 lignes=4
+│   ├── integration/
+│   │   ├── __init__.py  🧪 TEST | code=1 lignes=1
+│   │   ├── test_alibaba_gateway.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_alibaba_orders.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_alibaba_products.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_alibaba_shipping.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_api_control_plane.py  🧪 TEST | code=24 lignes=30
+│   │   ├── test_database.py  🧪 TEST | code=1 lignes=1
+│   │   ├── test_full_catalog_dry_run.py  🧪 TEST | code=8 lignes=9
+│   │   ├── test_native_terminal_bridge.py  🧪 TEST | code=8 lignes=9
+│   │   ├── test_order_to_supplier_dry_run.py  🧪 TEST | code=6 lignes=7
+│   │   ├── test_reconciliation_recovery.py  🧪 TEST | code=6 lignes=7
+│   │   ├── test_refund_workflow_dry_run.py  🧪 TEST | code=9 lignes=11
+│   │   ├── test_runtime.py  🧪 TEST | code=4 lignes=4
+│   │   ├── test_shopify_graphql.py  🧪 TEST | code=3 lignes=3
+│   │   ├── test_shopify_inventory.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_shopify_webhooks.py  🧪 TEST | code=3 lignes=3
+│   │   └── test_tracking_to_shopify_dry_run.py  🧪 TEST | code=4 lignes=5
+│   ├── performance/
+│   │   ├── __init__.py  🧪 TEST | code=1 lignes=1
+│   │   ├── test_2gb_memory_budget.py  🧪 TEST | code=4 lignes=5
+│   │   ├── test_2gb_runtime_budget.py  🧪 TEST | code=8 lignes=10
+│   │   ├── test_750mb_limit.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_api_backpressure.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_bulk_jsonl_streaming.py  🧪 TEST | code=7 lignes=8
+│   │   ├── test_dashboard_refresh.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_dual_core_budget.py  🧪 TEST | code=5 lignes=6
+│   │   ├── test_dual_core_runtime.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_queue_throughput.py  🧪 TEST | code=5 lignes=5
+│   │   ├── test_sqlite_queue_throughput.py  🧪 TEST | code=5 lignes=6
+│   │   └── test_terminal_refresh_budget.py  🧪 TEST | code=8 lignes=9
+│   ├── security/
+│   │   ├── __init__.py  🧪 TEST | code=1 lignes=1
+│   │   ├── test_audit_chain_integrity.py  🧪 TEST | code=4 lignes=4
+│   │   ├── test_command_authorization.py  🧪 TEST | code=6 lignes=7
+│   │   ├── test_media_download_guard.py  🧪 TEST | code=6 lignes=7
+│   │   ├── test_payment_data_guard.py  🧪 TEST | code=4 lignes=4
+│   │   ├── test_pii_encryption.py  🧪 TEST | code=3 lignes=3
+│   │   ├── test_pii_retention.py  🧪 TEST | code=5 lignes=6
+│   │   ├── test_replay_protection.py  🧪 TEST | code=3 lignes=3
+│   │   ├── test_secret_redaction.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_secret_redaction_complete.py  🧪 TEST | code=5 lignes=6
+│   │   ├── test_secret_scanner_build_exclusion.py  🧪 TEST | code=15 lignes=20
+│   │   └── test_webhook_spoofing.py  🧪 TEST | code=2 lignes=2
+│   ├── terminal/
+│   │   ├── test_ascii_fallback.py  🧪 TEST | code=4 lignes=5
+│   │   ├── test_event_ring_fixed.py  🧪 TEST | code=5 lignes=6
+│   │   ├── test_fixed_rows.py  🧪 TEST | code=6 lignes=7
+│   │   ├── test_fixed_terminal.py  🧪 TEST | code=32 lignes=40
+│   │   ├── test_input_line_fixed.py  🧪 TEST | code=5 lignes=6
+│   │   ├── test_no_scroll.py  🧪 TEST | code=5 lignes=6
+│   │   └── test_resize_relayout.py  🧪 TEST | code=4 lignes=5
+│   ├── unit/
+│   │   ├── analytics/
+│   │   │   └── test_analytics_finance_extended.py  🧪 TEST | code=62 lignes=79
+│   │   ├── automation/
+│   │   │   ├── test_action_executor.py  🧪 TEST | code=10 lignes=11
+│   │   │   ├── test_automation_core.py  🧪 TEST | code=50 lignes=66
+│   │   │   ├── test_autonomy_controller.py  🧪 TEST | code=5 lignes=6
+│   │   │   ├── test_decision_engine.py  🧪 TEST | code=4 lignes=5
+│   │   │   ├── test_policy_engine.py  🧪 TEST | code=6 lignes=7
+│   │   │   └── test_reconciliation.py  🧪 TEST | code=3 lignes=4
+│   │   ├── business/
+│   │   │   └── test_business_controls.py  🧪 TEST | code=62 lignes=81
+│   │   ├── catalog/
+│   │   │   ├── test_catalog_compliance_extended.py  🧪 TEST | code=67 lignes=84
+│   │   │   ├── test_catalog_intelligence.py  🧪 TEST | code=31 lignes=43
+│   │   │   ├── test_image_pipeline_complete.py  🧪 TEST | code=4 lignes=5
+│   │   │   ├── test_media_pipeline.py  🧪 TEST | code=41 lignes=57
+│   │   │   ├── test_media_rights_guard.py  🧪 TEST | code=5 lignes=6
+│   │   │   ├── test_product_discovery.py  🧪 TEST | code=6 lignes=7
+│   │   │   ├── test_product_ranker.py  🧪 TEST | code=6 lignes=7
+│   │   │   └── test_shopify_staged_upload.py  🧪 TEST | code=8 lignes=10
+│   │   ├── control_plane/
+│   │   │   └── test_control_plane_extended.py  🧪 TEST | code=81 lignes=104
+│   │   ├── customer_service/
+│   │   │   └── test_ticket_router.py  🧪 TEST | code=4 lignes=5
+│   │   ├── customers/
+│   │   │   └── test_customer_privacy.py  🧪 TEST | code=46 lignes=57
+│   │   ├── dashboard/
+│   │   │   └── test_extended_dashboard.py  🧪 TEST | code=22 lignes=31
+│   │   ├── infrastructure/
+│   │   │   └── test_infrastructure_extended.py  🧪 TEST | code=29 lignes=37
+│   │   ├── marketing/
+│   │   │   ├── test_discount_guardrails.py  🧪 TEST | code=5 lignes=6
+│   │   │   └── test_seo_auditor.py  🧪 TEST | code=5 lignes=6
+│   │   ├── orders/
+│   │   │   ├── test_order_risk_assessor.py  🧪 TEST | code=4 lignes=5
+│   │   │   ├── test_order_router.py  🧪 TEST | code=5 lignes=6
+│   │   │   └── test_supplier_line_mapper.py  🧪 TEST | code=4 lignes=5
+│   │   ├── quality/
+│   │   │   └── test_quality_gate.py  🧪 TEST | code=4 lignes=5
+│   │   ├── returns/
+│   │   │   ├── test_dispute_refund_extended.py  🧪 TEST | code=20 lignes=27
+│   │   │   └── test_return_eligibility.py  🧪 TEST | code=6 lignes=7
+│   │   ├── risk/
+│   │   │   └── test_high_risk_order_gate.py  🧪 TEST | code=5 lignes=6
+│   │   ├── store_management/
+│   │   │   └── test_store_settings_sync.py  🧪 TEST | code=4 lignes=5
+│   │   ├── suppliers/
+│   │   │   ├── test_due_diligence.py  🧪 TEST | code=4 lignes=5
+│   │   │   └── test_supplier_score.py  🧪 TEST | code=4 lignes=5
+│   │   ├── tax/
+│   │   │   └── test_duty_estimator.py  🧪 TEST | code=4 lignes=5
+│   │   ├── workers/
+│   │   │   └── test_extended_workers.py  🧪 TEST | code=20 lignes=27
+│   │   ├── workflows/
+│   │   │   └── test_extended_workflows.py  🧪 TEST | code=30 lignes=39
+│   │   ├── __init__.py  🧪 TEST | code=1 lignes=1
+│   │   ├── test_ai_autonomy_integrations_2_4.py  🧪 TEST | code=163 lignes=212
+│   │   ├── test_ai_memory_budget.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_api_security_2_5.py  🧪 TEST | code=56 lignes=75
+│   │   ├── test_audit_chain.py  🧪 TEST | code=46 lignes=56
+│   │   ├── test_batch_builder.py  🧪 TEST | code=5 lignes=5
+│   │   ├── test_cli_api_2_3.py  🧪 TEST | code=12 lignes=13
+│   │   ├── test_commerce_completion_2_4.py  🧪 TEST | code=235 lignes=299
+│   │   ├── test_commerce_core_extended.py  🧪 TEST | code=96 lignes=122
+│   │   ├── test_compliance_filters.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_consent_price_reports_2_3.py  🧪 TEST | code=10 lignes=11
+│   │   ├── test_deep_core_2_2.py  🧪 TEST | code=55 lignes=62
+│   │   ├── test_deep_policies_2_2.py  🧪 TEST | code=52 lignes=59
+│   │   ├── test_deep_runtime_2_3.py  🧪 TEST | code=26 lignes=27
+│   │   ├── test_domain_state_events_2_5.py  🧪 TEST | code=44 lignes=60
+│   │   ├── test_http_queue_locking_2_5.py  🧪 TEST | code=99 lignes=122
+│   │   ├── test_idempotency.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_inventory_sync.py  🧪 TEST | code=2 lignes=2
+│   │   ├── test_landed_cost.py  🧪 TEST | code=5 lignes=5
+│   │   ├── test_marketing_store_supplier_2_4.py  🧪 TEST | code=161 lignes=200
+│   │   ├── test_maximized_services_2_4.py  🧪 TEST | code=221 lignes=304
+│   │   ├── test_models_low_resource_2_5.py  🧪 TEST | code=43 lignes=57
+│   │   ├── test_money.py  🧪 TEST | code=4 lignes=4
+│   │   ├── test_native_plan_bridge.py  🧪 TEST | code=87 lignes=101
+│   │   ├── test_policy_webhook_2_5.py  🧪 TEST | code=71 lignes=97
+│   │   ├── test_pricing_engine.py  🧪 TEST | code=6 lignes=6
+│   │   ├── test_queue.py  🧪 TEST | code=5 lignes=5
+│   │   ├── test_runtime_foundations_2_3.py  🧪 TEST | code=20 lignes=21
+│   │   ├── test_runtime_foundations_2_5.py  🧪 TEST | code=77 lignes=97
+│   │   ├── test_shopify_handlers_2_3.py  🧪 TEST | code=10 lignes=11
+│   │   ├── test_shopify_mappers_2_5.py  🧪 TEST | code=71 lignes=88
+│   │   ├── test_shopify_resilience_2_2.py  🧪 TEST | code=39 lignes=44
+│   │   ├── test_signature.py  🧪 TEST | code=4 lignes=4
+│   │   ├── test_state_machines.py  🧪 TEST | code=3 lignes=3
+│   │   ├── test_store_channels_tax_2_3.py  🧪 TEST | code=24 lignes=25
+│   │   ├── test_supplier_quality_returns_extended.py  🧪 TEST | code=41 lignes=53
+│   │   ├── test_webhook_hmac.py  🧪 TEST | code=6 lignes=6
+│   │   └── test_workflow_and_tree_2_3.py  🧪 TEST | code=18 lignes=19
+│   ├── __init__.py  🧪 TEST | code=1 lignes=1
+│   ├── conftest.py  🧪 TEST | code=12 lignes=12
+│   └── target_test_support.py  🧪 TEST | code=20 lignes=29
+├── tools/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── alibaba_capability_discovery.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   ├── alibaba_connection_test.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── alibaba_contract_test.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── alibaba_method_tester.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── alibaba_order_dry_run_test.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   ├── alibaba_permission_probe.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── alibaba_product_search_test.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── alibaba_signature_tester.py  🛠 DÉVELOPPÉ | code=2 lignes=2
+│   ├── alibaba_tracking_test.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── audit_chain_test.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── backup_restore_test.py  🛠 DÉVELOPPÉ | code=21 lignes=27
+│   ├── database_inspector.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── database_integrity_test.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── emergency_recovery.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── end_to_end_dry_run.py  🛠 DÉVELOPPÉ | code=12 lignes=14
+│   ├── failure_recovery_test.py  🛠 DÉVELOPPÉ | code=15 lignes=21
+│   ├── fixed_line_snapshot.py  🛠 DÉVELOPPÉ | code=12 lignes=14
+│   ├── generate_status_tree.py  ✅ COMPLET | code=53 lignes=57
+│   ├── load_test.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── memory_profiler.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── model_benchmark.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── payment_capability_tester.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── project_audit.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── queue_inspector.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   ├── reconciliation_test.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── resource_budget_test.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+│   ├── runtime_tool.py  🛠 DÉVELOPPÉ | code=8 lignes=9
+│   ├── shipping_quote_tester.py  🛠 DÉVELOPPÉ | code=6 lignes=6
+│   ├── shopify_bulk_operation_test.py  🛠 DÉVELOPPÉ | code=11 lignes=13
+│   ├── shopify_connection_test.py  🛠 DÉVELOPPÉ | code=7 lignes=7
+│   ├── shopify_graphql_contract_test.py  🛠 DÉVELOPPÉ | code=15 lignes=17
+│   ├── shopify_media_upload_test.py  🛠 DÉVELOPPÉ | code=9 lignes=11
+│   ├── shopify_schema_probe.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── shopify_scope_inspector.py  🛠 DÉVELOPPÉ | code=9 lignes=9
+│   ├── shopify_webhook_tester.py  🛠 DÉVELOPPÉ | code=5 lignes=5
+│   └── terminal_no_scroll_test.py  🛠 DÉVELOPPÉ | code=10 lignes=12
+├── workers/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── accounting_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── ai_training_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── alibaba_event_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── analytics_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── base_worker.py  ✅ COMPLET | code=108 lignes=121
+│   ├── catalog_media_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── catalog_research_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── catalog_sync_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── cleanup_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── customer_service_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── dead_letter_worker.py  🛠 DÉVELOPPÉ | code=20 lignes=27
+│   ├── exception_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── fulfillment_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── heartbeat.py  🛠 DÉVELOPPÉ | code=28 lignes=34
+│   ├── inventory_sync_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── maintenance_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── native_ipc_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── order_intake_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── order_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── payment_monitor_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── payment_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── pricing_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── procurement_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── product_discovery_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── reconciliation_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── resource_monitor.py  🛠 DÉVELOPPÉ | code=32 lignes=38
+│   ├── resource_watchdog_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── retry_worker.py  🛠 DÉVELOPPÉ | code=27 lignes=33
+│   ├── scheduler.py  🛠 DÉVELOPPÉ | code=12 lignes=20
+│   ├── shopify_bulk_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── shopify_event_worker.py  🛠 DÉVELOPPÉ | code=8 lignes=8
+│   ├── specialized_worker.py  ✅ COMPLET | code=44 lignes=53
+│   ├── supervisor.py  ✅ COMPLET | code=75 lignes=84
+│   ├── tracking_worker.py  🛠 DÉVELOPPÉ | code=5 lignes=7
+│   ├── watchdog.py  🛠 DÉVELOPPÉ | code=22 lignes=27
+│   ├── worker_budget.py  ✅ COMPLET | code=40 lignes=48
+│   ├── worker_context.py  🛠 DÉVELOPPÉ | code=21 lignes=27
+│   └── worker_registry.py  🛠 DÉVELOPPÉ | code=28 lignes=37
+├── workflows/
+│   ├── __init__.py  🔗 INTÉGRATION | code=1 lignes=1
+│   ├── alibaba_media_import_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── alibaba_order_workflow.py  🛠 DÉVELOPPÉ | code=30 lignes=38
+│   ├── alibaba_payment_workflow.py  🛠 DÉVELOPPÉ | code=24 lignes=29
+│   ├── alibaba_reconciliation_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+│   ├── api_version_upgrade_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── base_workflow.py  ✅ COMPLET | code=182 lignes=210
+│   ├── cancellation_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── capability_refresh_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── cashflow_protection_workflow.py  🛠 DÉVELOPPÉ | code=17 lignes=26
+│   ├── catalog_research_cycle_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── chargeback_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── customer_notification_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── customer_service_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── daily_maintenance_workflow.py  🛠 DÉVELOPPÉ | code=27 lignes=32
+│   ├── data_quality_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── discount_campaign_workflow.py  🛠 DÉVELOPPÉ | code=17 lignes=26
+│   ├── dispute_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── end_of_day_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── end_of_month_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── financial_reconciliation_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=25
+│   ├── fulfillment_exception_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── fulfillment_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── full_store_automation_workflow.py  ✅ COMPLET | code=65 lignes=77
+│   ├── inventory_sync_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── order_exception_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── order_intake_workflow.py  🛠 DÉVELOPPÉ | code=33 lignes=34
+│   ├── order_to_supplier_workflow.py  ✅ COMPLET | code=36 lignes=37
+│   ├── payment_verification_workflow.py  🛠 DÉVELOPPÉ | code=26 lignes=34
+│   ├── pricing_update_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── procurement_batch_workflow.py  🛠 DÉVELOPPÉ | code=16 lignes=21
+│   ├── product_discovery_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── product_import_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── product_publication_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── product_refresh_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── product_unpublish_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── product_update_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── refund_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── return_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── sample_order_workflow.py  🛠 DÉVELOPPÉ | code=17 lignes=26
+│   ├── seo_maintenance_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── shipping_quote_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=6
+│   ├── shopify_reconciliation_workflow.py  🛠 DÉVELOPPÉ | code=34 lignes=39
+│   ├── shopify_staged_media_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── store_health_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── supplier_due_diligence_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   ├── supplier_rfq_workflow.py  🛠 DÉVELOPPÉ | code=20 lignes=30
+│   └── tracking_sync_workflow.py  🛠 DÉVELOPPÉ | code=4 lignes=4
+├── .dockerignore  🔗 INTÉGRATION | code=6 lignes=6
+├── .editorconfig  🔗 INTÉGRATION | code=9 lignes=9
+├── .env.audit.example  🔗 INTÉGRATION | code=10 lignes=10
+├── .env.example  🔗 INTÉGRATION | code=102 lignes=119
+├── .env.lite.example  🔗 INTÉGRATION | code=15 lignes=15
+├── .env.production.example  🔗 INTÉGRATION | code=15 lignes=15
+├── .gitignore  🔗 INTÉGRATION | code=19 lignes=19
+├── .pre-commit-config.yaml  🔗 INTÉGRATION | code=7 lignes=7
+├── alembic.ini  🔗 INTÉGRATION | code=3 lignes=3
+├── ARCHITECTURE_DECISIONS.md  📚 DOCUMENTATION | code=5 lignes=7
+├── BUILD_REPORT.md  📚 DOCUMENTATION | code=42 lignes=69
+├── CHANGELOG.md  📚 DOCUMENTATION | code=65 lignes=84
+├── CMakeLists.txt  📚 DOCUMENTATION | code=97 lignes=107
+├── CMakePresets.json  🔗 INTÉGRATION | code=66 lignes=66
+├── CONTRIBUTING.md  📚 DOCUMENTATION | code=3 lignes=5
+├── LICENSE  🔗 INTÉGRATION | code=3 lignes=4
+├── main.py  ✅ COMPLET | code=69 lignes=85
+├── MANIFEST.json  🔗 INTÉGRATION | code=10931 lignes=10931
+├── PROJECT_FILE_STATUS.json  🔗 INTÉGRATION | code=17522 lignes=17522
+├── PROJECT_TREE.txt  📚 DOCUMENTATION | code=2457 lignes=2459
+├── pyproject.toml  🔗 INTÉGRATION | code=70 lignes=81
+├── README.md  📚 DOCUMENTATION | code=142 lignes=201
+├── RELEASE_NOTES_2.1.0.md  📚 DOCUMENTATION | code=2 lignes=5
+├── RELEASE_NOTES_2.2.0.md  📚 DOCUMENTATION | code=14 lignes=20
+├── RELEASE_NOTES_2.3.0.md  📚 DOCUMENTATION | code=5 lignes=7
+├── RELEASE_NOTES_2.4.0.md  📚 DOCUMENTATION | code=15 lignes=23
+├── RELEASE_NOTES_2.5.0.md  📚 DOCUMENTATION | code=12 lignes=18
+├── requirements-ai.txt  📚 DOCUMENTATION | code=3 lignes=3
+├── requirements-api.txt  📚 DOCUMENTATION | code=3 lignes=3
+├── requirements-core.txt  📚 DOCUMENTATION | code=9 lignes=9
+├── requirements-dev-full.txt  📚 DOCUMENTATION | code=1 lignes=1
+├── requirements-dev.txt  📚 DOCUMENTATION | code=6 lignes=6
+├── requirements-linux.txt  📚 DOCUMENTATION | code=1 lignes=1
+├── requirements-ml-optional.txt  📚 DOCUMENTATION | code=3 lignes=3
+├── requirements-windows-lite.txt  📚 DOCUMENTATION | code=1 lignes=1
+├── requirements-windows-live.txt  📚 DOCUMENTATION | code=1 lignes=1
+├── requirements-windows.txt  📚 DOCUMENTATION | code=1 lignes=1
+├── requirements.txt  📚 DOCUMENTATION | code=9 lignes=9
+├── SECURITY.md  📚 DOCUMENTATION | code=5 lignes=7
+├── SHA256SUMS.txt  📚 DOCUMENTATION | code=2183 lignes=2183
+├── shopify.app.toml.example  🔗 INTÉGRATION | code=8 lignes=10
+├── SOURCE_DIFF_2.2.0_TO_2.3.0.json  🔗 INTÉGRATION | code=190 lignes=190
+├── SOURCE_DIFF_2.3.0_TO_2.4.0.json  🔗 INTÉGRATION | code=314 lignes=314
+├── SOURCE_DIFF_2.4.0_TO_2.5.0.json  🔗 INTÉGRATION | code=284 lignes=284
+├── TARGET_TREE_COVERAGE.json  🔗 INTÉGRATION | code=11 lignes=11
+└── VERSION  🔗 INTÉGRATION | code=1 lignes=1

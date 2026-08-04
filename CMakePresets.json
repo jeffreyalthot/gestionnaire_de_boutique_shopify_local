@@ -1,0 +1,66 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-msys2-mingw64",
+      "displayName": "Windows MSYS2 MINGW64 - Ninja",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/windows-msys2-mingw64",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_TESTING": "ON",
+        "COMMERCE_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "portable-release",
+      "displayName": "Portable C++17 Release",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/portable-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_TESTING": "ON",
+        "COMMERCE_BUILD_TESTS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-msys2-mingw64",
+      "configurePreset": "windows-msys2-mingw64",
+      "jobs": 2
+    },
+    {
+      "name": "portable-release",
+      "configurePreset": "portable-release",
+      "jobs": 2
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "windows-msys2-mingw64",
+      "configurePreset": "windows-msys2-mingw64",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "jobs": 2
+      }
+    },
+    {
+      "name": "portable-release",
+      "configurePreset": "portable-release",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "jobs": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+name = "Shopify Alibaba AI Orchestrator"
+client_id = "replace-with-shopify-client-id"
+application_url = "https://your-secure-public-domain.example"
+embedded = false
+
+[auth]
+redirect_urls = ["https://your-secure-public-domain.example/api/oauth/shopify/callback"]
+
+[webhooks]
+api_version = "2026-07"
