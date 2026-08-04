@@ -215,7 +215,7 @@ https://open.alibaba.com/doc/doc.htm?spm=a2o9m.11193531.0.0.17c9f453PEiTHi&docId
 
 exemple alibaba callback url
 
-https://elit21.com/oauth/alibaba/callback
+https://exemple.com/oauth/alibaba/callback
 
 pour la key base64 utilise ssl
 
