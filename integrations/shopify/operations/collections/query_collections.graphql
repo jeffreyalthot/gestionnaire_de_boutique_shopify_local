@@ -1,0 +1,1 @@
+query Collections($first: Int!, $after: String) { collections(first: $first, after: $after) { nodes { id title handle updatedAt } pageInfo { hasNextPage endCursor } } }

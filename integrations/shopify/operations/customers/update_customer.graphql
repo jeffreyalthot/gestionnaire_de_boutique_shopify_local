@@ -1,0 +1,1 @@
+mutation CustomerUpdate($input: CustomerInput!) { customerUpdate(input: $input) { customer { id displayName email tags } userErrors { field message } } }

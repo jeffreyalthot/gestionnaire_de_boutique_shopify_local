@@ -1,0 +1,1 @@
+query Customer($id: ID!) { customer(id: $id) { id displayName email phone tags locale state createdAt updatedAt } }

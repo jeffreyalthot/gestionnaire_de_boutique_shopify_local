@@ -1,0 +1,1 @@
+query Orders($first: Int!, $after: String, $query: String) { orders(first: $first, after: $after, query: $query, sortKey: UPDATED_AT, reverse: true) { nodes { id name updatedAt displayFinancialStatus displayFulfillmentStatus } pageInfo { hasNextPage endCursor } } }

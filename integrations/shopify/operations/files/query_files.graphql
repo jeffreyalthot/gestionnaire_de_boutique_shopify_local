@@ -1,0 +1,1 @@
+query Files($first: Int!, $after: String) { files(first: $first, after: $after) { nodes { id fileStatus alt createdAt } pageInfo { hasNextPage endCursor } } }

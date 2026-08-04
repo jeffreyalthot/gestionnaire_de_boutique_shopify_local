@@ -1,0 +1,1 @@
+query TranslatableResource($resourceId: ID!) { translatableResource(resourceId: $resourceId) { resourceId translatableContent { key value digest locale } translations(locale: "fr") { key value locale outdated } } }

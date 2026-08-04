@@ -1,0 +1,1 @@
+mutation FulfillmentCreate($fulfillment: FulfillmentV2Input!, $message: String) { fulfillmentCreateV2(fulfillment: $fulfillment, message: $message) { fulfillment { id status trackingInfo { company number url } } userErrors { field message } } }

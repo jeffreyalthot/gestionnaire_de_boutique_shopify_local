@@ -1,0 +1,1 @@
+query Locations($first: Int!, $after: String) { locations(first: $first, after: $after, includeInactive: true) { nodes { id name isActive fulfillsOnlineOrders address { city provinceCode countryCode zip } } pageInfo { hasNextPage endCursor } } }

@@ -1,0 +1,1 @@
+mutation OrderClose($input: OrderCloseInput!) { orderClose(input: $input) { order { id closed } userErrors { field message } } }

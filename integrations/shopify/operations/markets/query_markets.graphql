@@ -1,0 +1,1 @@
+query Markets($first: Int!, $after: String) { markets(first: $first, after: $after) { nodes { id name status primary enabled } pageInfo { hasNextPage endCursor } } }

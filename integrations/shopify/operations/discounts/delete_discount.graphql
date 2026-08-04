@@ -1,0 +1,1 @@
+mutation DiscountCodeDelete($id: ID!) { discountCodeDelete(id: $id) { deletedCodeDiscountId userErrors { field message code } } }

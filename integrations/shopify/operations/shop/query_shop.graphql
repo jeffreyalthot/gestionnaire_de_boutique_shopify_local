@@ -1,0 +1,1 @@
+query Shop { shop { id name email currencyCode myshopifyDomain primaryDomain { url host } timezoneAbbreviation } }

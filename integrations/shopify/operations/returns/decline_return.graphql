@@ -1,0 +1,1 @@
+mutation ReturnDeclineRequest($input: ReturnDeclineRequestInput!) { returnDeclineRequest(input: $input) { return { id status } userErrors { field message code } } }

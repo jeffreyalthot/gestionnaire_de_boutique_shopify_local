@@ -1,0 +1,1 @@
+query InventoryItems($first: Int!, $after: String, $query: String) { inventoryItems(first: $first, after: $after, query: $query) { nodes { id sku tracked unitCost { amount currencyCode } } pageInfo { hasNextPage endCursor } } }

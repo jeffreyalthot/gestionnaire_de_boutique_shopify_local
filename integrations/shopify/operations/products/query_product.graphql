@@ -1,0 +1,1 @@
+query Product($id: ID!) { product(id: $id) { id title handle status vendor productType tags descriptionHtml media(first:50){nodes{id alt mediaContentType status}} variants(first:100){nodes{id sku price inventoryQuantity}} } }

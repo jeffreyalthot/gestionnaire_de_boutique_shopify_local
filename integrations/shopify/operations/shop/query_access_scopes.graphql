@@ -1,0 +1,1 @@
+query AccessScopes { currentAppInstallation { id accessScopes { handle description } } }

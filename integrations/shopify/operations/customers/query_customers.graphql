@@ -1,0 +1,1 @@
+query Customers($first: Int!, $after: String, $query: String) { customers(first: $first, after: $after, query: $query) { nodes { id displayName email tags state } pageInfo { hasNextPage endCursor } } }

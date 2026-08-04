@@ -1,0 +1,1 @@
+query FulfillmentOrders($id: ID!) { order(id: $id) { fulfillmentOrders(first: 100) { nodes { id status requestStatus lineItems(first: 250) { nodes { id remainingQuantity } } } } } }

@@ -1,0 +1,1 @@
+query Products($first: Int!, $after: String, $query: String) { products(first: $first, after: $after, query: $query) { nodes { id title handle status updatedAt } pageInfo { hasNextPage endCursor } } }

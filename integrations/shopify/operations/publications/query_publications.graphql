@@ -1,0 +1,1 @@
+query Publications($first: Int!, $after: String) { publications(first: $first, after: $after) { nodes { id name supportsFuturePublishing app { id title } } pageInfo { hasNextPage endCursor } } }

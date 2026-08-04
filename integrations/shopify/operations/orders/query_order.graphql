@@ -1,0 +1,1 @@
+query Order($id: ID!) { order(id: $id) { id name createdAt updatedAt displayFinancialStatus displayFulfillmentStatus currentTotalPriceSet { shopMoney { amount currencyCode } } tags } }

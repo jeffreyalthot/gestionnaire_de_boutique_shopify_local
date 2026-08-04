@@ -1,0 +1,1 @@
+mutation PublishableUnpublish($id: ID!, $input: [PublicationInput!]!) { publishableUnpublish(id: $id, input: $input) { publishable { availablePublicationsCount { count } } userErrors { field message } } }

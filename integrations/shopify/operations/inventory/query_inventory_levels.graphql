@@ -1,0 +1,1 @@
+query InventoryLevels($id: ID!, $first: Int!) { inventoryItem(id: $id) { id inventoryLevels(first: $first) { nodes { id location { id name } quantities(names:["available","committed","on_hand"]) { name quantity } } } } }

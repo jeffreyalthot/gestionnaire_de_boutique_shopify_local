@@ -1,0 +1,1 @@
+query Returns($first: Int!, $after: String, $query: String) { returns(first: $first, after: $after, query: $query) { nodes { id status name createdAt } pageInfo { hasNextPage endCursor } } }

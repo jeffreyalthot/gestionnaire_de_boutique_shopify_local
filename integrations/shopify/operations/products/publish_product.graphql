@@ -1,0 +1,1 @@
+mutation PublishablePublish($id: ID!, $input: [PublicationInput!]!) { publishablePublish(id: $id, input: $input) { publishable { publishedOnCurrentPublication } userErrors { field message } } }

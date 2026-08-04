@@ -1,0 +1,1 @@
+mutation RefundCreate($input: RefundInput!) { refundCreate(input: $input) { refund { id totalRefundedSet { shopMoney { amount currencyCode } } } userErrors { field message code } } }

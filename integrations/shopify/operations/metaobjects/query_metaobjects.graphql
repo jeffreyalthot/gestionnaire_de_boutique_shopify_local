@@ -1,0 +1,1 @@
+query Metaobjects($type: String!, $first: Int!, $after: String) { metaobjects(type: $type, first: $first, after: $after) { nodes { id handle type updatedAt fields { key value type } } pageInfo { hasNextPage endCursor } } }

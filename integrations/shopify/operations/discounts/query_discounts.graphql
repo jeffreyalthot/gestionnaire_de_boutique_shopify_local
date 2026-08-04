@@ -1,0 +1,1 @@
+query Discounts($first: Int!, $after: String) { discountNodes(first: $first, after: $after) { nodes { id discount { ... on DiscountCodeBasic { title status startsAt endsAt } ... on DiscountAutomaticBasic { title status startsAt endsAt } } } pageInfo { hasNextPage endCursor } } }

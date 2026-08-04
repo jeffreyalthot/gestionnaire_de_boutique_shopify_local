@@ -1,0 +1,1 @@
+mutation InventorySetQuantities($input: InventorySetQuantitiesInput!) { inventorySetQuantities(input: $input) { inventoryAdjustmentGroup { createdAt reason changes { name delta quantityAfterChange } } userErrors { field message code } } }

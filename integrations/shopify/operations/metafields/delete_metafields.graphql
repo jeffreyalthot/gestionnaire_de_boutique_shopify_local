@@ -1,0 +1,1 @@
+mutation MetafieldsDelete($metafields: [MetafieldIdentifierInput!]!) { metafieldsDelete(metafields: $metafields) { deletedMetafields { ownerId namespace key } userErrors { field message code } } }
