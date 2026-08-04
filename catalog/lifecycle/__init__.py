@@ -1,0 +1,1 @@
+"""Sous-système catalogue déterministe."""

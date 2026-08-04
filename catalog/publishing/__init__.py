@@ -1,0 +1,1 @@
+"""Normalisation et publication catalogue."""
