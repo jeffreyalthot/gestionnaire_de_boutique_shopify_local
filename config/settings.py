@@ -1,4 +1,3 @@
-"""Update config settings to include AliExpress configuration fields."""
 from __future__ import annotations
 
 from functools import lru_cache
@@ -9,7 +8,6 @@ from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from config.paths import PROJECT_ROOT
-
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -45,7 +43,6 @@ class Settings(BaseSettings):
     shopify_max_retries: int = Field(5, ge=0, le=10)
     shopify_webhook_max_body_bytes: int = Field(2 * 1024 * 1024, ge=1024, le=16 * 1024 * 1024)
 
-    # Alibaba (existing)
     alibaba_app_key: str = ""
     alibaba_app_secret: SecretStr = SecretStr("")
     alibaba_access_token: SecretStr = SecretStr("")
@@ -60,7 +57,7 @@ class Settings(BaseSettings):
     alibaba_request_timeout_seconds: float = Field(30, gt=0, le=120)
     alibaba_max_retries: int = Field(5, ge=0, le=10)
 
-    # AliExpress configuration (new)
+    # AliExpress configuration (Open Platform v2)
     aliexpress_app_key: str = ""
     aliexpress_app_secret: SecretStr = SecretStr("")
     aliexpress_access_token: SecretStr = SecretStr("")
@@ -72,7 +69,9 @@ class Settings(BaseSettings):
     aliexpress_oauth_refresh_url: str = "https://oauth.aliexpress.com/token/refresh"
     aliexpress_request_timeout_seconds: float = Field(30, gt=0, le=120)
     aliexpress_max_retries: int = Field(5, ge=0, le=10)
-    aliexpress_rate_limit_rps: float = Field(2.0, gt=0.0)
+    aliexpress_rate_limit_rps: float = Field(2.0, ge=0.1, le=100.0)
+
+    aliexpress_rate_limit_rps: float = Field(2.0, ge=0.1, le=100.0)
 
     pricing_mode: Literal["gross_margin", "markup"] = "gross_margin"
     target_gross_margin_percent: float = Field(50, ge=0, lt=100)
@@ -185,14 +184,13 @@ class Settings(BaseSettings):
                     and self.alibaba_access_token.get_secret_value())
 
     @property
-    def live_aliexpress_ready(self) -> bool:
-        return bool(self.aliexpress_app_key and self.aliexpress_app_secret.get_secret_value()
-                    and self.aliexpress_access_token.get_secret_value())
-
-    @property
     def live_payment_ready(self) -> bool:
         return self.live_alibaba_ready and self.alibaba_payment_mode == "authorized_api"
 
+    @property
+    def live_aliexpress_ready(self) -> bool:
+        return bool(self.aliexpress_app_key and self.aliexpress_app_secret.get_secret_value()
+                    and self.aliexpress_access_token.get_secret_value())
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
